@@ -1,0 +1,13 @@
+[build]
+  command = "yarn webpack"
+  publish = "public"
+
+[context.production]
+  environment = { NODE_ENV = "production", NODE_VERSION = "11.8.0" }
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Link = '''
+    </style.css>; rel=preload; as=style, \
+    </bundle.js>; rel=preload; as=script'''
