@@ -12,7 +12,7 @@ import { BackSide } from "three/src/constants";
 import buildings from "./buildings.json";
 
 // Settings
-var skyColor = new Color(0xcb1637);
+var skyColor = 0xcb1637;
 var buildingColor = 0x2b001e;
 var buildingSize = 1.5;
 var rowLength = 40;
@@ -73,7 +73,7 @@ let x = 0;
 let rowBuildings = [];
 
 const scene = new Scene();
-scene.background = skyColor;
+scene.background = new Color(skyColor);
 scene.fog = new FogExp2(skyColor, 0.1);
 
 const camera = new 

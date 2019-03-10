@@ -22,7 +22,18 @@ Incorrect, all result in the same block as above:
 "xx  xx"
 ```
 
+```
+"x xx x"
+```
+
 ## Building JS bundle
 To build, run:
 
 ```yarn webpack```
+
+## Fonts
+
+The fonts used on this website can be found here:
+
+- [Young Serif](https://github.com/uplaod/YoungSerif)
+- [Syne Extra](https://lucasdescroix.fr/syne)

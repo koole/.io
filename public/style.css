@@ -1,11 +1,50 @@
+@font-face {
+  font-family: 'YoungSerif';
+  src: url('/fonts/YoungSerif-Regular.woff2') format('woff2'),
+      url('/fonts/YoungSerif-Regular.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Syne Extra';
+  src: url('/fonts/Syne-Extra.woff2') format('woff2'),
+      url('/fonts/Syne-Extra.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+}
+
 body {
   margin: 0;
+  font-size: 10px;
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
 }
+
+@media only screen and (min-width: 768px) {
+  body { 
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  body { 
+    font-size: 14px;
+  }
+}
+
+@media only screen and (min-width: 1440px) {
+  body { 
+    font-size: 16px;
+  }
+}
+
 
 canvas {
   width: 100%;
   height: 100%;
   opacity: 0;
+  z-index: 0;
 }
 
 canvas.active {
@@ -15,4 +54,27 @@ canvas.active {
 @keyframes fadeIn {
   from {opacity: 0;}
   to {opacity: 1;}
+}
+
+main {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  bottom: 0;
+  padding: 2vw;
+  mix-blend-mode: overlay;
+}
+
+.domain {
+  font-family: 'YoungSerif';
+  font-size: 9em;
+  margin: 0;
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px #fff;
+}
+
+.about {
+  font-family: 'Syne Extra';
+  font-size: 3em;
+  margin: 0;
 }
