@@ -19,15 +19,21 @@
   "xxxxxxxxxxx",
   "xxxxxxxxxxx",
   "xxxxxxxxxxx"
-  ],[
+],[
   "x",
   "x"
-  ],[
+],[
+  "x",
+  "x"
+],[
+  "x",
+  "x"
+],[
   "x",
   "x",
   "x",
   "x"
-  ],[
+],[
   "    xxxxxxx    ",
   "    xxxxxxx    ",
   "   xxxxxxxxx   ",
@@ -46,7 +52,7 @@
   " xxxxxxxxxxxxx ",
   " xxxxxxxxxxxxx ",
   " xxxxxxxxxxxxx "
-  ],[
+],[
   " xxxxxxxxxxx ",
   " xxxxxxxxxxx ",
   "xxxxxxxxxxxxx",
@@ -61,7 +67,25 @@
   "xxxxxxxxxxxxx",
   "xxxxxxxxxxxxx",
   "xxxxxxxxxxxxx"
-  ],[
+],[
+  "     xxx     ",
+  "     xxx     ",
+  "     xxx     ",
+  " xxxxxxxxxxx ",
+  " xxxxxxxxxxx ",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx",
+  "xxxxxxxxxxxxx"
+],[
   " xx ",
   " xx ",
   " xx ",
@@ -71,7 +95,7 @@
   " xx ",
   " xx ",
   " xx "
-  ],[
+],[
   " xx ",
   "xxxx",
   "xxxx",
@@ -84,7 +108,7 @@
   "xxxx",
   "xxxx",
   "xxxx"
-  ],[
+],[
   "xxxxxxxxxxxxxxx",
   " xxxxxxxxxxxxx ",
   "xxxxxxxxxxxxxxx",
@@ -101,41 +125,46 @@
   "xxxxxxxxxxxxxxx",
   "xxxxxxxxxxxxxxx",
   "xxxxxxxxxxxxxxx"
-  ],[
+],[
   "    ",
   "    ",
   " xx ",
   "xxxx"
-  ],[
-    "xxxxx",
-    "xxxxx",
-    " xx  ",
-    "xxxxx",
-    "xxxxx",
-    " xx  ",
-    "xxxxx",
-    "xxxxx"
-  ],[
-   "xxxxx",
-   "xxxxx",
-   "xxxxx",
-   " xxx ",
-   "xxxxx",
-   "xxxxx",
-   "xxxxx"
-  ],[
+],[
+  "xxxxx",
+  "xxxxx",
+  " xxx ",
+  "xxxxx",
+  "xxxxx",
+  " xxx ",
+  "xxxxx",
+  "xxxxx"
+],[
+  "xxxxx",
+  "xxxxx",
+  "xxxxx",
+  " xxx ",
+  "xxxxx",
+  "xxxxx",
+  "xxxxx"
+],[
+  "    ",
+  "xxxx",
+  "xxxx",
+  "xxxx"
+],[
   "    ",
   "    ",
   "xxxx",
   "xxxx"
-  ],[
+],[
   "       ",
   "       ",
   "       ",
   "   x   ",
   "   x   ",
   "  xxx  "
-  ],[
+],[
   "  xxx  ",
   "  xxx  ",
   "  xxx  ",
@@ -145,7 +174,7 @@
   " xxxxx ",
   " xxxxx ",
   "xxxxxxx"
-  ],[
+],[
   "          ",
   "          ",
   "     x    ",
