@@ -45,6 +45,11 @@ canvas {
   height: 100%;
   opacity: 0;
   z-index: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 canvas.active {
@@ -56,9 +61,21 @@ canvas.active {
   to {opacity: 1;}
 }
 
+/* There needs to be a background div, because for some reason main's 
+   mix-blend-mode does not work on the background of the body element */
+.bg {
+  z-index: 1;
+  background-color: #cb1637;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
 main {
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   left: 0;
   bottom: 0;
   padding: 2vw;
