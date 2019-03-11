@@ -35,5 +35,4 @@ To build, run:
 
 The fonts used on this website can be found here:
 
-- [Young Serif](https://github.com/uplaod/YoungSerif)
 - [Syne Extra](https://lucasdescroix.fr/syne)

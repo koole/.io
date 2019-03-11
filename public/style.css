@@ -1,12 +1,4 @@
 @font-face {
-  font-family: 'YoungSerif';
-  src: url('/fonts/YoungSerif-Regular.woff2') format('woff2'),
-      url('/fonts/YoungSerif-Regular.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-}
-
-@font-face {
   font-family: 'Syne Extra';
   src: url('/fonts/Syne-Extra.woff2') format('woff2'),
       url('/fonts/Syne-Extra.woff') format('woff');
@@ -83,11 +75,27 @@ main {
 }
 
 .domain {
-  font-family: 'YoungSerif';
-  font-size: 9em;
-  margin: 0;
-  -webkit-text-fill-color: transparent;
-  -webkit-text-stroke: 2px #fff;
+  height: 3em;
+  margin-bottom: 1em;
+}
+
+.domain-path {
+  stroke-width: 3;
+}
+
+@media only screen and (min-width: 768px) {
+  .domain {
+    height: 4em;
+  }
+  .domain-path {
+    stroke-width: 2;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+  .domain {
+    height: 5em;
+  }
 }
 
 .about {
