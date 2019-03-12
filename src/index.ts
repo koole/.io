@@ -1,15 +1,23 @@
-import { Color } from 'three/src/math/Color';
-import { Scene } from 'three/src/scenes/Scene';
-import { FogExp2 } from 'three/src/scenes/FogExp2';
-import { PerspectiveCamera } from 'three/src/cameras/PerspectiveCamera';
-import { WebGLRenderer } from 'three/src/renderers/WebGLRenderer';
-import { PlaneGeometry } from 'three/src/geometries/PlaneGeometry';
-import { BoxGeometry } from 'three/src/geometries/BoxGeometry';
-import { MeshBasicMaterial } from 'three/src/materials/MeshBasicMaterial';
-import { Mesh } from 'three/src/objects/Mesh';
+import { Color } from "three/src/math/Color";
+import { Scene } from "three/src/scenes/Scene";
+import { FogExp2 } from "three/src/scenes/FogExp2";
+import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
+import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
+import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
+import { BoxGeometry } from "three/src/geometries/BoxGeometry";
+import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial";
+import { Mesh } from "three/src/objects/Mesh";
 import { BackSide } from "three/src/constants";
 
 import buildings from "./buildings.json";
+
+import audioLoop from "./loop.ts";
+
+let audio = {
+  play: () => {
+    return;
+  }
+};
 
 // Settings
 var skyColor = 0xcb1637;
@@ -76,8 +84,7 @@ const scene = new Scene();
 scene.background = new Color(skyColor);
 scene.fog = new FogExp2(skyColor, 0.1);
 
-const camera = new 
-PerspectiveCamera(
+const camera = new PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight,
   0.1,
@@ -87,6 +94,7 @@ PerspectiveCamera(
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+renderer.domElement.addEventListener("mousemove", () => audio.play());
 
 camera.position.y = 8;
 camera.rotation.z = 0.15;
@@ -217,6 +225,12 @@ function addBuilding(i, z, randomOffset) {
 // Add CSS class to start showing the canvas
 document.addEventListener("DOMContentLoaded", () => {
   renderer.domElement.classList.add("active");
+  audioLoop("/loop.mp3", function(err, loop) {
+    if (err) {
+      return console.err(err);
+    }
+    audio = loop;
+  });
 });
 
 // Handle window resizes
