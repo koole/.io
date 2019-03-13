@@ -1,10 +1,9 @@
 function audioLoop(uri, cb) {
-  let playing = false;
-  let volume = 1;
+  let volume = 0;
   const context = new (window.AudioContext || window.webkitAudioContext)();
   const gainNode = context.createGain();
   const request = new XMLHttpRequest();
-
+  const indicator = document.getElementById("audioIndicator")
   request.responseType = "arraybuffer";
   request.open("GET", uri, true);
 
@@ -24,46 +23,51 @@ function audioLoop(uri, cb) {
   request.send();
 
   function success(buffer) {
-    var source;
+    let currentVolume = 0;
+    var source = context.createBufferSource();
+    source.connect(gainNode);
+    gainNode.connect(context.destination);
+    gainNode.gain.setValueAtTime(0, context.currentTime);
+    source.buffer = buffer;
+    source.loop = true;
 
     function play() {
-      // Only play if it's not already playing
-      if (playing) return;
-      playing = true;
-
-      let currentVolume = 0;
-
-      // Create a new source (can't replay an existing source)
-      source = context.createBufferSource();
-      source.connect(gainNode);
-      gainNode.connect(context.destination);
-
-      // Set the buffer
-      source.buffer = buffer;
-      source.loop = true;
-
-      // Set volume to 0
-      gainNode.gain.setValueAtTime(currentVolume, context.currentTime);
-
-      // Play it
-      source.start(0);
-
-      // Slowly fade in the music over 5 seconds
-      function increaseVolume() {
-        setTimeout(() => {
-          currentVolume += 0.02;
-          gainNode.gain.setValueAtTime(currentVolume, context.currentTime);
-          if (currentVolume < 1) increaseVolume();
-        }, 100);
+      try {
+        source.start(0);
+        volume = 1;
+        indicator.classList.add("active");
+        // Slowly fade in the music over 5 seconds
+        function increaseVolume() {
+          setTimeout(() => {
+            currentVolume += 0.02;
+            gainNode.gain.setValueAtTime(currentVolume, context.currentTime);
+            if (currentVolume < 1) increaseVolume();
+          }, 100);
+        }
+        increaseVolume()
       }
-      increaseVolume()
+      catch(e) {
+        // Already playing audio
+        return;
+      }
     }
 
     function toggleMute() {
       if (volume === 1) {
+        indicator.classList.remove("active");
         gainNode.gain.setValueAtTime(0, context.currentTime);
+        volume = 0;
       } else {
+        indicator.classList.add("active");
         gainNode.gain.setValueAtTime(1, context.currentTime);
+        volume = 1;
+        // Try starting the audio, in case it wasn't playing
+        try {
+          source.start(0);
+        } catch(e) {
+          // Already playing audio
+          return;
+        }
       }
       return volume;
     }

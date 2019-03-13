@@ -19,6 +19,13 @@ let audio = {
   }
 };
 
+audioLoop("/loop.mp3", function(err, loop) {
+  if (err) {
+    return console.err(err);
+  }
+  audio = loop;
+});
+
 // Settings
 var skyColor = 0xcb1637;
 var buildingColor = 0x2b001e;
@@ -94,7 +101,6 @@ const camera = new PerspectiveCamera(
 const renderer = new WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-renderer.domElement.addEventListener("mousemove", () => audio.play());
 
 camera.position.y = 8;
 camera.rotation.z = 0.15;
@@ -225,12 +231,11 @@ function addBuilding(i, z, randomOffset) {
 // Add CSS class to start showing the canvas
 document.addEventListener("DOMContentLoaded", () => {
   renderer.domElement.classList.add("active");
-  audioLoop("/loop.mp3", function(err, loop) {
-    if (err) {
-      return console.err(err);
-    }
-    audio = loop;
-  });
+  renderer.domElement.addEventListener("mousemove", () => audio.play());
+  renderer.domElement.addEventListener("click", () => audio.play());
+  document
+    .getElementById("audioIndicator")
+    .addEventListener("click", () => audio.toggleMute());
 });
 
 // Handle window resizes
