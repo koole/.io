@@ -32,9 +32,3 @@ Incorrect, all result in the same block as above:
 To build, run:
 
 ```yarn webpack```
-
-## Fonts
-
-The fonts used on this website can be found here:
-
-- [Syne Extra](https://lucasdescroix.fr/syne)

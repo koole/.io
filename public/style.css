@@ -1,11 +1,3 @@
-@font-face {
-  font-family: "Syne Extra";
-  src: url("/fonts/Syne-Extra.woff2") format("woff2"),
-    url("/fonts/Syne-Extra.woff") format("woff");
-  font-weight: 900;
-  font-style: normal;
-}
-
 body {
   margin: 0;
   font-size: 10px;
@@ -80,7 +72,6 @@ main {
 
 .domain {
   height: 3em;
-  margin-bottom: 1em;
 }
 
 .domain-path {
@@ -100,12 +91,6 @@ main {
   .domain {
     height: 5em;
   }
-}
-
-.about {
-  font-family: "Syne Extra";
-  font-size: 3em;
-  margin: 0;
 }
 
 #audioIndicator {
@@ -137,10 +122,12 @@ main {
   transform: scaleY(0.33);
   animation-duration: 2s !important;
 }
+
 .bar-2 {
   transform: scaleY(0.66);
   animation-duration: 1.4s !important;
 }
+
 .bar-3 {
   animation-duration: 1.8s !important;
 }
