@@ -231,7 +231,6 @@ function addBuilding(i, z, randomOffset) {
 // Add CSS class to start showing the canvas
 document.addEventListener("DOMContentLoaded", () => {
   renderer.domElement.classList.add("active");
-  renderer.domElement.addEventListener("mousemove", () => audio.play());
   renderer.domElement.addEventListener("click", () => audio.play());
   document
     .getElementById("audioIndicator")
