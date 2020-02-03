@@ -1,5 +1,5 @@
 [build]
-  command = "yarn webpack"
+  command = "npm webpack"
   publish = "public"
 
 [context.production]

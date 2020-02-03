@@ -4,27 +4,65 @@ import { FogExp2 } from "three/src/scenes/FogExp2";
 import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
-import { BoxGeometry } from "three/src/geometries/BoxGeometry";
+import {
+  BoxGeometry,
+  BoxBufferGeometry
+} from "three/src/geometries/BoxGeometry";
 import { MeshBasicMaterial } from "three/src/materials/MeshBasicMaterial";
 import { Mesh } from "three/src/objects/Mesh";
-import { BackSide, LinearFilter, RGBFormat } from "three/src/constants";
+import {
+  BackSide,
+  LinearFilter,
+  RGBFormat,
+  NoBlending
+} from "three/src/constants";
 
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
+import { SSAOPass } from "three/examples/jsm/postprocessing/SSAOPass";
 
-import { WebGLRenderTarget } from "three";
+import {
+  WebGLRenderTarget,
+  HemisphereLight,
+  DirectionalLight,
+  DirectionalLightHelper,
+  MeshPhongMaterial,
+  PlaneHelper,
+  MeshLambertMaterial,
+  Vector2,
+  ShaderMaterial
+} from "three";
 
 import { makeLUTTexture } from "./makeLUT.ts";
 import { lutShader } from "./lutShader.ts";
 
 import buildings from "./buildings.json";
+import {
+  UniformsUtils,
+  Matrix4,
+  Box3,
+  Vector3,
+  AnimationMixer
+} from "three/build/three.module";
+
+// Stores 3D objects after loading
+const load_objects = [
+  { name: "road", file: "road.glb" },
+  { name: "left-wall", file: "left-wall.glb" },
+  { name: "tower", file: "tower.glb" }
+];
+const objects = {};
 
 function main() {
+  var towerAnimation;
+  var cursorPosition = 0;
+
   const canvas = document.querySelector("#c");
-  const renderer = new WebGLRenderer({ canvas });
+  const renderer = new WebGLRenderer({ canvas, antialias: true });
+  renderer.shadowMap.enabled = true;
 
   const camera = new PerspectiveCamera(
     75,
@@ -32,9 +70,6 @@ function main() {
     0.1,
     1000
   );
-  camera.position.y = 8;
-  camera.rotation.z = 0.15;
-  camera.rotation.y = (-20 * Math.PI) / 180;
 
   const lut = {
     name: "runner",
@@ -44,159 +79,112 @@ function main() {
   lut.texture = makeLUTTexture(lut);
 
   // Settings
-  var skyColor = 0xffffff;
+  var skyColor = 0xcccccc;
   var buildingColor = 0x000000;
-  var buildingSize = 1.5;
-  var rowLength = 40;
-  var rows = 12;
-  var buildingXSpacing = 0.5;
-  var buildingZSpacing = 1;
-  var yMulti = 0.75;
-  var xMulti = 1;
-  var cameraSpeed = 0.01;
-  var emptyPlots = 0.2;
-
-  // Turn building arrays into usable 3D cube data.
-  // It's kind of ugly that this runs every time someone opens the website
-  // I could just copy the output of this function into this file instead,
-  // but ¯\_(ツ)_/¯
-  var building_data = buildings.map(building => {
-    const height = building.length;
-    // A division is the size of a single character in the building string
-    // The taller the strings that define a building are, the smaller the
-    // divisions are.
-    const division = buildingSize / building[0].length;
-    let blockData = [];
-    // Don't add consecutive cubes with same dimensions,
-    // Instead increase height of the previous ones
-    for (const layer of building) {
-      // With of the block is the amount of non space characters
-      // in the string, in our case always "x"
-      const width = layer.replace(/\s/g, "").length * division;
-      if (blockData.length > 0) {
-        const prev = blockData[blockData.length - 1];
-        if (prev.width === width) {
-          // Update the height of the previous cube
-          blockData[blockData.length - 1] = {
-            ...prev,
-            height: prev.height + division
-          };
-        } else {
-          blockData.push({ width, height: division });
-        }
-      } else {
-        blockData.push({ width, height: division });
-      }
-    }
-    // Add y position to layers
-    let level = height * division;
-    blockData = blockData.map(data => {
-      const newData = { ...data, y: level - data.height / 2 };
-      level -= data.height;
-      return newData;
-    });
-    return blockData;
-  });
-
-  // Actual code for the 3D stuff here
-  let currentRow = 0;
-  let y = 0;
-  let x = 0;
-  let rowBuildings = [];
 
   const scene = new Scene();
   scene.background = new Color(skyColor);
-  scene.fog = new FogExp2(skyColor, 0.1);
+  scene.fog = new FogExp2(skyColor, 0.15);
 
-  // Add a floor with the correct angle
-  const floorHeight = rows * yMulti;
-  const floorWidth = 100;
-  const floorFlatDepth =
-    rows * (buildingSize + buildingZSpacing) * buildingSize;
-  const floorDepth = Math.sqrt(
-    Math.pow(floorFlatDepth, 2) + Math.pow(floorHeight, 2)
-  );
-  const floorRotation = Math.asin(floorHeight / floorDepth);
-
-  const floor = new PlaneGeometry(floorWidth, floorDepth, 1);
-  const floormaterial = new MeshBasicMaterial({
-    color: buildingColor,
-    side: BackSide
-  });
-  const floorMesh = new Mesh(floor, floormaterial);
-  floorMesh.position.x = 0;
-  floorMesh.position.z = -floorFlatDepth / 2;
-  // I had to increase the floor position by 2 for some reason.
-  // Because of this i don't think the above calculation for the floor
-  // is even correct anymore, but it looks fine.
-  floorMesh.position.y = floorHeight / 2 + 2;
-  floorMesh.rotation.x = 1.57 + floorRotation;
-  scene.add(floorMesh);
-
-  [...Array(rows)].map((n, i) => {
-    addRow();
-  });
-
-  // This function adds a single row of buildings
-  async function addRow() {
-    const z = currentRow * (-buildingSize - buildingZSpacing);
-    currentRow += 1;
-    y += yMulti;
-    x += xMulti;
-    const randomOffset = Math.random() - 0.5;
-    const buildings = [...Array(rowLength)].map((n, i) => {
-      return addBuilding(i, z, randomOffset);
+  // Floor
+  {
+    const plane = new PlaneGeometry(100, 100, 1);
+    const planeMat = new MeshLambertMaterial({
+      color: 0xff5555,
+      side: BackSide
     });
-    Promise.all(buildings).then(function(values) {
-      rowBuildings.push(values);
-    });
+    const mesh = new Mesh(plane, planeMat);
+    mesh.receiveShadow = true;
+    mesh.position.set(0, -2.5, 0);
+    mesh.rotation.x = Math.PI / 2;
+    scene.add(mesh);
   }
 
-  // This function adds a single building
-  function addBuilding(i, z, randomOffset) {
-    if (Math.random() > emptyPlots) {
-      return new Promise(resolve => {
-        // Get a random building
-        const building =
-          building_data[Math.floor(Math.random() * building_data.length)];
-        const material = new MeshBasicMaterial({ color: buildingColor });
-
-        // Calculate the center position for this building
-        const buildingX =
-          x * buildingSize +
-          randomOffset +
-          (i * buildingSize + i * buildingXSpacing) -
-          ((rowLength / 2) * (buildingSize + buildingXSpacing) -
-            (buildingSize - buildingXSpacing / 2));
-
-        // Now we add the cubes that make up the building
-        const cubes = building.map((data, i) => {
-          if (data.width > 0) {
-            // We stretch the last cube in a building to make it really tall
-            // This way you can never see the bottom of a building.
-            const stretch = i + 1 === building.length ? 10 : 0;
-            const geometry = new BoxGeometry(
-              data.width,
-              data.height + stretch,
-              data.width
-            );
-            const cube = new Mesh(geometry, material);
-            cube.position.y = y * buildingSize + data.y - stretch / 2;
-            cube.position.z = z;
-            cube.position.x = buildingX;
-            scene.add(cube);
-            return cube;
-          }
-        });
-        resolve(cubes);
-      });
-    }
+  // Tubes
+  {
+    const cubeGeo = new BoxBufferGeometry(30, 0.1, 0.1);
+    const cubeMat = new MeshLambertMaterial({ color: "#fff" });
+    const mesh = new Mesh(cubeGeo, cubeMat);
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+    mesh.position.set(0, 1.5, -5);
+    scene.add(mesh);
+    const mesh2 = mesh.clone();
+    mesh2.position.set(0, 1.5, -5.3);
+    scene.add(mesh2);
+    const mesh3 = mesh.clone();
+    mesh3.position.set(0, 1.5, -15);
+    scene.add(mesh3);
+    const mesh4 = mesh.clone();
+    mesh4.position.set(0, 1.5, -15.3);
+    scene.add(mesh4);
   }
 
   const effectLUT = new ShaderPass(lutShader);
   effectLUT.renderToScreen = true;
 
+  // Hemisphere light
+  {
+    const intensity = 1;
+    const light = new HemisphereLight(skyColor, buildingColor, intensity);
+    scene.add(light);
+  }
+
+  // Shadow casting light
+  var shadowLight;
+  var shadowLightHelper;
+  {
+    const color = 0xffffff;
+    const intensity = 2;
+    shadowLight = new DirectionalLight(color, intensity);
+    shadowLight.position.set(10, 10, -25);
+    shadowLight.target.position.set(-5, 0, 5);
+    shadowLight.castShadow = true;
+    shadowLight.shadow.mapSize.width = 2014; // default
+    shadowLight.shadow.mapSize.height = 2014; // default
+    scene.add(shadowLight);
+    scene.add(shadowLight.target);
+
+    shadowLightHelper = new DirectionalLightHelper(shadowLight);
+    scene.add(shadowLightHelper);
+  }
+
+  {
+    const model = objects["road"];
+    for (let i = 0; i < 5; i++) {
+      const sceneCopy = model.scene.clone();
+      sceneCopy.position.set(3.5, 2, 0 - model.size * i);
+      scene.add(sceneCopy);
+    }
+
+    for (let i = 0; i < 5; i++) {
+      const sceneCopy = model.scene.clone();
+      sceneCopy.position.set(1, 0, 0 - model.size * i);
+      scene.add(sceneCopy);
+    }
+  }
+
+  {
+    var model = objects["left-wall"];
+    for (var i = 0; i < 5; i++) {
+      var sceneCopy = model.scene.clone();
+      sceneCopy.position.set(5.5, 2.5, 0 - model.size / 2 - model.size * i);
+      scene.add(sceneCopy);
+    }
+  }
+
+  {
+    const model = objects["tower"];
+    const gltf = model.gltf;
+    gltf.scene.position.set(5.5, 4, -6);
+   towerAnimation = new AnimationMixer(gltf.scene);
+    var action = towerAnimation.clipAction(gltf.animations[0]);
+    action.play();
+    scene.add(gltf.scene);
+  }
+
   const renderBG = new RenderPass(scene, camera);
+  const SSAO = new SSAOPass(scene, camera);
 
   const rtParameters = {
     minFilter: LinearFilter,
@@ -209,6 +197,7 @@ function main() {
   );
 
   composer.addPass(renderBG);
+  // composer.addPass(SSAO);
   composer.addPass(effectLUT);
 
   function resizeRendererToDisplaySize(renderer) {
@@ -224,11 +213,12 @@ function main() {
   }
 
   let then = 0;
-  let rowAddMonitor = 0;
   function render(now) {
     now *= 0.001; // convert to seconds
     const delta = now - then;
     then = now;
+
+    if ( towerAnimation ) towerAnimation.update( delta );
 
     if (resizeRendererToDisplaySize(renderer)) {
       const canvas = renderer.domElement;
@@ -238,43 +228,16 @@ function main() {
       composer.setSize(canvas.width, canvas.height);
     }
 
-    rowAddMonitor += cameraSpeed;
-    // If the camera has moved one row of buildings forward,
-    // remove the oldest row of buildings (these are now behind the camera)
-    if (rowAddMonitor >= buildingSize + buildingZSpacing) {
-      rowAddMonitor = 0;
-      // Add a new row
-      addRow();
-      // Remove the oldest row and delete all its cubes
-      for (const building of rowBuildings[0]) {
-        if (building !== undefined) {
-          for (const cube of building) {
-            scene.remove(cube);
-          }
-        }
-      }
-      rowBuildings.shift();
-    }
+    // moveZ((cursorPosition / document.body.clientWidth) * 100 - 50);
 
-    // Move the camera and the floor forward at the same speed.
-    // We also move the camera up and to the left with the same increments
-    // the buildings also use to move up and to the left
-    const yOffset =
-      yMulti * (buildingSize / (buildingSize + buildingZSpacing)) * cameraSpeed;
-    const xOffset =
-      xMulti * (buildingSize / (buildingSize + buildingZSpacing)) * cameraSpeed;
-    camera.position.z -= cameraSpeed;
-    camera.position.y += yOffset;
-    camera.position.x += xOffset;
-    floorMesh.position.z -= cameraSpeed;
-    floorMesh.position.y += yOffset;
-    floorMesh.position.x += xOffset;
+    camera.rotation.y =
+      ((-32 - (cursorPosition / document.body.clientWidth) * 8) *
+        Math.PI) /
+      180;
+    camera.position.x = (cursorPosition / document.body.clientWidth) * 0.5;
+    camera.position.y =
+      (cursorPosition / document.body.clientWidth) * 0.2 + 3;
 
-
-
-
-
-    
     renderer.render(scene, camera);
 
     const lutInfo = lut;
@@ -289,10 +252,58 @@ function main() {
   }
 
   requestAnimationFrame(render);
+  renderer.domElement.classList.add("active");
 
-  document.addEventListener("DOMContentLoaded", () => {
-    renderer.domElement.classList.add("active");
-  });
+  document.onmousemove = getCursor;
+
+  function moveZ(z) {
+    camera.position.z = z;
+    shadowLight.position.set(5, 15, -40 + z);
+    shadowLight.target.position.set(0, 0, 5 + z);
+    shadowLightHelper.update();
+  }
+
+  function getCursor(e) {
+    cursorPosition = window.Event
+      ? e.pageX
+      : event.clientX +
+        (document.documentElement.scrollLeft
+          ? document.documentElement.scrollLeft
+          : document.body.scrollLeft);
+  }
 }
 
-main();
+// main();
+
+function loader() {
+  const gltfLoader = new GLTFLoader();
+  let i = 0;
+  for (const LoadObject of load_objects) {
+    gltfLoader.load(LoadObject.file, function(gltf) {
+      const model = gltf.scene.children[0];
+      model.traverse(child => {
+        if (child.isMesh) {
+          child.castShadow = true;
+          child.receiveShadow = true;
+        }
+      });
+
+      const box = new Box3().setFromObject(gltf.scene);
+      const boxSize = box.getSize(new Vector3()).z;
+
+      objects[LoadObject.name] = {
+        gltf: gltf,
+        scene: gltf.scene,
+        size: boxSize
+      };
+
+      i++;
+
+      if (i === load_objects.length) {
+        main();
+      }
+    });
+  }
+}
+
+loader();

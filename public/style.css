@@ -36,7 +36,7 @@ canvas {
 }
 
 canvas.active {
-  animation: fadeIn 5s linear 1s forwards;
+  animation: fadeIn 0.00005s linear 0.000001s forwards;
 }
 
 @keyframes fadeIn {
