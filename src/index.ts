@@ -16,6 +16,8 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { SSAOPass } from "three/examples/jsm/postprocessing/SSAOPass";
+import { FilmPass } from "./FilmPass/index.ts";
+import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 
 import {
   Box3,
@@ -24,7 +26,8 @@ import {
   HemisphereLight,
   DirectionalLight,
   WebGLRenderTarget,
-  DirectionalLightHelper
+  DirectionalLightHelper,
+  Vector2
 } from "three";
 
 import { makeLUTTexture } from "./makeLUT.ts";
@@ -93,7 +96,8 @@ const repeaters = [
 
 function main() {
   var towerAnimation;
-  var cursorPosition = 0;
+  var cursorXPosition = 0;
+  var cursorYPosition = 0;
   let z = 0;
 
   const canvas = document.querySelector("#c");
@@ -136,7 +140,7 @@ function main() {
 
   // Shadow casting light
   var shadowLight;
-  var shadowLightHelper;
+  // var shadowLightHelper;
   {
     const color = 0xffffff;
     const intensity = 2;
@@ -149,8 +153,8 @@ function main() {
     scene.add(shadowLight);
     scene.add(shadowLight.target);
 
-    shadowLightHelper = new DirectionalLightHelper(shadowLight);
-    scene.add(shadowLightHelper);
+    // shadowLightHelper = new DirectionalLightHelper(shadowLight);
+    // scene.add(shadowLightHelper);
   }
 
   // Floor
@@ -187,50 +191,9 @@ function main() {
   //   scene.add(mesh4);
   // }
 
-  // // Roads
-  // {
-  //   const model = objects["road"];
-  //   const amount = Math.ceil(depth / model.size);
-
-  //   for (let i = 0; i < amount; i++) {
-  //     const sceneCopy = model.scene.clone();
-  //     sceneCopy.position.set(3.5, 3.5, -6 - model.size * i);
-  //     scene.add(sceneCopy);
-  //   }
-
-  //   for (let i = 0; i < amount; i++) {
-  //     const sceneCopy = model.scene.clone();
-  //     sceneCopy.position.set(0.6, 1.3, -6 - model.size * i);
-  //     scene.add(sceneCopy);
-  //   }
-  // }
-
-  // Left wall
-  // {
-  //   var model = objects["left-wall"];
-  //   const amount = Math.ceil(depth / model.size);
-
-  //   for (var i = 0; i < amount; i++) {
-  //     var sceneCopy = model.scene.clone();
-  //     sceneCopy.position.set(5.5, 2.5, 0 - model.size / 2 - model.size * i);
-  //     scene.add(sceneCopy);
-  //   }
-  // }
-
-  // // Road pillars
-  // {
-  //   var model = objects["pillars-base"];
-  //   const amount = Math.ceil(depth / model.size);
-
-  //   for (var i = 0; i < amount; i++) {
-  //     var sceneCopy = model.scene.clone();
-  //     sceneCopy.position.set(3.5, 3.5, -6 - model.size * i);
-  //     scene.add(sceneCopy);
-  //   }
-  // }
 
   for (const repeater of repeaters) {
-    const { object, x, y, z, offset, scenes } = repeater;
+    const { object, scenes } = repeater;
     const model = objects[object];
     repeater.size = model.size;
     const amount = Math.ceil(depth / repeater.size);
@@ -248,18 +211,25 @@ function main() {
     }
   }
 
-  // Rotating tower
-  {
-    const model = objects["tower"];
-    const gltf = model.gltf;
-    gltf.scene.position.set(5.5, 4, -6);
-    towerAnimation = new AnimationMixer(gltf.scene);
-    var action = towerAnimation.clipAction(gltf.animations[0]);
-    action.play();
-    scene.add(gltf.scene);
-  }
+  // // Rotating tower
+  // {
+  //   const model = objects["tower"];
+  //   const gltf = model.gltf;
+  //   gltf.scene.position.set(5.5, 4, -6);
+  //   towerAnimation = new AnimationMixer(gltf.scene);
+  //   var action = towerAnimation.clipAction(gltf.animations[0]);
+  //   action.play();
+  //   scene.add(gltf.scene);
+  // }
 
   const renderBG = new RenderPass(scene, camera);
+  const Film = new FilmPass(
+    0.35, // noise intensity
+    0.025, // scanline intensity
+    648, // scanline count
+    false // grayscale
+  );
+  Film.renderToScreen = true;
   const SSAO = new SSAOPass(scene, camera);
   const SMAA = new SMAAPass(
     window.innerWidth * window.devicePixelRatio,
@@ -275,10 +245,17 @@ function main() {
     renderer,
     new WebGLRenderTarget(1, 1, rtParameters)
   );
-
+  const bloomPass = new UnrealBloomPass(
+    new Vector2(window.innerWidth, window.innerHeight),
+    0.3,
+    1.5,
+    0.85
+  );
   composer.addPass(renderBG);
   // composer.addPass(SSAO);
   // composer.addPass(FXAA);
+  composer.addPass(bloomPass);
+  composer.addPass(Film);
   composer.addPass(effectLUT);
   composer.addPass(SMAA);
 
@@ -310,8 +287,7 @@ function main() {
       composer.setSize(canvas.width, canvas.height);
     }
 
-    // moveZ((cursorPosition / document.body.clientWidth) * 100 - 50);
-    z = z - 0.05;
+    z = z - 0.01;
 
     for (const repeater of repeaters) {
       const firstScene = repeater.scenes[repeater.currentFirstScene];
@@ -333,11 +309,14 @@ function main() {
     moveZ(z);
 
     camera.rotation.y =
-      ((-32 - (cursorPosition / document.body.clientWidth) * 8) * Math.PI) /
+      ((-32 - (cursorXPosition / document.body.clientWidth) * 8) * Math.PI) /
       180;
-    camera.position.x = (cursorPosition / document.body.clientWidth) * 0.5;
+    camera.position.x = (cursorXPosition / document.body.clientWidth) * 0.5;
     camera.position.y =
-      (cursorPosition / document.body.clientWidth) * 0.5 + 2.5;
+      (cursorXPosition / document.body.clientWidth) * 0.5 + 2.5;
+
+    camera.fov = 80 - (cursorYPosition / document.body.clientHeight) * 20;
+    camera.updateProjectionMatrix();
 
     renderer.render(scene, camera);
 
@@ -360,13 +339,19 @@ function main() {
     camera.position.z = z;
     shadowLight.position.set(7.5, 15, -30 + z);
     shadowLight.target.position.set(0, 0, -5 + z);
-    shadowLightHelper.update();
+    // shadowLightHelper.update();
   }
 
   function getCursor(e) {
-    cursorPosition = window.Event
+    cursorXPosition = window.Event
       ? e.pageX
       : event.clientX +
+        (document.documentElement.scrollLeft
+          ? document.documentElement.scrollLeft
+          : document.body.scrollLeft);
+    cursorYPosition = window.Event
+      ? e.pageY
+      : event.clientY +
         (document.documentElement.scrollLeft
           ? document.documentElement.scrollLeft
           : document.body.scrollLeft);

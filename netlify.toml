@@ -1,9 +1,9 @@
 [build]
-  command = "npm webpack"
+  command = "npm run build"
   publish = "public"
 
 [context.production]
-  environment = { NODE_ENV = "production", NODE_VERSION = "11.8.0" }
+  environment = { NODE_ENV = "production", NODE_VERSION = "12.13.1" }
 
 [[headers]]
   for = "/*"
