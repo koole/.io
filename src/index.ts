@@ -1,3 +1,5 @@
+import Stats from "stats.js";
+
 import { Color } from "three/src/math/Color";
 import { Scene } from "three/src/scenes/Scene";
 import { FogExp2 } from "three/src/scenes/FogExp2";
@@ -32,6 +34,10 @@ import {
 
 import { makeLUTTexture } from "./makeLUT.ts";
 import { lutShader } from "./lutShader.ts";
+
+var stats = new Stats();
+stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
 
 // GLTF models
 const load_objects = [
@@ -99,6 +105,8 @@ function main() {
   var cursorXPosition = 0;
   var cursorYPosition = 0;
   let z = 0;
+
+  const fovBars = document.getElementById("fov-bars");
 
   const canvas = document.querySelector("#c");
   const renderer = new WebGLRenderer({ canvas, antialias: true });
@@ -232,8 +240,8 @@ function main() {
   Film.renderToScreen = true;
   const SSAO = new SSAOPass(scene, camera);
   const SMAA = new SMAAPass(
-    window.innerWidth * window.devicePixelRatio,
-    window.innerHeight * window.devicePixelRatio
+    window.innerWidth /* * window.devicePixelRatio */,
+    window.innerHeight /* * window.devicePixelRatio */
   );
 
   const rtParameters = {
@@ -261,8 +269,8 @@ function main() {
 
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
-    const width = (canvas.clientWidth * window.devicePixelRatio) | 0;
-    const height = (canvas.clientHeight * window.devicePixelRatio) | 0;
+    const width = (canvas.clientWidth /* * window.devicePixelRatio */) | 0;
+    const height = (canvas.clientHeight /* * window.devicePixelRatio */) | 0;
 
     const needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) {
@@ -273,6 +281,7 @@ function main() {
 
   let then = 0;
   function render(now) {
+    stats.begin();
     now *= 0.001; // convert to seconds
     const delta = now - then;
     then = now;
@@ -316,6 +325,7 @@ function main() {
       (cursorXPosition / document.body.clientWidth) * 0.5 + 2.5;
 
     camera.fov = 80 - (cursorYPosition / document.body.clientHeight) * 20;
+    fovBars.style.transform = `translateX(${cursorYPosition / document.body.clientHeight * 20 - 10}%)`;
     camera.updateProjectionMatrix();
 
     renderer.render(scene, camera);
@@ -328,6 +338,8 @@ function main() {
 
     composer.render(delta);
 
+    stats.end();
+    if(z < -0.1) return;
     requestAnimationFrame(render);
   }
 

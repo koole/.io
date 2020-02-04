@@ -3,6 +3,11 @@ body {
   font-size: 10px;
   color: #fff;
   -webkit-font-smoothing: antialiased;
+  font-family: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.small {
+  font-size: 0.8em;
 }
 
 @media only screen and (min-width: 768px) {
@@ -23,7 +28,7 @@ body {
   }
 }
 
-canvas {
+#c {
   width: 100%;
   height: 100%;
   opacity: 0;
@@ -35,8 +40,8 @@ canvas {
   bottom: 0;
 }
 
-canvas.active {
-  animation: fadeIn 0.00005s linear 0.00001s forwards;
+#c.active {
+  animation: fadeIn 0.000005s linear 0.000001s forwards;
 }
 
 @keyframes fadeIn {
@@ -91,4 +96,73 @@ main {
   .domain {
     height: 5em;
   }
+}
+
+.visor, .visor-red {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.visor {
+  z-index: 4;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+}
+.visor-red {
+  z-index: 3;
+  box-shadow: inset 0 0 300px #000;
+  mix-blend-mode: overlay;
+}
+
+.hor-bars {
+  mask-image: linear-gradient(90deg, transparent 20%, black 50%, transparent 80%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 20%, black 50%, transparent 80%);
+  text-align: center;
+  color: #000;
+  text-transform: uppercase;
+  transform: translateY(-73px);
+}
+
+.hor-bar-transform {
+  margin: 5px 0;
+  display: flex;
+  height: 40px;
+  /* width: 300px; */
+  justify-content: center;
+  overflow-x: hidden;
+  transform: translateX(0)
+}
+
+.hor-bar-l, .hor-bar-r {
+  /* height: 40px; */
+  width: 5px;
+  border: 1px solid #000;
+  margin: 0 5px;
+}
+
+.hor-bar-l {
+  border-right: none;
+}
+
+.hor-bar-r {
+  border-left: none;
+}
+
+.hud {
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+
+  width: 80vw;
+  max-width: 1000px;
+  height: 80vh;
+  max-height: 600px;
+  border: 1px solid black;
+  filter: blur(0.5px);
+  border-radius: 80px;
+  box-shadow: 0 0 300px #00000024;
+  mix-blend-mode: overlay;
 }
