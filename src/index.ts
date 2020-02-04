@@ -339,7 +339,7 @@ function main() {
     composer.render(delta);
 
     stats.end();
-    // if(z < -0.1) return;
+    if(z < -0.1) return;
     requestAnimationFrame(render);
   }
 
