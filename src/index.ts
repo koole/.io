@@ -339,12 +339,13 @@ function main() {
     composer.render(delta);
 
     stats.end();
-    if(z < -0.1) return;
+    // if(z < -0.1) return;
     requestAnimationFrame(render);
   }
 
   requestAnimationFrame(render);
-  renderer.domElement.classList.add("active");
+  const terminal = document.getElementById("terminal");
+  terminal.style.display = "none";
 
   document.onmousemove = getCursor;
   function moveZ(z) {
@@ -371,9 +372,24 @@ function main() {
 }
 
 function loader() {
+  const terminal = document.getElementById("terminal");
+
+  function addToTerminal(text) {
+    var node = document.createElement("div");
+    var textnode = document.createTextNode(text);
+    node.appendChild(textnode);
+    terminal.appendChild(node);
+    return node;
+  }
+  addToTerminal("Control software waiting for binary data")
+
   const gltfLoader = new GLTFLoader();
   let i = 0;
+  let terminalIndex = 0;
   for (const LoadObject of load_objects) {
+    const thisFileIndex = terminalIndex;
+    terminalIndex++;
+    const terminalNode = addToTerminal(`Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (0%)`)
     gltfLoader.load(LoadObject.file, function(gltf) {
       const model = gltf.scene.children[0];
       model.traverse(child => {
@@ -392,12 +408,19 @@ function loader() {
         size: boxSize
       };
 
+      terminalNode.innerText =`Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (ready)`;
+      addToTerminal(`Finished downloading binary blob ${thisFileIndex}`)
+
       i++;
 
       if (i === load_objects.length) {
+        addToTerminal(`Ready`)
         main();
       }
-    });
+    },
+    function ( xhr ) {
+      terminalNode.innerText =`Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (${( xhr.loaded / xhr.total * 100 )}%)`;
+    },);
   }
 }
 
