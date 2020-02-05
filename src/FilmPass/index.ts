@@ -2,12 +2,12 @@
  * @author alteredq / http://alteredqualia.com/
  */
 
-import { FilmShader } from "./FilmShader.ts";
+import { FilmShader } from "../shaders/FilmShader";
 import { Pass } from "three/examples/jsm/postprocessing/Pass";
 import { UniformsUtils } from "three/build/three.module";
 import { ShaderMaterial } from "three";
 
-var FilmPass = function ( noiseIntensity, scanlinesIntensity, scanlinesCount, grayscale ) {
+var FilmPass = function ( noiseIntensity, scanlinesIntensity, scanlinesCount ) {
 
 	Pass.call( this );
 
@@ -26,7 +26,6 @@ var FilmPass = function ( noiseIntensity, scanlinesIntensity, scanlinesCount, gr
 
 	} );
 
-	if ( grayscale !== undefined )	this.uniforms.grayscale.value = grayscale;
 	if ( noiseIntensity !== undefined ) this.uniforms.nIntensity.value = noiseIntensity;
 	if ( scanlinesIntensity !== undefined ) this.uniforms.sIntensity.value = scanlinesIntensity;
 	if ( scanlinesCount !== undefined ) this.uniforms.sCount.value = scanlinesCount;

@@ -1,4 +1,4 @@
-export const lutShader = {
+export const LUTShader = {
   uniforms: {
     tDiffuse: { value: null },
     lutMap: { value: null },

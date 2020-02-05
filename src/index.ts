@@ -6,20 +6,24 @@ import { FogExp2 } from "three/src/scenes/FogExp2";
 import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
-import { BoxBufferGeometry } from "three/src/geometries/BoxGeometry";
 import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial";
 import { Mesh } from "three/src/objects/Mesh";
 import { BackSide, LinearFilter, RGBFormat } from "three/src/constants";
-
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
+
+// Composer passes
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass";
+import { FilmPass } from "./FilmPass/index";
+
+// Shaders
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
-import { SSAOPass } from "three/examples/jsm/postprocessing/SSAOPass";
-import { FilmPass } from "./FilmPass/index.ts";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
+import { LUTShader } from "./shaders/LUTShader";
+
 
 import {
   Box3,
@@ -32,8 +36,7 @@ import {
   Vector2
 } from "three";
 
-import { makeLUTTexture } from "./makeLUT.ts";
-import { lutShader } from "./lutShader.ts";
+import { makeLUTTexture } from "./makeLUTTexture";
 
 var stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -133,7 +136,7 @@ function main() {
   scene.background = new Color(skyColor);
   scene.fog = new FogExp2(skyColor, 0.15);
 
-  const effectLUT = new ShaderPass(lutShader);
+  const effectLUT = new ShaderPass(LUTShader);
   effectLUT.renderToScreen = true;
 
   const FXAA = new ShaderPass(FXAAShader);
@@ -179,26 +182,7 @@ function main() {
     scene.add(mesh);
   }
 
-  // // Tubes
-  // {
-  //   const cubeGeo = new BoxBufferGeometry(30, 0.2, 0.2);
-  //   const cubeMat = new MeshLambertMaterial({ color: "#fff" });
-  //   const mesh = new Mesh(cubeGeo, cubeMat);
-  //   mesh.castShadow = true;
-  //   mesh.receiveShadow = true;
-  //   mesh.position.set(0, 1.5, -4);
-  //   scene.add(mesh);
-  //   const mesh2 = mesh.clone();
-  //   mesh2.position.set(0, 1.5, -3.5);
-  //   scene.add(mesh2);
-  //   const mesh3 = mesh.clone();
-  //   mesh3.position.set(0, 1.5, -14);
-  //   scene.add(mesh3);
-  //   const mesh4 = mesh.clone();
-  //   mesh4.position.set(0, 1.5, -13.5);
-  //   scene.add(mesh4);
-  // }
-
+  // Looping objects like roads, pillars and the left wall
   for (const repeater of repeaters) {
     const { object, scenes } = repeater;
     const model = objects[object];
@@ -218,30 +202,10 @@ function main() {
     }
   }
 
-  // // Rotating tower
-  // {
-  //   const model = objects["tower"];
-  //   const gltf = model.gltf;
-  //   gltf.scene.position.set(5.5, 4, -6);
-  //   towerAnimation = new AnimationMixer(gltf.scene);
-  //   var action = towerAnimation.clipAction(gltf.animations[0]);
-  //   action.play();
-  //   scene.add(gltf.scene);
-  // }
-
   const renderBG = new RenderPass(scene, camera);
-  const Film = new FilmPass(
-    0.35, // noise intensity
-    0.025, // scanline intensity
-    648, // scanline count
-    false // grayscale
-  );
+  const Film = new FilmPass(0.35, 0.025, 648);
   Film.renderToScreen = true;
-  const SSAO = new SSAOPass(scene, camera);
-  const SMAA = new SMAAPass(
-    window.innerWidth /* * window.devicePixelRatio */,
-    window.innerHeight /* * window.devicePixelRatio */
-  );
+  const SMAA = new SMAAPass(window.innerWidth, window.innerHeight);
 
   const rtParameters = {
     minFilter: LinearFilter,
@@ -259,7 +223,6 @@ function main() {
     0.85
   );
   composer.addPass(renderBG);
-  // composer.addPass(SSAO);
   // composer.addPass(FXAA);
   composer.addPass(bloomPass);
   composer.addPass(Film);
@@ -268,8 +231,8 @@ function main() {
 
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
-    const width = canvas.clientWidth /* * window.devicePixelRatio */ | 0;
-    const height = canvas.clientHeight /* * window.devicePixelRatio */ | 0;
+    const width = canvas.clientWidth | 0;
+    const height = canvas.clientHeight | 0;
 
     const needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) {
@@ -316,16 +279,10 @@ function main() {
 
     moveZ(z);
 
-    camera.rotation.y =
-      ((-32 - (cursorXPosition / document.body.clientWidth) * 8) * Math.PI) /
-      180;
-    camera.position.x =
-      (cursorXPosition / document.body.clientWidth) * 0.5 +
-      Math.sin(z * 0.5) * 0.3;
-    camera.position.y =
-      (cursorXPosition / document.body.clientWidth) * 0.5 +
-      2.5 -
-      Math.sin(z * 0.8) * 0.3;
+    const xc = cursorXPosition / document.body.clientWidth;
+    camera.rotation.y = ((-32 - xc * 8) * Math.PI) / 180;
+    camera.position.x = xc * 0.5 + Math.sin(z * 0.5) * 0.3;
+    camera.position.y = xc * 0.5 + 2.5 - Math.sin(z * 0.8) * 0.3;
 
     camera.fov = 80 - (cursorYPosition / document.body.clientHeight) * 20;
     fovBars.style.transform = `translateX(${(cursorYPosition /

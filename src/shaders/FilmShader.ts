@@ -31,7 +31,6 @@ var FilmShader = {
 		"nIntensity": { value: 0.5 },
 		"sIntensity": { value: 0.05 },
 		"sCount": { value: 4096 },
-		"grayscale": { value: 1 }
 
 	},
 
@@ -54,8 +53,6 @@ var FilmShader = {
 
 		// control parameter
 		"uniform float time;",
-
-		"uniform bool grayscale;",
 
 		// noise effect intensity value (0 = no effect, 1 = full effect)
 		"uniform float nIntensity;",
@@ -89,13 +86,6 @@ var FilmShader = {
 
 		// interpolate between source and result by intensity
 		"	cResult = cTextureScreen.rgb + clamp( nIntensity, 0.0,1.0 ) * ( cResult - cTextureScreen.rgb );",
-
-		// convert to grayscale if desired
-		"	if( grayscale ) {",
-
-		"		cResult = vec3( cResult.r * 0.3 + cResult.g * 0.59 + cResult.b * 0.11 );",
-
-		"	}",
 
 		"	gl_FragColor =  vec4( cResult, cTextureScreen.a );",
 
