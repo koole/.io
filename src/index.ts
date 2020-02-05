@@ -37,7 +37,7 @@ import { lutShader } from "./lutShader.ts";
 
 var stats = new Stats();
 stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
+document.body.appendChild(stats.dom);
 
 // GLTF models
 const load_objects = [
@@ -199,7 +199,6 @@ function main() {
   //   scene.add(mesh4);
   // }
 
-
   for (const repeater of repeaters) {
     const { object, scenes } = repeater;
     const model = objects[object];
@@ -269,8 +268,8 @@ function main() {
 
   function resizeRendererToDisplaySize(renderer) {
     const canvas = renderer.domElement;
-    const width = (canvas.clientWidth /* * window.devicePixelRatio */) | 0;
-    const height = (canvas.clientHeight /* * window.devicePixelRatio */) | 0;
+    const width = canvas.clientWidth /* * window.devicePixelRatio */ | 0;
+    const height = canvas.clientHeight /* * window.devicePixelRatio */ | 0;
 
     const needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) {
@@ -320,12 +319,19 @@ function main() {
     camera.rotation.y =
       ((-32 - (cursorXPosition / document.body.clientWidth) * 8) * Math.PI) /
       180;
-    camera.position.x = (cursorXPosition / document.body.clientWidth) * 0.5;
+    camera.position.x =
+      (cursorXPosition / document.body.clientWidth) * 0.5 +
+      Math.sin(z * 0.5) * 0.3;
     camera.position.y =
-      (cursorXPosition / document.body.clientWidth) * 0.5 + 2.5;
+      (cursorXPosition / document.body.clientWidth) * 0.5 +
+      2.5 -
+      Math.sin(z * 0.8) * 0.3;
 
     camera.fov = 80 - (cursorYPosition / document.body.clientHeight) * 20;
-    fovBars.style.transform = `translateX(${cursorYPosition / document.body.clientHeight * 20 - 10}%)`;
+    fovBars.style.transform = `translateX(${(cursorYPosition /
+      document.body.clientHeight) *
+      20 -
+      10}%)`;
     camera.updateProjectionMatrix();
 
     renderer.render(scene, camera);
@@ -349,7 +355,8 @@ function main() {
 
   document.onmousemove = getCursor;
   function moveZ(z) {
-    camera.position.z = z;
+    camera.position.x = camera.position.x;
+    camera.position.z = z + Math.pow(Math.sin(z / 3) * 0.8, 4);
     shadowLight.position.set(7.5, 15, -30 + z);
     shadowLight.target.position.set(0, 0, -5 + z);
     // shadowLightHelper.update();
@@ -381,7 +388,7 @@ function loader() {
     terminal.appendChild(node);
     return node;
   }
-  addToTerminal("Control software waiting for binary data")
+  addToTerminal("Control software waiting for binary data");
 
   const gltfLoader = new GLTFLoader();
   let i = 0;
@@ -389,38 +396,45 @@ function loader() {
   for (const LoadObject of load_objects) {
     const thisFileIndex = terminalIndex;
     terminalIndex++;
-    const terminalNode = addToTerminal(`Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (0%)`)
-    gltfLoader.load(LoadObject.file, function(gltf) {
-      const model = gltf.scene.children[0];
-      model.traverse(child => {
-        if (child.isMesh) {
-          child.castShadow = true;
-          child.receiveShadow = true;
+    const terminalNode = addToTerminal(
+      `Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (0%)`
+    );
+    gltfLoader.load(
+      LoadObject.file,
+      function(gltf) {
+        const model = gltf.scene.children[0];
+        model.traverse(child => {
+          if (child.isMesh) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+          }
+        });
+
+        const box = new Box3().setFromObject(gltf.scene);
+        const boxSize = box.getSize(new Vector3()).z;
+
+        objects[LoadObject.name] = {
+          gltf: gltf,
+          scene: gltf.scene,
+          size: boxSize
+        };
+
+        terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (ready)`;
+        addToTerminal(`Finished downloading binary blob ${thisFileIndex}`);
+
+        i++;
+
+        if (i === load_objects.length) {
+          addToTerminal(`Ready`);
+          main();
         }
-      });
-
-      const box = new Box3().setFromObject(gltf.scene);
-      const boxSize = box.getSize(new Vector3()).z;
-
-      objects[LoadObject.name] = {
-        gltf: gltf,
-        scene: gltf.scene,
-        size: boxSize
-      };
-
-      terminalNode.innerText =`Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (ready)`;
-      addToTerminal(`Finished downloading binary blob ${thisFileIndex}`)
-
-      i++;
-
-      if (i === load_objects.length) {
-        addToTerminal(`Ready`)
-        main();
+      },
+      function(xhr) {
+        terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${
+          load_objects.length
+        } (${(xhr.loaded / xhr.total) * 100}%)`;
       }
-    },
-    function ( xhr ) {
-      terminalNode.innerText =`Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (${( xhr.loaded / xhr.total * 100 )}%)`;
-    },);
+    );
   }
 }
 
