@@ -9,7 +9,7 @@ import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
 import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial";
 import { Mesh } from "three/src/objects/Mesh";
 import { BackSide, LinearFilter, RGBFormat } from "three/src/constants";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 
@@ -20,10 +20,8 @@ import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass";
 import { FilmPass } from "./FilmPass/index";
 
 // Shaders
-import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
 import { LUTShader } from "./shaders/LUTShader";
-
 
 import {
   Box3,
@@ -50,13 +48,32 @@ const load_objects = [
   { name: "road-pillars", file: "road-pillars.glb" },
   { name: "pillars-base", file: "pillars-base.glb" }
 ];
+
 // Stores 3D objects after loading
-const objects = {};
+const objects: {
+  [key: string]: {
+    gltf: GLTF;
+    scene: Scene;
+    size: number;
+  };
+} = {};
 
 // To what depth should objects be placed?
 const depth = 40;
 
-const repeaters = [
+interface Repeater {
+  object: string;
+  x: number;
+  y: number;
+  z: number;
+  offset: number;
+  scenes: Array<Scene>;
+  index: number;
+  currentFirstScene: number;
+  size: number;
+}
+
+const repeaters: Array<Repeater> = [
   {
     object: "road",
     x: 3.5,
@@ -66,7 +83,7 @@ const repeaters = [
     scenes: [],
     index: 0,
     currentFirstScene: 0,
-    size: null
+    size: 1
   },
   {
     object: "road",
@@ -77,7 +94,7 @@ const repeaters = [
     scenes: [],
     index: 0,
     currentFirstScene: 0,
-    size: null
+    size: 1
   },
   {
     object: "pillars-base",
@@ -88,7 +105,7 @@ const repeaters = [
     scenes: [],
     index: 0,
     currentFirstScene: 0,
-    size: null
+    size: 1
   },
   {
     object: "left-wall",
@@ -99,19 +116,18 @@ const repeaters = [
     scenes: [],
     index: 0,
     currentFirstScene: 0,
-    size: null
+    size: 1
   }
 ];
 
 function main() {
-  var towerAnimation;
   var cursorXPosition = 0;
   var cursorYPosition = 0;
   let z = 0;
 
-  const fovBars = document.getElementById("fov-bars");
+  const fovBars = document.getElementById("fov-bars") as HTMLDivElement;
 
-  const canvas = document.querySelector("#c");
+  const canvas = document.querySelector("#c") as HTMLCanvasElement;
   const renderer = new WebGLRenderer({ canvas, antialias: true });
   renderer.shadowMap.enabled = true;
 
@@ -123,10 +139,9 @@ function main() {
   );
 
   const lut = {
-    url: "/lut.png",
-    size: 16
+    size: 16,
+    texture: makeLUTTexture({ url: "/lut.png", size: 16 })
   };
-  lut.texture = makeLUTTexture(lut);
 
   // Settings
   var skyColor = 0xcccccc;
@@ -139,9 +154,6 @@ function main() {
   const effectLUT = new ShaderPass(LUTShader);
   effectLUT.renderToScreen = true;
 
-  const FXAA = new ShaderPass(FXAAShader);
-  effectLUT.renderToScreen = true;
-
   // Hemisphere light
   {
     const intensity = 1;
@@ -150,7 +162,7 @@ function main() {
   }
 
   // Shadow casting light
-  var shadowLight;
+  var shadowLight: DirectionalLight;
   // var shadowLightHelper;
   {
     const color = 0xffffff;
@@ -223,13 +235,12 @@ function main() {
     0.85
   );
   composer.addPass(renderBG);
-  // composer.addPass(FXAA);
   composer.addPass(bloomPass);
+  composer.addPass(SMAA);
   composer.addPass(Film);
   composer.addPass(effectLUT);
-  composer.addPass(SMAA);
 
-  function resizeRendererToDisplaySize(renderer) {
+  function resizeRendererToDisplaySize(renderer: WebGLRenderer) {
     const canvas = renderer.domElement;
     const width = canvas.clientWidth | 0;
     const height = canvas.clientHeight | 0;
@@ -242,13 +253,11 @@ function main() {
   }
 
   let then = 0;
-  function render(now) {
+  function render(now: number) {
     stats.begin();
     now *= 0.001; // convert to seconds
     const delta = now - then;
     then = now;
-
-    if (towerAnimation) towerAnimation.update(delta);
 
     if (resizeRendererToDisplaySize(renderer)) {
       const canvas = renderer.domElement;
@@ -281,8 +290,8 @@ function main() {
 
     const xc = cursorXPosition / document.body.clientWidth;
     camera.rotation.y = ((-32 - xc * 8) * Math.PI) / 180;
-    camera.position.x = xc * 0.5 + Math.sin(z * 0.5) * 0.3;
-    camera.position.y = xc * 0.5 + 2.5 - Math.sin(z * 0.8) * 0.3;
+    camera.position.x = xc * 0.5 + Math.sin(z * 0.2) * 0.3;
+    camera.position.y = xc * 0.5 + 2.5 - Math.sin(z * 0.3) * 0.3;
 
     camera.fov = 80 - (cursorYPosition / document.body.clientHeight) * 20;
     fovBars.style.transform = `translateX(${(cursorYPosition /
@@ -307,7 +316,7 @@ function main() {
   }
 
   requestAnimationFrame(render);
-  const terminal = document.getElementById("terminal");
+  const terminal = document.getElementById("terminal") as HTMLDivElement;
   terminal.style.display = "none";
 
   document.onmousemove = getCursor;
@@ -319,7 +328,7 @@ function main() {
     // shadowLightHelper.update();
   }
 
-  function getCursor(e) {
+  function getCursor(e: MouseEvent): void {
     cursorXPosition = window.Event
       ? e.pageX
       : event.clientX +
@@ -336,9 +345,9 @@ function main() {
 }
 
 function loader() {
-  const terminal = document.getElementById("terminal");
+  const terminal = document.getElementById("terminal") as HTMLDivElement;
 
-  function addToTerminal(text) {
+  function addToTerminal(text: string) {
     var node = document.createElement("div");
     var textnode = document.createTextNode(text);
     node.appendChild(textnode);

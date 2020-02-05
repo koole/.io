@@ -1,4 +1,7 @@
 {
   "retainLines": true,
-  "presets": [["@babel/preset-env", { "useBuiltIns": "usage" }]],
+  "presets": [
+    ["@babel/preset-env", { "useBuiltIns": "usage" }],
+    "@babel/typescript"
+  ]
 }

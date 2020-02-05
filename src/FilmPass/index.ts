@@ -7,57 +7,48 @@ import { Pass } from "three/examples/jsm/postprocessing/Pass";
 import { UniformsUtils } from "three/build/three.module";
 import { ShaderMaterial } from "three";
 
-var FilmPass = function ( noiseIntensity, scanlinesIntensity, scanlinesCount ) {
+class FilmPass extends Pass {
+  uniforms: object;
+  material: ShaderMaterial;
+  fsQuad: object;
+  constructor(
+    noiseIntensity?: number,
+    scanlinesIntensity?: number,
+    scanlinesCount?: number
+  ) {
+    super();
 
-	Pass.call( this );
+    this.uniforms = UniformsUtils.clone(FilmShader.uniforms);
 
-	if ( FilmShader === undefined )
-		console.error( "FilmPass relies on FilmShader" );
+    this.material = new ShaderMaterial({
+      uniforms: this.uniforms,
+      vertexShader: FilmShader.vertexShader,
+      fragmentShader: FilmShader.fragmentShader
+    });
 
-	var shader = FilmShader;
+    if (noiseIntensity !== undefined)
+      this.uniforms.nIntensity.value = noiseIntensity;
+    if (scanlinesIntensity !== undefined)
+      this.uniforms.sIntensity.value = scanlinesIntensity;
+    if (scanlinesCount !== undefined)
+      this.uniforms.sCount.value = scanlinesCount;
 
-	this.uniforms = UniformsUtils.clone( shader.uniforms );
+    this.fsQuad = new Pass.FullScreenQuad(this.material);
+  }
 
-	this.material = new ShaderMaterial( {
+  render(renderer, writeBuffer, readBuffer, deltaTime) {
+    this.uniforms["tDiffuse"].value = readBuffer.texture;
+    this.uniforms["time"].value += deltaTime;
 
-		uniforms: this.uniforms,
-		vertexShader: shader.vertexShader,
-		fragmentShader: shader.fragmentShader
-
-	} );
-
-	if ( noiseIntensity !== undefined ) this.uniforms.nIntensity.value = noiseIntensity;
-	if ( scanlinesIntensity !== undefined ) this.uniforms.sIntensity.value = scanlinesIntensity;
-	if ( scanlinesCount !== undefined ) this.uniforms.sCount.value = scanlinesCount;
-
-	this.fsQuad = new Pass.FullScreenQuad( this.material );
-
-};
-
-FilmPass.prototype = Object.assign( Object.create( Pass.prototype ), {
-
-	constructor: FilmPass,
-
-	render: function ( renderer, writeBuffer, readBuffer, deltaTime /*, maskActive */ ) {
-
-		this.uniforms[ "tDiffuse" ].value = readBuffer.texture;
-		this.uniforms[ "time" ].value += deltaTime;
-
-		if ( this.renderToScreen ) {
-
-			renderer.setRenderTarget( null );
-			this.fsQuad.render( renderer );
-
-		} else {
-
-			renderer.setRenderTarget( writeBuffer );
-			if ( this.clear ) renderer.clear();
-			this.fsQuad.render( renderer );
-
-		}
-
-	}
-
-} );
+    if (this.renderToScreen) {
+      renderer.setRenderTarget(null);
+      this.fsQuad.render(renderer);
+    } else {
+      renderer.setRenderTarget(writeBuffer);
+      if (this.clear) renderer.clear();
+      this.fsQuad.render(renderer);
+    }
+  }
+}
 
 export { FilmPass };

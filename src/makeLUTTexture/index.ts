@@ -13,10 +13,10 @@ const makeIdentityLutTexture = (function() {
     255, 255, 255, 255,
   ]);
 
-  return function(filter) {
+  return function() {
     const texture = new DataTexture(identityLUT, 4, 2, RGBAFormat);
-    texture.minFilter = filter;
-    texture.magFilter = filter;
+    texture.minFilter = LinearFilter;
+    texture.magFilter = LinearFilter;
     texture.needsUpdate = true;
     texture.flipY = false;
     return texture;
@@ -25,10 +25,12 @@ const makeIdentityLutTexture = (function() {
 
 export const makeLUTTexture = (function() {
   const imgLoader = new ImageLoader();
-  const ctx = document.createElement("canvas").getContext("2d");
+  const ctx = document
+    .createElement("canvas")
+    .getContext("2d") as CanvasRenderingContext2D;
 
-  return function(info) {
-    const texture = makeIdentityLutTexture((info.filter = LinearFilter));
+  return function(info: { url: string; size: number }) {
+    const texture = makeIdentityLutTexture();
     if (info.url) {
       const lutSize = info.size;
 
