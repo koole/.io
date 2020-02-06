@@ -2,10 +2,10 @@
  * @author alteredq / http://alteredqualia.com/
  */
 
-import { FilmShader } from "../shaders/FilmShader";
+import { FilmShader } from "./shaders/FilmShader";
 import { Pass } from "three/examples/jsm/postprocessing/Pass";
-import { UniformsUtils } from "three/build/three.module";
-import { ShaderMaterial } from "three";
+import { ShaderMaterial } from "three/src/materials/ShaderMaterial";
+import { UniformsUtils } from "three";
 
 class FilmPass extends Pass {
   uniforms: object;

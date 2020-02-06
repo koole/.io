@@ -1,54 +1,31 @@
 import Stats from "stats.js";
 
-// Other Three stuff
+// Three stuff
 import { Color } from "three/src/math/Color";
 import { Scene } from "three/src/scenes/Scene";
 import { FogExp2 } from "three/src/scenes/FogExp2";
-import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
-import { PlaneGeometry } from "three/src/geometries/PlaneGeometry";
-import { MeshLambertMaterial } from "three/src/materials/MeshLambertMaterial";
-import { Mesh } from "three/src/objects/Mesh";
-import { BackSide, LinearFilter, RGBFormat } from "three/src/constants";
-import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
+import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
 
-// Composer passes
-import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
-import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
-import { SMAAPass } from "three/examples/jsm/postprocessing/SMAAPass";
-import { FilmPass } from "./FilmPass/index";
+// Own stuff
+import { loader } from "./loader";
+import { createComposer } from "./createComposer";
+import { createLights } from "./createLights";
 
-// Shaders
-import { UnrealBloomPass } from "three/examples/jsm/postprocessing/UnrealBloomPass";
-import { LUTShader } from "./shaders/LUTShader";
+import { RepeaterObject, GLTFModel, GLTFSceneObj } from "./declarations";
 
-//! These need to be imported like the ones above
-//! to prevent loading all of three.js (it's big)
-import {
-  Box3,
-  Vector3,
-  HemisphereLight,
-  DirectionalLight,
-  WebGLRenderTarget,
-  Vector2
-} from "three";
-
-// Own scripts
-import { makeLUTTexture } from "./makeLUTTexture";
-
-//   ___      _   _   _
-//  / __| ___| |_| |_(_)_ _  __ _ ___
-//  \__ \/ -_)  _|  _| | ' \/ _` (_-<
-//  |___/\___|\__|\__|_|_||_\__, /__/
-//                          |___/
+//*   ___      _   _   _
+//*  / __| ___| |_| |_(_)_ _  __ _ ___
+//*  \__ \/ -_)  _|  _| | ' \/ _` (_-<
+//*  |___/\___|\__|\__|_|_||_\__, /__/
+//*                          |___/
 
 const speed = 0.01;
-var skyColor = 0xcccccc;
-var shadowColor = 0x000000;
+const skyColor = 0xcccccc;
+const shadowColor = 0x000000;
 
 // GLTF models
-const load_objects = [
+export const LoadGLTFList: GLTFModel[] = [
   { name: "road", file: "road-tex.glb" },
   { name: "left-wall", file: "left-wall.glb" },
   { name: "tower", file: "tower.glb" },
@@ -59,18 +36,7 @@ const load_objects = [
 // To what depth should objects be placed?
 const depth = 40;
 
-//- Settings for placing repeating objects
-const repeaters: Array<{
-  object: string;
-  x: number;
-  y: number;
-  z: number;
-  offset: number;
-  scenes: Array<Scene>;
-  index: number;
-  currentFirstScene: number;
-  size: number;
-}> = [
+const repeaters: RepeaterObject[] = [
   {
     object: "road",
     x: 3.5,
@@ -121,11 +87,21 @@ const repeaters: Array<{
   }
 ];
 
-//
-// End of settings
-//
+//*
+//* ----------------------------------
+//* ----------------------------------
+//* ----------------------------------
+//*
 
-function main() {
+// Stores 3D objects after loading
+export let GLTFScenes: GLTFSceneObj = {};
+
+export function main() {
+  //*    ___                            _
+  //*   / __| __ ___ _ _  ___   ___ ___| |_ _  _ _ __
+  //*   \__ \/ _/ -_) ' \/ -_) (_-</ -_)  _| || | '_ \
+  //*   |___/\__\___|_||_\___| /__/\___|\__|\_,_| .__/
+  //*                                           |_|
   // Variables...
   let cursorXPosition = 0;
   let cursorYPosition = 0;
@@ -152,60 +128,22 @@ function main() {
   scene.background = new Color(skyColor);
   scene.fog = new FogExp2(skyColor, 0.15);
 
-  //   _    _      _   _
-  //  | |  (_)__ _| |_| |_ ___
-  //  | |__| / _` | ' \  _(_-<
-  //  |____|_\__, |_||_\__/__/
-  //         |___/
+  // Create composer with all effects
+  const composer = createComposer(scene, camera, renderer);
 
-  //- Hemisphere light
-  // Ambient sky light, lights everything
-  {
-    const intensity = 1;
-    const light = new HemisphereLight(skyColor, shadowColor, intensity);
-    scene.add(light);
-  }
+  // Add lights
+  const shadowLight = createLights(scene, skyColor, shadowColor);
 
-  //- Directional light
-  // Replicates the sun, casts shadow
-  var shadowLight: DirectionalLight;
-  {
-    const color = 0xffffff;
-    const intensity = 2;
-    shadowLight = new DirectionalLight(color, intensity);
-    shadowLight.position.set(10, 10, -25);
-    shadowLight.target.position.set(-5, 0, 5);
-    shadowLight.castShadow = true;
-    shadowLight.shadow.mapSize.width = 2014; // default
-    shadowLight.shadow.mapSize.height = 2014; // default
-    scene.add(shadowLight);
-    scene.add(shadowLight.target);
-  }
-
-  //    ___  _     _        _
-  //   / _ \| |__ (_)___ __| |_ ___
-  //  | (_) | '_ \| / -_) _|  _(_-<
-  //   \___/|_.__// \___\__|\__/__/
-  //            |__/
-
-  //- Floor
-  {
-    const plane = new PlaneGeometry(100, 100, 1);
-    const planeMat = new MeshLambertMaterial({
-      color: 0xff5555,
-      side: BackSide
-    });
-    const mesh = new Mesh(plane, planeMat);
-    mesh.receiveShadow = true;
-    mesh.position.set(0, -2.5, 0);
-    mesh.rotation.x = Math.PI / 2;
-    scene.add(mesh);
-  }
+  //*    ___  _     _        _
+  //*   / _ \| |__ (_)___ __| |_ ___
+  //*  | (_) | '_ \| / -_) _|  _(_-<
+  //*   \___/|_.__// \___\__|\__/__/
+  //*            |__/
 
   //- Looping objects like roads, pillars and the left wall
   for (let repeater of repeaters) {
     const { object, scenes } = repeater;
-    const model = objects[object];
+    const model = GLTFScenes[object];
     repeater.size = model.size;
 
     // How many objects do we need to fill the set depth?
@@ -225,68 +163,11 @@ function main() {
     }
   }
 
-  //   ___                                   ___
-  //   / __|___ _ __  _ __  ___ ___ ___ _ _  | _ \__ _ ______ ___ ___
-  //  | (__/ _ \ '  \| '_ \/ _ (_-</ -_) '_| |  _/ _` (_-<_-</ -_|_-<
-  //   \___\___/_|_|_| .__/\___/__/\___|_|   |_| \__,_/__/__/\___/__/
-  //                 |_|
-
-  //- Create composer
-  const rtParameters = {
-    minFilter: LinearFilter,
-    magFilter: LinearFilter,
-    format: RGBFormat
-  };
-  const composer = new EffectComposer(
-    renderer,
-    new WebGLRenderTarget(1, 1, rtParameters)
-  );
-
-  //- Renderer
-  // Renders the scene
-  const renderBG = new RenderPass(scene, camera);
-
-  //- SMAA
-  // Anti-aliasing
-  const SMAA = new SMAAPass(window.innerWidth, window.innerHeight);
-
-  //- Bloom
-  // A nice soft glow around bright parts of the scene
-  const bloomPass = new UnrealBloomPass(
-    new Vector2(window.innerWidth, window.innerHeight),
-    0.3,
-    1.5,
-    0.85
-  );
-
-  //- Film
-  // Adds scanlines and noise
-  const Film = new FilmPass(0.35, 0.025, 648);
-  Film.renderToScreen = true;
-
-  //- LUT
-  // Changes colors
-  const effectLUT = new ShaderPass(LUTShader);
-  const lut = {
-    size: 16,
-    texture: makeLUTTexture({ url: "/lut.png", size: 16 })
-  };
-  effectLUT.renderToScreen = true;
-  effectLUT.uniforms.lutMap.value = lut.texture;
-  effectLUT.uniforms.lutMapSize.value = lut.size;
-
-  //- Apply passes
-  composer.addPass(renderBG);
-  composer.addPass(bloomPass);
-  composer.addPass(SMAA);
-  composer.addPass(Film);
-  composer.addPass(effectLUT);
-
-  //   _   _ _   _ _ _ _   _
-  //  | | | | |_(_) (_) |_(_)___ ___
-  //  | |_| |  _| | | |  _| / -_|_-<
-  //   \___/ \__|_|_|_|\__|_\___/__/
-  //
+  //*   _   _ _   _ _ _ _   _
+  //*  | | | | |_(_) (_) |_(_)___ ___
+  //*  | |_| |  _| | | |  _| / -_|_-<
+  //*   \___/ \__|_|_|_|\__|_\___/__/
+  //*
 
   // Tests if the canvas needs resizing and updates the renderer
   function resizeRendererToDisplaySize(renderer: WebGLRenderer) {
@@ -297,6 +178,7 @@ function main() {
     const needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) {
       renderer.setSize(width, height, false);
+      composer.setSize(width, height);
     }
     return needResize;
   }
@@ -311,25 +193,15 @@ function main() {
 
   // Gets current cursor positions
   function getCursor(e: MouseEvent): void {
-    cursorXPosition = window.Event
-      ? e.pageX
-      : event.clientX +
-        (document.documentElement.scrollLeft
-          ? document.documentElement.scrollLeft
-          : document.body.scrollLeft);
-    cursorYPosition = window.Event
-      ? e.pageY
-      : event.clientY +
-        (document.documentElement.scrollLeft
-          ? document.documentElement.scrollLeft
-          : document.body.scrollLeft);
+    cursorXPosition = e.clientX;
+    cursorYPosition = e.clientY;
   }
 
-  //  ___             _            __
-  //  | _ \___ _ _  __| |___ _ _   / _|_ _ __ _ _ __  ___
-  //  |   / -_) ' \/ _` / -_) '_| |  _| '_/ _` | '  \/ -_)
-  //  |_|_\___|_||_\__,_\___|_|   |_| |_| \__,_|_|_|_\___|
-  //
+  //*   ___             _            __
+  //*  | _ \___ _ _  __| |___ _ _   / _|_ _ __ _ _ __  ___
+  //*  |   / -_) ' \/ _` / -_) '_| |  _| '_/ _` | '  \/ -_)
+  //*  |_|_\___|_||_\__,_\___|_|   |_| |_| \__,_|_|_|_\___|
+  //*
 
   let then = 0;
   function render(now: number) {
@@ -347,7 +219,6 @@ function main() {
       const canvasAspect = canvas.clientWidth / canvas.clientHeight;
       camera.aspect = canvasAspect;
       camera.updateProjectionMatrix();
-      composer.setSize(canvas.width, canvas.height);
     }
 
     // Update Z position
@@ -420,97 +291,11 @@ function main() {
   document.onmousemove = getCursor;
 }
 
-//   _                 _
-//  | |   ___  __ _ __| |___ _ _
-//  | |__/ _ \/ _` / _` / -_) '_|
-//  |____\___/\__,_\__,_\___|_|
-//
-
-// Stores 3D objects after loading
-const objects: {
-  [key: string]: {
-    gltf: GLTF;
-    scene: Scene;
-    size: number;
-  };
-} = {};
-function loader() {
-  // Get terminal element
-  const terminal = document.getElementById("terminal") as HTMLDivElement;
-
-  // Function for drawing lines of text to the terminal
-  function addToTerminal(text: string) {
-    var node = document.createElement("div");
-    var textnode = document.createTextNode(text);
-    node.appendChild(textnode);
-    terminal.appendChild(node);
-    return node;
-  }
-
-  // Start loading of the GLB files
-  addToTerminal("Control software waiting for binary data");
-  const gltfLoader = new GLTFLoader();
-  let terminalIndex = 0;
-
-  // Keeps track of how many objects have finished loading
-  let downloaded = 0;
-
-  // Loop over all objects we need to load
-  for (const LoadObject of load_objects) {
-    // Set a number for each file we can show to the user
-    const thisFileIndex = terminalIndex;
-    terminalIndex++;
-    const terminalNode = addToTerminal(
-      `Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (0%)`
-    );
-    gltfLoader.load(
-      LoadObject.file,
-      function(gltf) {
-        // We need every mesh in every GLTF scene to draw and cast shadows
-        const model = gltf.scene.children[0];
-        model.traverse(child => {
-          if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
-        });
-
-        // Calculate the size of the object
-        // Used for later calculations
-        const box = new Box3().setFromObject(gltf.scene);
-        const boxSize = box.getSize(new Vector3()).z;
-        objects[LoadObject.name] = {
-          gltf: gltf,
-          scene: gltf.scene,
-          size: boxSize
-        };
-
-        // Update terminal
-        terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${load_objects.length} (ready)`;
-        addToTerminal(`Finished downloading binary blob ${thisFileIndex}`);
-
-        // When all files have finished loading, start the main script
-        downloaded++;
-        if (downloaded === load_objects.length) {
-          addToTerminal(`Ready`);
-          main();
-        }
-      },
-      // Update the download percentage on progress
-      function(xhr) {
-        terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${
-          load_objects.length
-        } (${(xhr.loaded / xhr.total) * 100}%)`;
-      }
-    );
-  }
-}
-
-//   ___ _            _                          _   _    _
-//  / __| |_ __ _ _ _| |_   _____ _____ _ _ _  _| |_| |_ (_)_ _  __ _
-//  \__ \  _/ _` | '_|  _| / -_) V / -_) '_| || |  _| ' \| | ' \/ _` |
-//  |___/\__\__,_|_|  \__| \___|\_/\___|_|  \_, |\__|_||_|_|_||_\__, |
-//                                          |__/                |___/
+//*   ___ _            _                          _   _    _
+//*  / __| |_ __ _ _ _| |_   _____ _____ _ _ _  _| |_| |_ (_)_ _  __ _
+//*  \__ \  _/ _` | '_|  _| / -_) V / -_) '_| || |  _| ' \| | ' \/ _` |
+//*  |___/\__\__,_|_|  \__| \___|\_/\___|_|  \_, |\__|_||_|_|_||_\__, |
+//*                                          |__/                |___/
 
 // Performance statistics
 var stats = new Stats();
@@ -518,4 +303,4 @@ stats.showPanel(1);
 document.body.appendChild(stats.dom);
 
 // Start!
-loader();
+GLTFScenes = loader(LoadGLTFList, main);
