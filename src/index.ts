@@ -16,7 +16,7 @@ import { createLights } from "./createLights";
 import { GLTFModel as GLTFLoadable, GLTFSceneObj } from "./declarations";
 
 // Stores 3D objects after loading
-export let GLTFScenes: GLTFSceneObj = {};
+let GLTFScenes: GLTFSceneObj = {};
 
 //*   ___      _   _   _
 //*  / __| ___| |_| |_(_)_ _  __ _ ___
@@ -24,7 +24,7 @@ export let GLTFScenes: GLTFSceneObj = {};
 //*  |___/\___|\__|\__|_|_||_\__, /__/
 //*                          |___/
 
-const speed = 0.11;
+const speed = 0.01;
 const skyColor = 0xcccccc;
 const shadowColor = 0x000000;
 
@@ -40,10 +40,10 @@ export const LoadGLTFList: GLTFLoadable[] = [
 export function main() {
   // These objects get repeated infinitely in the scene
   const repeaters: Repeater[] = [
-    new Repeater("road", 3.5, 3.5), 
-    new Repeater("road", 0.6, 1.3),
-    new Repeater("pillars-base", 3.5, 3.5),
-    new Repeater("left-wall", 5.5, 2.5)
+    new Repeater(GLTFScenes["road"], 3.5, 3.5), 
+    new Repeater(GLTFScenes["road"], 0.6, 1.3),
+    new Repeater(GLTFScenes["pillars-base"], 3.5, 3.5),
+    new Repeater(GLTFScenes["left-wall"], 5.5, 2.5)
   ];
 
   // Updating variables

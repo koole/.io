@@ -3,8 +3,6 @@ import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { Box3 } from "three/src/math/Box3";
 import { Vector3 } from "three/src/math/Vector3";
 
-import { GLTFScenes } from "./index";
-
 // To what depth should objects be placed?
 const depth = 40;
 
@@ -20,13 +18,13 @@ export class Repeater {
   private size: number;
 
   constructor(
-    object: string,
+    gltf: GLTF,
     x: number,
     y: number,
     z: number = -8,
     offset: number = 0
   ) {
-    this.gltf = GLTFScenes[object];
+    this.gltf = gltf;
     this.x = x;
     this.y = y;
     this.z = z;
