@@ -13,7 +13,6 @@ import { BackSide, LinearFilter, RGBFormat } from "three/src/constants";
 import { GLTFLoader, GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 
-
 // Composer passes
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
 import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
@@ -44,6 +43,7 @@ import { makeLUTTexture } from "./makeLUTTexture";
 //  |___/\___|\__|\__|_|_||_\__, /__/
 //                          |___/
 
+const speed = 0.01;
 var skyColor = 0xcccccc;
 var shadowColor = 0x000000;
 
@@ -60,19 +60,6 @@ const load_objects = [
 const depth = 40;
 
 //- Settings for placing repeating objects
-
-// Default settings
-const baseRepeater = {
-  z: -8,
-  offset: 0,
-  // Don't change these
-  scenes: [],
-  index: 0,
-  currentFirstScene: 0,
-  size: 1
-};
-
-// Individual settings
 const repeaters: Array<{
   object: string;
   x: number;
@@ -85,28 +72,52 @@ const repeaters: Array<{
   size: number;
 }> = [
   {
-    ...baseRepeater,
     object: "road",
     x: 3.5,
-    y: 3.5
+    y: 3.5,
+    offset: 0,
+    z: -8,
+    // Don't change these
+    scenes: [],
+    index: 0,
+    currentFirstScene: 0,
+    size: 1
   },
   {
-    ...baseRepeater,
     object: "road",
     x: 0.6,
-    y: 1.3
+    y: 1.3,
+    offset: 0,
+    z: -8,
+    // Don't change these
+    scenes: [],
+    index: 0,
+    currentFirstScene: 0,
+    size: 1
   },
   {
-    ...baseRepeater,
     object: "pillars-base",
     x: 3.5,
-    y: 3.5
+    y: 3.5,
+    offset: 0,
+    z: -8,
+    // Don't change these
+    scenes: [],
+    index: 0,
+    currentFirstScene: 0,
+    size: 1
   },
   {
-    ...baseRepeater,
     object: "left-wall",
     x: 5.5,
-    y: 2.5
+    y: 2.5,
+    offset: 0,
+    z: -8,
+    // Don't change these
+    scenes: [],
+    index: 0,
+    currentFirstScene: 0,
+    size: 1
   }
 ];
 
@@ -192,7 +203,7 @@ function main() {
   }
 
   //- Looping objects like roads, pillars and the left wall
-  for (const repeater of repeaters) {
+  for (let repeater of repeaters) {
     const { object, scenes } = repeater;
     const model = objects[object];
     repeater.size = model.size;
@@ -340,7 +351,7 @@ function main() {
     }
 
     // Update Z position
-    z = z - 0.01;
+    z = z - speed;
 
     // If a repeating object is out of frame, move it back into the fog
     // Creates the infinite loop
@@ -386,7 +397,7 @@ function main() {
 
     // Render frame
     composer.render(delta);
-    
+
     // End stats.js
     stats.end();
 
@@ -441,7 +452,7 @@ function loader() {
   const gltfLoader = new GLTFLoader();
   let terminalIndex = 0;
 
-  // Keeps track of how many objects have finished loading 
+  // Keeps track of how many objects have finished loading
   let downloaded = 0;
 
   // Loop over all objects we need to load
