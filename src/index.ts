@@ -97,11 +97,6 @@ const repeaters: RepeaterObject[] = [
 export let GLTFScenes: GLTFSceneObj = {};
 
 export function main() {
-  //*    ___                            _
-  //*   / __| __ ___ _ _  ___   ___ ___| |_ _  _ _ __
-  //*   \__ \/ _/ -_) ' \/ -_) (_-</ -_)  _| || | '_ \
-  //*   |___/\__\___|_||_\___| /__/\___|\__|\_,_| .__/
-  //*                                           |_|
   // Variables...
   let cursorXPosition = 0;
   let cursorYPosition = 0;
@@ -134,13 +129,7 @@ export function main() {
   // Add lights
   const shadowLight = createLights(scene, skyColor, shadowColor);
 
-  //*    ___  _     _        _
-  //*   / _ \| |__ (_)___ __| |_ ___
-  //*  | (_) | '_ \| / -_) _|  _(_-<
-  //*   \___/|_.__// \___\__|\__/__/
-  //*            |__/
-
-  //- Looping objects like roads, pillars and the left wall
+  // Add looping objects like roads, pillars and the left wall
   for (let repeater of repeaters) {
     const { object, scenes } = repeater;
     const model = GLTFScenes[object];
@@ -163,23 +152,24 @@ export function main() {
     }
   }
 
-  //*   _   _ _   _ _ _ _   _
-  //*  | | | | |_(_) (_) |_(_)___ ___
-  //*  | |_| |  _| | | |  _| / -_|_-<
-  //*   \___/ \__|_|_|_|\__|_\___/__/
-  //*
-
   // Tests if the canvas needs resizing and updates the renderer
   function resizeRendererToDisplaySize(renderer: WebGLRenderer) {
     const canvas = renderer.domElement;
     const width = canvas.clientWidth | 0;
     const height = canvas.clientHeight | 0;
 
+    // Resize canvas
     const needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) {
       renderer.setSize(width, height, false);
       composer.setSize(width, height);
     }
+
+    // Update camera
+    const canvasAspect = canvas.clientWidth / canvas.clientHeight;
+    camera.aspect = canvasAspect;
+    camera.updateProjectionMatrix();
+
     return needResize;
   }
 
@@ -197,12 +187,7 @@ export function main() {
     cursorYPosition = e.clientY;
   }
 
-  //*   ___             _            __
-  //*  | _ \___ _ _  __| |___ _ _   / _|_ _ __ _ _ __  ___
-  //*  |   / -_) ' \/ _` / -_) '_| |  _| '_/ _` | '  \/ -_)
-  //*  |_|_\___|_||_\__,_\___|_|   |_| |_| \__,_|_|_|_\___|
-  //*
-
+  // Render frame
   let then = 0;
   function render(now: number) {
     // Start stats.js
@@ -214,12 +199,7 @@ export function main() {
     then = now;
 
     // Resize canvas if needed
-    if (resizeRendererToDisplaySize(renderer)) {
-      const canvas = renderer.domElement;
-      const canvasAspect = canvas.clientWidth / canvas.clientHeight;
-      camera.aspect = canvasAspect;
-      camera.updateProjectionMatrix();
-    }
+    resizeRendererToDisplaySize(renderer);
 
     // Update Z position
     z = z - speed;
@@ -272,10 +252,6 @@ export function main() {
     // End stats.js
     stats.end();
 
-    // Uncomment to stop rendering after a few frames
-    // For development when on battery power
-    // if(z < -0.1) return;
-
     // Render the next frame
     requestAnimationFrame(render);
   }
@@ -290,12 +266,6 @@ export function main() {
   // Watch for cursor movements for camera interaction
   document.onmousemove = getCursor;
 }
-
-//*   ___ _            _                          _   _    _
-//*  / __| |_ __ _ _ _| |_   _____ _____ _ _ _  _| |_| |_ (_)_ _  __ _
-//*  \__ \  _/ _` | '_|  _| / -_) V / -_) '_| || |  _| ' \| | ' \/ _` |
-//*  |___/\__\__,_|_|  \__| \___|\_/\___|_|  \_, |\__|_||_|_|_||_\__, |
-//*                                          |__/                |___/
 
 // Performance statistics
 var stats = new Stats();
