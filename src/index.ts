@@ -9,10 +9,14 @@ import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
 
 // Own stuff
 import { loader } from "./loader";
+import { Repeater } from "./Repeater";
 import { createComposer } from "./createComposer";
 import { createLights } from "./createLights";
 
-import { RepeaterObject, GLTFModel, GLTFSceneObj } from "./declarations";
+import { GLTFModel as GLTFLoadable, GLTFSceneObj } from "./declarations";
+
+// Stores 3D objects after loading
+export let GLTFScenes: GLTFSceneObj = {};
 
 //*   ___      _   _   _
 //*  / __| ___| |_| |_(_)_ _  __ _ ___
@@ -20,12 +24,12 @@ import { RepeaterObject, GLTFModel, GLTFSceneObj } from "./declarations";
 //*  |___/\___|\__|\__|_|_||_\__, /__/
 //*                          |___/
 
-const speed = 0.01;
+const speed = 0.11;
 const skyColor = 0xcccccc;
 const shadowColor = 0x000000;
 
 // GLTF models
-export const LoadGLTFList: GLTFModel[] = [
+export const LoadGLTFList: GLTFLoadable[] = [
   { name: "road", file: "road-tex.glb" },
   { name: "left-wall", file: "left-wall.glb" },
   { name: "tower", file: "tower.glb" },
@@ -33,71 +37,16 @@ export const LoadGLTFList: GLTFModel[] = [
   { name: "pillars-base", file: "pillars-base.glb" }
 ];
 
-// To what depth should objects be placed?
-const depth = 40;
-
-const repeaters: RepeaterObject[] = [
-  {
-    object: "road",
-    x: 3.5,
-    y: 3.5,
-    offset: 0,
-    z: -8,
-    // Don't change these
-    scenes: [],
-    index: 0,
-    currentFirstScene: 0,
-    size: 1
-  },
-  {
-    object: "road",
-    x: 0.6,
-    y: 1.3,
-    offset: 0,
-    z: -8,
-    // Don't change these
-    scenes: [],
-    index: 0,
-    currentFirstScene: 0,
-    size: 1
-  },
-  {
-    object: "pillars-base",
-    x: 3.5,
-    y: 3.5,
-    offset: 0,
-    z: -8,
-    // Don't change these
-    scenes: [],
-    index: 0,
-    currentFirstScene: 0,
-    size: 1
-  },
-  {
-    object: "left-wall",
-    x: 5.5,
-    y: 2.5,
-    offset: 0,
-    z: -8,
-    // Don't change these
-    scenes: [],
-    index: 0,
-    currentFirstScene: 0,
-    size: 1
-  }
-];
-
-//*
-//* ----------------------------------
-//* ----------------------------------
-//* ----------------------------------
-//*
-
-// Stores 3D objects after loading
-export let GLTFScenes: GLTFSceneObj = {};
-
 export function main() {
-  // Variables...
+  // These objects get repeated infinitely in the scene
+  const repeaters: Repeater[] = [
+    new Repeater("road", 3.5, 3.5), 
+    new Repeater("road", 0.6, 1.3),
+    new Repeater("pillars-base", 3.5, 3.5),
+    new Repeater("left-wall", 5.5, 2.5)
+  ];
+
+  // Updating variables
   let cursorXPosition = 0;
   let cursorYPosition = 0;
   let z = 0;
@@ -131,25 +80,7 @@ export function main() {
 
   // Add looping objects like roads, pillars and the left wall
   for (let repeater of repeaters) {
-    const { object, scenes } = repeater;
-    const model = GLTFScenes[object];
-    repeater.size = model.size;
-
-    // How many objects do we need to fill the set depth?
-    const amount = Math.ceil(depth / repeater.size);
-
-    // Create these objects, each one placed behind the next
-    for (let i = 0; i < amount; i++) {
-      repeater.index = i;
-      const objectScene = model.scene.clone();
-      objectScene.position.set(
-        repeater.x,
-        repeater.y,
-        repeater.z - (repeater.size + repeater.offset) * repeater.index
-      );
-      scene.add(objectScene);
-      scenes.push(objectScene);
-    }
+    repeater.firstDraw(scene);
   }
 
   // Tests if the canvas needs resizing and updates the renderer
@@ -207,24 +138,7 @@ export function main() {
     // If a repeating object is out of frame, move it back into the fog
     // Creates the infinite loop
     for (const repeater of repeaters) {
-      // Check only the object closest to the camera for each repeating object
-      const firstScene = repeater.scenes[repeater.currentFirstScene];
-      // Check if object is behind the camera
-      if (
-        firstScene.position.z >
-        z + repeater.z + repeater.offset + repeater.size
-      ) {
-        // Move the object to the back of the repeating row of objects
-        firstScene.position.set(
-          repeater.x,
-          repeater.y,
-          repeater.z - (repeater.size + repeater.offset) * repeater.index
-        );
-        // Update variables to be used in next iteration
-        repeater.index = repeater.index + 1;
-        repeater.currentFirstScene =
-          (repeater.currentFirstScene + 1) % repeater.scenes.length;
-      }
+      repeater.updateLoop(z);
     }
 
     // Moves all fixed elements forward (camera, sunlight, floor)
@@ -236,6 +150,7 @@ export function main() {
     camera.rotation.y = ((-32 - xc * 8) * Math.PI) / 180;
     camera.position.x = xc * 0.5 + Math.sin(z * 0.2) * 0.3;
     camera.position.y = xc * 0.5 + 2.5 - Math.sin(z * 0.3) * 0.3;
+
     // Update FOV for zoom effect
     camera.fov = 80 - (cursorYPosition / document.body.clientHeight) * 20;
     camera.updateProjectionMatrix();

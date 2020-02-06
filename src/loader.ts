@@ -1,13 +1,13 @@
-import { Box3 } from "three/src/math/Box3";
-import { Vector3 } from "three/src/math/Vector3";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import { GLTFModel, GLTFSceneObj } from "./declarations";
 
 export function loader(GLTFModels: GLTFModel[], onFinish: () => void) {
   let GLTFScenes: GLTFSceneObj = {};
+  
   // Get terminal element
   const terminal = document.getElementById("terminal") as HTMLDivElement;
+
   // Function for drawing lines of text to the terminal
   function addToTerminal(text: string) {
     var node = document.createElement("div");
@@ -21,6 +21,7 @@ export function loader(GLTFModels: GLTFModel[], onFinish: () => void) {
   addToTerminal("Control software waiting for binary data");
   const gltfLoader = new GLTFLoader();
   let terminalIndex = 0;
+
   // Keeps track of how many objects have finished loading
   let downloaded = 0;
 
@@ -35,6 +36,7 @@ export function loader(GLTFModels: GLTFModel[], onFinish: () => void) {
     gltfLoader.load(
       LoadedModel.file,
       function(gltf) {
+
         // We need every mesh in every GLTF scene to draw and cast shadows
         const model = gltf.scene.children[0];
         model.traverse(child => {
@@ -43,18 +45,14 @@ export function loader(GLTFModels: GLTFModel[], onFinish: () => void) {
             child.receiveShadow = true;
           }
         });
-        // Calculate the size of the object
-        // Used for later calculations
-        const box = new Box3().setFromObject(gltf.scene);
-        const boxSize = box.getSize(new Vector3()).z;
-        GLTFScenes[LoadedModel.name] = {
-          gltf: gltf,
-          scene: gltf.scene,
-          size: boxSize
-        };
+
+        // Store loaded GLTF to in object
+        GLTFScenes[LoadedModel.name] = gltf;
+
         // Update terminal
         terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${GLTFModels.length} (ready)`;
         addToTerminal(`Finished downloading binary blob ${thisFileIndex}`);
+
         // When all files have finished loading, start the main script
         downloaded++;
         if (downloaded === GLTFModels.length) {
@@ -62,6 +60,7 @@ export function loader(GLTFModels: GLTFModel[], onFinish: () => void) {
           onFinish();
         }
       },
+
       // Update the download percentage on progress
       function(xhr) {
         terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${
