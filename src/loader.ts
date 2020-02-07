@@ -1,8 +1,8 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-import { GLTFModel, GLTFSceneObj } from "./declarations";
+import { GLTFLoadable, GLTFSceneObj } from "./declarations";
 
-export function loader(GLTFModels: GLTFModel[], onFinish: () => void) {
+export function loader(GLTFModels: GLTFLoadable[], onFinish: () => void) {
   let GLTFScenes: GLTFSceneObj = {};
   
   // Get terminal element

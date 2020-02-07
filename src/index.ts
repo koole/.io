@@ -13,17 +13,12 @@ import { Repeater } from "./Repeater";
 import { createComposer } from "./createComposer";
 import { createLights } from "./createLights";
 
-import { GLTFModel as GLTFLoadable, GLTFSceneObj } from "./declarations";
+import { GLTFLoadable, GLTFSceneObj } from "./declarations";
 
 // Stores 3D objects after loading
 let GLTFScenes: GLTFSceneObj = {};
 
-//*   ___      _   _   _
-//*  / __| ___| |_| |_(_)_ _  __ _ ___
-//*  \__ \/ -_)  _|  _| | ' \/ _` (_-<
-//*  |___/\___|\__|\__|_|_||_\__, /__/
-//*                          |___/
-
+// Settings
 const speed = 0.01;
 const skyColor = 0xcccccc;
 const shadowColor = 0x000000;
@@ -135,8 +130,8 @@ export function main() {
     // Update Z position
     z = z - speed;
 
-    // If a repeating object is out of frame, move it back into the fog
     // Creates the infinite loop
+    // If a repeating object is out of frame, move it back into the fog
     for (const repeater of repeaters) {
       repeater.updateLoop(z);
     }

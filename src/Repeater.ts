@@ -7,28 +7,18 @@ import { Vector3 } from "three/src/math/Vector3";
 const depth = 40;
 
 export class Repeater {
-  private gltf: GLTF;
-  private x: number;
-  private y: number;
-  private z: number;
-  private offset: number;
   private scenes: Scene[];
   private index: number;
   private currentFirstScene: number;
   private size: number;
 
   constructor(
-    gltf: GLTF,
-    x: number,
-    y: number,
-    z: number = -8,
-    offset: number = 0
+    private gltf: GLTF,
+    private x: number,
+    private y: number,
+    private z: number = -8,
+    private offset: number = 0
   ) {
-    this.gltf = gltf;
-    this.x = x;
-    this.y = y;
-    this.z = z;
-    this.offset = offset;
     this.scenes = [];
     this.index = 0;
     this.currentFirstScene = 0;

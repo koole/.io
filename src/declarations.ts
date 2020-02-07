@@ -1,7 +1,6 @@
-import { Scene } from "three/src/scenes/Scene";
 import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
 
-export interface GLTFModel {
+export interface GLTFLoadable {
   name: string;
   file: string;
 }
