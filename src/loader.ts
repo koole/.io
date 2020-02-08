@@ -4,9 +4,13 @@ import { GLTFLoadable, GLTFSceneObj } from "./declarations";
 
 export function loader(GLTFModels: GLTFLoadable[], onFinish: () => void) {
   let GLTFScenes: GLTFSceneObj = {};
-  
+
   // Get terminal element
   const terminal = document.getElementById("terminal") as HTMLDivElement;
+
+  // Set control software download status to ready
+  const terminalDl = document.getElementById("terminal-downloading") as HTMLDivElement;
+  terminalDl.innerText = "Downloading control software (ready)"
 
   // Function for drawing lines of text to the terminal
   function addToTerminal(text: string) {
@@ -31,12 +35,11 @@ export function loader(GLTFModels: GLTFLoadable[], onFinish: () => void) {
     const thisFileIndex = terminalIndex;
     terminalIndex++;
     const terminalNode = addToTerminal(
-      `Starting download of binary blob ${thisFileIndex} of ${GLTFModels.length} (0%)`
+      `Starting download of binary blob ${thisFileIndex} of ${GLTFModels.length} (downloading)`
     );
     gltfLoader.load(
       LoadedModel.file,
       function(gltf) {
-
         // We need every mesh in every GLTF scene to draw and cast shadows
         const model = gltf.scene.children[0];
         model.traverse(child => {
@@ -63,9 +66,13 @@ export function loader(GLTFModels: GLTFLoadable[], onFinish: () => void) {
 
       // Update the download percentage on progress
       function(xhr) {
-        terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${
-          GLTFModels.length
-        } (${(xhr.loaded / xhr.total) * 100}%)`;
+        if (xhr.loaded / xhr.total === Infinity) {
+          terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${GLTFModels.length} (downloading)`;
+        } else {
+          terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${
+            GLTFModels.length
+          } (${(xhr.loaded / xhr.total) * 100}%)`;
+        }
       }
     );
   }
