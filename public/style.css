@@ -83,7 +83,8 @@ main {
   }
 }
 
-.visor, .visor-red {
+.visor,
+.visor-red {
   position: fixed;
   top: 0;
   left: 0;
@@ -92,7 +93,7 @@ main {
 }
 .visor {
   z-index: 4;
-  box-shadow: inset 0 0 20px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
 }
 .visor-red {
   z-index: 3;
@@ -101,8 +102,18 @@ main {
 }
 
 .hor-bars {
-  mask-image: linear-gradient(90deg, transparent 20%, black 50%, transparent 80%);
-  -webkit-mask-image: linear-gradient(90deg, transparent 20%, black 50%, transparent 80%);
+  mask-image: linear-gradient(
+    90deg,
+    transparent 20%,
+    black 50%,
+    transparent 80%
+  );
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 20%,
+    black 50%,
+    transparent 80%
+  );
   text-align: center;
   color: #000;
   text-transform: uppercase;
@@ -116,10 +127,11 @@ main {
   /* width: 300px; */
   justify-content: center;
   overflow-x: hidden;
-  transform: translateX(0)
+  transform: translateX(0);
 }
 
-.hor-bar-l, .hor-bar-r {
+.hor-bar-l,
+.hor-bar-r {
   /* height: 40px; */
   width: 5px;
   border: 1px solid #000;
@@ -162,4 +174,20 @@ main {
   padding: 10px;
   background: #000;
   font-size: 14px;
+}
+
+#stats {
+  mix-blend-mode: overlay;
+  filter: grayscale(100%);
+  position: fixed;
+  cursor: pointer;
+  opacity: 0.9;
+  z-index: 10000;
+}
+
+#stats div {
+  top: 10px !important;
+  left: 10px !important;
+  border-radius: 4px;
+  overflow: hidden;
 }

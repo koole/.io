@@ -25,7 +25,7 @@ const shadowColor = 0x000000;
 
 // GLTF models
 export const LoadGLTFList: GLTFLoadable[] = [
-  { name: "road", file: "road-tex.glb" },
+  { name: "road", file: "road.glb" },
   { name: "left-wall", file: "left-wall.glb" },
   { name: "tower", file: "tower.glb" },
   { name: "road-pillars", file: "road-pillars.glb" },
@@ -180,7 +180,8 @@ export function main() {
 // Performance statistics
 var stats = new Stats();
 stats.showPanel(1);
-document.body.appendChild(stats.dom);
+const statsElement = document.getElementById("stats") as HTMLDivElement;
+statsElement.appendChild(stats.dom);
 
 // Start!
 GLTFScenes = loader(LoadGLTFList, main);

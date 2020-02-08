@@ -48,7 +48,7 @@ export class Repeater {
     // Check only the object closest to the camera for each repeating object
     const scene = this.scenes[this.currentFirstScene];
     // Check if object is behind the camera
-    if (scene.position.z > currentZ + this.z + this.offset + this.size) {
+    if (scene.position.z > currentZ + this.z + this.offset + (this.size * 2)) {
       // Move the object to the back of the repeating row of objects
       this.placeSceneAtEnd(scene);
       // Update currentFirstScene to be used in next iteration
