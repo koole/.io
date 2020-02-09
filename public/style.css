@@ -55,9 +55,16 @@ main {
   z-index: 2;
   left: 0;
   bottom: 0;
-  padding: 2vw;
+  padding: 22px;
   mix-blend-mode: overlay;
   pointer-events: none;
+}
+
+@supports (padding: max(0px)) {
+  main {
+    padding-left: max(22px, env(safe-area-inset-left));
+    padding-right: max(22px, env(safe-area-inset-right));
+  }
 }
 
 .domain {
@@ -155,13 +162,20 @@ main {
 
   width: 80vw;
   max-width: 1000px;
-  height: 80vh;
+  height: 50vw;
   max-height: 600px;
   border: 1px solid black;
   filter: blur(0.5px);
   border-radius: 80px;
   box-shadow: 0 0 300px #00000024;
   mix-blend-mode: overlay;
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .hud {
+    display: block;
+  }
 }
 
 .overlay {
@@ -186,8 +200,8 @@ main {
 }
 
 #stats div {
-  top: 10px !important;
-  left: 10px !important;
+  top: 22px !important;
+  left: 22px !important;
   border-radius: 4px;
   overflow: hidden;
 }
