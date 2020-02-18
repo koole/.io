@@ -7,6 +7,7 @@ body {
 
 .small {
   font-size: 0.8em;
+  line-height: 1;
 }
 
 @media only screen and (min-width: 768px) {
@@ -24,6 +25,30 @@ body {
 @media only screen and (min-width: 1440px) {
   body {
     font-size: 16px;
+  }
+}
+
+@keyframes vibrate {
+  0%,
+  10%,
+  90% {
+    transform: translate3d(calc(-50% + -0.2px), calc(-50% + 0.2px), 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(calc(-50% + 0.2px), calc(-50% + -0.2px), 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(calc(-50% + 0.2px), calc(-50% + 0.2px), 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(calc(-50% + -0.2px), calc(-50% + -0.2px), 0);
   }
 }
 
@@ -124,25 +149,40 @@ main {
   text-align: center;
   color: #000;
   text-transform: uppercase;
-  transform: translateY(-73px);
+  transform: translateY(-94px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .hor-bar-transform {
   margin: 5px 0;
+  width: 75%;
+}
+
+.hor-bars-items {
   display: flex;
-  height: 40px;
-  /* width: 300px; */
-  justify-content: center;
-  overflow-x: hidden;
-  transform: translateX(0);
+  justify-content: space-between;
+}
+
+.hor-nums {
+  display: flex;
+  justify-content: space-between;
+  height: 20px;
+}
+
+.hor-nums-num {
+  width: 26px;
+  text-align: center;
 }
 
 .hor-bar-l,
 .hor-bar-r {
-  /* height: 40px; */
-  width: 5px;
+  height: 40px;
+  width: 10px;
   border: 1px solid #000;
   margin: 0 5px;
+  content: " ";
 }
 
 .hor-bar-l {
@@ -170,11 +210,15 @@ main {
   box-shadow: 0 0 300px #00000024;
   mix-blend-mode: overlay;
   display: none;
+  animation: vibrate 0.5s infinite;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
 
 @media only screen and (min-width: 768px) {
   .hud {
-    display: block;
+    display: flex;
   }
 }
 
@@ -204,4 +248,16 @@ main {
   left: 22px !important;
   border-radius: 4px;
   overflow: hidden;
+}
+
+.drone {
+  transform: translateY(130px);
+}
+
+.drone-icon {
+  transform: scale(0.5, 0.33);
+}
+
+#fov-cone {
+  transform-origin: 50% 50%;
 }

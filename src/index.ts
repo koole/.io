@@ -35,7 +35,7 @@ export const LoadGLTFList: GLTFLoadable[] = [
 export function main() {
   // These objects get repeated infinitely in the scene
   const repeaters: Repeater[] = [
-    new Repeater(GLTFScenes["road"], 3.5, 3.5), 
+    new Repeater(GLTFScenes["road"], 3.5, 3.5),
     new Repeater(GLTFScenes["road"], 0.6, 1.3),
     new Repeater(GLTFScenes["pillars-base"], 3.5, 3.5),
     new Repeater(GLTFScenes["left-wall"], 5.5, 2.5)
@@ -48,7 +48,12 @@ export function main() {
 
   // Get required HTML elements
   const fovBars = document.getElementById("fov-bars") as HTMLDivElement;
+  const fovNum = document.getElementById("fov-num") as HTMLDivElement;
+  const fovCone = document.getElementById("fov-cone") as HTMLDivElement;
   const canvas = document.querySelector("#c") as HTMLCanvasElement;
+  const droneParts = document.getElementsByClassName(
+    "drone-part"
+  ) as HTMLCollectionOf<HTMLElement>;
 
   // Create renderer
   const renderer = new WebGLRenderer({ canvas, antialias: true });
@@ -65,7 +70,7 @@ export function main() {
   // Create scene with fog
   const scene = new Scene();
   scene.background = new Color(skyColor);
-  scene.fog = new FogExp2(skyColor, 0.15);
+  scene.fog = new FogExp2(skyColor, 0.13);
 
   // Create composer with all effects
   const composer = createComposer(scene, camera, renderer);
@@ -139,22 +144,35 @@ export function main() {
     // Moves all fixed elements forward (camera, sunlight, floor)
     moveZ(z);
 
+    const xc = cursorXPosition / document.body.clientWidth;
+    const cy = cursorYPosition / document.body.clientHeight;
     // Move and zoom camera based on cursor position
     // Update position
-    const xc = cursorXPosition / document.body.clientWidth;
     camera.rotation.y = ((-32 - xc * 8) * Math.PI) / 180;
     camera.position.x = xc * 0.5 + Math.sin(z * 0.2) * 0.3;
     camera.position.y = xc * 0.5 + 2.5 - Math.sin(z * 0.3) * 0.3;
 
     // Update FOV for zoom effect
-    camera.fov = 80 - (cursorYPosition / document.body.clientHeight) * 20;
+    const fov = 80 - cy * 20;
+    camera.fov = fov;
     camera.updateProjectionMatrix();
 
     // Update the zoom indicator
-    fovBars.style.transform = `translateX(${(cursorYPosition /
-      document.body.clientHeight) *
-      20 -
-      10}%)`;
+    fovNum.innerHTML = (fov + Math.random() / 10).toFixed(10);
+    fovBars.style.transform = `translateX(${cy * 20 -
+      10 +
+      Math.random() / 10}%)`;
+    fovCone.style.transform = `rotate(${(-32 + xc * 8) * Math.PI +
+      110}deg) scaleX(${(1 - cy) * 0.5 + 0.5}`;
+
+    // Update height in drone icon
+    for (const element of droneParts) {
+      element.style.transform = `translateY(${(xc * 0.5 +
+        2.5 -
+        Math.sin(z * 0.3) * 0.3 -
+        2.9) *
+        -40}px`;
+    }
 
     // Render frame
     composer.render(delta);

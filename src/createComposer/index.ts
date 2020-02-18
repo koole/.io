@@ -47,7 +47,7 @@ export function createComposer(
   // A nice soft glow around bright parts of the scene
   const bloomPass = new UnrealBloomPass(
     new Vector2(window.innerWidth, window.innerHeight),
-    0.3,
+    0.5,
     1.5,
     0.85
   );
@@ -70,8 +70,8 @@ export function createComposer(
 
   //- Apply passes
   composer.addPass(renderBG);
-  composer.addPass(bloomPass);
   composer.addPass(SMAA);
+  composer.addPass(bloomPass);
   composer.addPass(Film);
   composer.addPass(effectLUT);
 
