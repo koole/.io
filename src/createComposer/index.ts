@@ -6,6 +6,7 @@ import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer
 import { WebGLRenderTarget } from "three/src/renderers/WebGLRenderTarget";
 import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
+import { DataTexture } from "three/src/textures/DataTexture";
 
 // Composer passes
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
@@ -59,7 +60,10 @@ export function createComposer(
 
   //- LUT
   // Changes colors
-  const effectLUT = new ShaderPass(LUTShader);
+  interface LUTShaderPass extends ShaderPass {
+    uniforms: { lutMap: { value: DataTexture }; lutMapSize: { value: number } };
+  }
+  const effectLUT = new ShaderPass(LUTShader) as LUTShaderPass;
   const lut = {
     size: 16,
     texture: makeLUTTexture({ url: "/lut.png", size: 16 })

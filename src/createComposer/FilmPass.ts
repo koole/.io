@@ -5,12 +5,21 @@
 import { FilmShader } from "./shaders/FilmShader";
 import { Pass } from "three/examples/jsm/postprocessing/Pass";
 import { ShaderMaterial } from "three/src/materials/ShaderMaterial";
-import { UniformsUtils } from "three";
+import { UniformsUtils } from "three/src/renderers/shaders/UniformsUtils";
+import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
+import { WebGLRenderTarget } from "three/src/renderers/WebGLRenderTarget";
+import { Texture } from "three/src/textures/Texture";
 
 class FilmPass extends Pass {
-  uniforms: object;
+  uniforms: {
+    nIntensity: { value: number };
+    sIntensity: { value: number };
+    sCount: { value: number };
+    tDiffuse: { value: Texture };
+    time: { value: number };
+  };
   material: ShaderMaterial;
-  fsQuad: object;
+  fsQuad: Pass.FullScreenQuad;
   constructor(
     noiseIntensity?: number,
     scanlinesIntensity?: number,
@@ -36,7 +45,12 @@ class FilmPass extends Pass {
     this.fsQuad = new Pass.FullScreenQuad(this.material);
   }
 
-  render(renderer, writeBuffer, readBuffer, deltaTime) {
+  render(
+    renderer: WebGLRenderer,
+    writeBuffer: WebGLRenderTarget,
+    readBuffer: WebGLRenderTarget,
+    deltaTime: number
+  ) {
     this.uniforms["tDiffuse"].value = readBuffer.texture;
     this.uniforms["time"].value += deltaTime;
 

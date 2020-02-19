@@ -1,4 +1,6 @@
-import { DataTexture, ImageLoader, RGBAFormat, LinearFilter } from "three";
+import { DataTexture } from "three/src/textures/DataTexture";
+import { RGBAFormat, LinearFilter } from "three/src/constants";
+import { ImageLoader } from "three/src/loaders/ImageLoader";
 
 const makeIdentityLutTexture = (function() {
   // prettier-ignore
