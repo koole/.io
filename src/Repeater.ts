@@ -12,6 +12,7 @@ interface StructureClone {
 export class Repeater {
   private clonesInScene: StructureClone[];
   private currentOffset: number;
+  private renderScene?: Scene;
 
   constructor(
     private structures: Structure[],
@@ -34,6 +35,10 @@ export class Repeater {
   }
 
   firstDraw(renderScene: Scene): void {
+    if (this.renderScene) {
+      throw "A repeater can only be drawn to a scene once.";
+    }
+    this.renderScene = renderScene;
     // How many objects do we need to fill the set depth?
     // Get the smallest structure, and divide the depth by that.
     const amount =
@@ -50,13 +55,14 @@ export class Repeater {
     }
   }
 
-  updateLoop(renderScene: Scene, currentZ: number): void {
+  updateLoop(currentZ: number): void {
     // Check only the object closest to the camera for each repeating object
     let structureCopy = this.clonesInScene[0];
     // Check if object is behind the camera
     if (
+      structureCopy &&
       structureCopy.object.position.z >
-      currentZ + this.z + this.offset + structureCopy.size * 2
+        currentZ + this.z + this.offset + structureCopy.size * 2
     ) {
       // If there are multiple objects to pick from, choose a new random one
       if (this.structures.length > 1) {
@@ -67,8 +73,8 @@ export class Repeater {
       this.clonesInScene.shift();
       // Move object back into the fog
       this.placeSceneAtEnd(structureCopy);
-      if (this.structures.length > 1) {
-        renderScene.add(structureCopy.object);
+      if (this.structures.length > 1 && this.renderScene) {
+        this.renderScene.add(structureCopy.object);
       }
       // Add the object again at the back of the list
       this.clonesInScene.push(structureCopy);
