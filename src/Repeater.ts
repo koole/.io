@@ -26,14 +26,14 @@ export class Repeater {
 
   // Gets a random structure and creates a new clone of it's 3D object
   // to be placed into the renderScene
-  getStructureClone() {
+  getStructureClone(): StructureClone {
     const { object, size } = this.structures[
       Math.floor(Math.random() * this.structures.length)
     ];
     return { object: object.clone(), size: size };
   }
 
-  firstDraw(renderScene: Scene) {
+  firstDraw(renderScene: Scene): void {
     // How many objects do we need to fill the set depth?
     // Get the smallest structure, and divide the depth by that.
     const amount =
@@ -50,7 +50,7 @@ export class Repeater {
     }
   }
 
-  updateLoop(renderScene: Scene, currentZ: number) {
+  updateLoop(renderScene: Scene, currentZ: number): void {
     // Check only the object closest to the camera for each repeating object
     let structureCopy = this.clonesInScene[0];
     // Check if object is behind the camera
@@ -76,7 +76,7 @@ export class Repeater {
   }
 
   // Moves the item to the end of the row
-  private placeSceneAtEnd(structureData: StructureClone) {
+  private placeSceneAtEnd(structureData: StructureClone): void {
     this.currentOffset -= structureData.size + this.offset;
     structureData.object.position.set(this.x, this.y, this.currentOffset);
   }

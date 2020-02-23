@@ -3,20 +3,25 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { GLTFLoadable, StructureList } from "./declarations";
 import { Structure } from "./Structure";
 
-export function loader(GLTFModels: GLTFLoadable[], onFinish: (structures: StructureList) => void) {
-  let Structures: StructureList = {};
+export function loader(
+  GLTFModels: GLTFLoadable[],
+  onFinish: (structures: StructureList) => void
+): void {
+  const Structures: StructureList = {};
 
   // Get terminal element
   const terminal = document.getElementById("terminal") as HTMLDivElement;
 
   // Set control software download status to ready
-  const terminalDl = document.getElementById("terminal-downloading") as HTMLDivElement;
-  terminalDl.innerText = "Downloading control software (ready)"
+  const terminalDl = document.getElementById(
+    "terminal-downloading"
+  ) as HTMLDivElement;
+  terminalDl.innerText = "Downloading control software (ready)";
 
   // Function for drawing lines of text to the terminal
-  function addToTerminal(text: string) {
-    var node = document.createElement("div");
-    var textnode = document.createTextNode(text);
+  function addToTerminal(text: string): HTMLDivElement {
+    const node = document.createElement("div");
+    const textnode = document.createTextNode(text);
     node.appendChild(textnode);
     terminal.appendChild(node);
     return node;

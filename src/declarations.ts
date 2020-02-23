@@ -1,4 +1,3 @@
-import { Scene } from "three/src/scenes/Scene";
 import { Structure } from "./Structure";
 
 export interface GLTFLoadable {

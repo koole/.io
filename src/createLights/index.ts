@@ -7,7 +7,7 @@ export function createLights(
   renderScene: Scene,
   skyColor: number,
   shadowColor: number
-) {
+): DirectionalLight {
   //- Hemisphere light
   // Ambient sky light, lights everything
   const hemiIntensity = 1;

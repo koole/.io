@@ -24,7 +24,7 @@ export function createComposer(
   renderScene: Scene,
   camera: PerspectiveCamera,
   renderer: WebGLRenderer
-) {
+): EffectComposer {
   //- Create composer
   const rtParameters = {
     minFilter: LinearFilter,
@@ -66,7 +66,7 @@ export function createComposer(
   const effectLUT = new ShaderPass(LUTShader) as LUTShaderPass;
   const lut = {
     size: 16,
-    texture: makeLUTTexture({ url: "/lut.png", size: 16 })
+    texture: makeLUTTexture("/lut.png", 16)
   };
   effectLUT.renderToScreen = true;
   effectLUT.uniforms.lutMap.value = lut.texture;

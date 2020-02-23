@@ -15,8 +15,14 @@ import { createLights } from "./createLights";
 
 import { GLTFLoadable, StructureList } from "./declarations";
 
+// Performance statistics
+const stats = new Stats();
+stats.showPanel(1);
+const statsElement = document.getElementById("stats") as HTMLDivElement;
+statsElement.appendChild(stats.dom);
+
 // Settings
-const speed = 0.05;
+const speed = 0.01;
 const skyColor = 0xcccccc;
 const shadowColor = 0x000000;
 
@@ -32,10 +38,7 @@ export const LoadGLTFList: GLTFLoadable[] = [
   { name: "right-wall-2", file: "glb/right-wall-2.glb" }
 ];
 
-// Load all models, then start the script
-loader(LoadGLTFList, main);
-
-export function main(structures: StructureList) {
+export function main(structures: StructureList): void {
   // These objects get repeated infinitely in the scene
   const repeaters: Repeater[] = [
     new Repeater([structures["road"]], 3.5, 3.5, undefined, 0),
@@ -93,12 +96,12 @@ export function main(structures: StructureList) {
   const shadowLight = createLights(renderScene, skyColor, shadowColor);
 
   // Add looping objects like roads, pillars and the left wall
-  for (let repeater of repeaters) {
+  for (const repeater of repeaters) {
     repeater.firstDraw(renderScene);
   }
 
   // Tests if the canvas needs resizing and updates the renderer
-  function resizeRendererToDisplaySize(renderer: WebGLRenderer) {
+  function resizeRendererToDisplaySize(renderer: WebGLRenderer): boolean {
     const canvas = renderer.domElement;
     const width = canvas.clientWidth | 0;
     const height = canvas.clientHeight | 0;
@@ -119,8 +122,7 @@ export function main(structures: StructureList) {
   }
 
   // Moves all fixed elements forward
-  function moveZ(z: number) {
-    camera.position.x = camera.position.x;
+  function moveZ(z: number): void {
     camera.position.z = z + Math.pow(Math.sin(z / 3) * 0.8, 4);
     shadowLight.position.set(7.5, 15, -30 + z);
     shadowLight.target.position.set(0, 0, -5 + z);
@@ -134,7 +136,7 @@ export function main(structures: StructureList) {
 
   // Render frame
   let then = 0;
-  function render(now: number) {
+  function render(now: number): void {
     // Start stats.js
     stats.begin();
 
@@ -209,8 +211,5 @@ export function main(structures: StructureList) {
   document.onmousemove = getCursor;
 }
 
-// Performance statistics
-var stats = new Stats();
-stats.showPanel(1);
-const statsElement = document.getElementById("stats") as HTMLDivElement;
-statsElement.appendChild(stats.dom);
+// Load all models, then start the script
+loader(LoadGLTFList, main);

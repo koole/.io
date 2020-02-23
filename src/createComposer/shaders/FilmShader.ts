@@ -20,7 +20,7 @@
  * http://creativecommons.org/licenses/by/3.0/
  */
 
-var FilmShader = {
+const FilmShader = {
   uniforms: {
     tDiffuse: { value: null },
     time: { value: 0.0 },
