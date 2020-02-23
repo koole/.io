@@ -27,7 +27,9 @@ export const GLBList: GLTFLoadable[] = [
   { name: "pillars-base", file: "glb/pillars-base.glb" },
   { name: "right-wall-0", file: "glb/right-wall-0.glb" },
   { name: "right-wall-1", file: "glb/right-wall-1.glb" },
-  { name: "right-wall-2", file: "glb/right-wall-2.glb" }
+  { name: "right-wall-2", file: "glb/right-wall-2.glb" },
+  { name: "test-building-0", file: "glb/test-building-0.glb" },
+  { name: "test-building-1", file: "glb/test-building-1.glb" }
 ];
 
 export function main(structures: StructureList): void {
@@ -47,6 +49,16 @@ export function main(structures: StructureList): void {
       ],
       7.5,
       2.8
+    ),
+    new Repeater(
+      [structures["test-building-0"], structures["test-building-1"]],
+      9.1,
+      2.6
+    ),
+    new Repeater(
+      [structures["test-building-0"], structures["test-building-1"]],
+      15.1,
+      2.6
     )
   ];
 
