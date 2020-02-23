@@ -13,32 +13,46 @@ import { Repeater } from "./Repeater";
 import { createComposer } from "./createComposer";
 import { createLights } from "./createLights";
 
-import { GLTFLoadable, GLTFSceneObj } from "./declarations";
-
-// Stores 3D objects after loading
-let GLTFScenes: GLTFSceneObj = {};
+import { GLTFLoadable, StructureList } from "./declarations";
 
 // Settings
-const speed = 0.01;
+const speed = 0.05;
 const skyColor = 0xcccccc;
 const shadowColor = 0x000000;
 
 // GLTF models
 export const LoadGLTFList: GLTFLoadable[] = [
-  { name: "road", file: "road.glb" },
-  { name: "left-wall", file: "left-wall.glb" },
-  { name: "tower", file: "tower.glb" },
-  { name: "road-pillars", file: "road-pillars.glb" },
-  { name: "pillars-base", file: "pillars-base.glb" }
+  { name: "road", file: "glb/road.glb" },
+  { name: "left-wall", file: "glb/left-wall.glb" },
+  { name: "tower", file: "glb/tower.glb" },
+  { name: "road-pillars", file: "glb/road-pillars.glb" },
+  { name: "pillars-base", file: "glb/pillars-base.glb" },
+  { name: "right-wall-0", file: "glb/right-wall-0.glb" },
+  { name: "right-wall-1", file: "glb/right-wall-1.glb" },
+  { name: "right-wall-2", file: "glb/right-wall-2.glb" }
 ];
 
-export function main() {
+// Load all models, then start the script
+loader(LoadGLTFList, main);
+
+export function main(structures: StructureList) {
   // These objects get repeated infinitely in the scene
   const repeaters: Repeater[] = [
-    new Repeater(GLTFScenes["road"], 3.5, 3.5),
-    new Repeater(GLTFScenes["road"], 0.6, 1.3),
-    new Repeater(GLTFScenes["pillars-base"], 3.5, 3.5),
-    new Repeater(GLTFScenes["left-wall"], 5.5, 2.5)
+    new Repeater([structures["road"]], 3.5, 3.5, undefined, 0),
+    new Repeater([structures["road"]], 0.6, 1.3),
+    new Repeater([structures["pillars-base"]], 3.5, 3.5),
+    new Repeater([structures["left-wall"]], 5.5, 2.5),
+    new Repeater(
+      [
+        structures["right-wall-0"],
+        structures["right-wall-1"],
+        structures["right-wall-2"],
+        structures["right-wall-1"],
+        structures["right-wall-2"]
+      ],
+      7.5,
+      2.8
+    )
   ];
 
   // Updating variables
@@ -68,19 +82,19 @@ export function main() {
   );
 
   // Create scene with fog
-  const scene = new Scene();
-  scene.background = new Color(skyColor);
-  scene.fog = new FogExp2(skyColor, 0.13);
+  const renderScene = new Scene();
+  renderScene.background = new Color(skyColor);
+  renderScene.fog = new FogExp2(skyColor, 0.13);
 
   // Create composer with all effects
-  const composer = createComposer(scene, camera, renderer);
+  const composer = createComposer(renderScene, camera, renderer);
 
   // Add lights
-  const shadowLight = createLights(scene, skyColor, shadowColor);
+  const shadowLight = createLights(renderScene, skyColor, shadowColor);
 
   // Add looping objects like roads, pillars and the left wall
   for (let repeater of repeaters) {
-    repeater.firstDraw(scene);
+    repeater.firstDraw(renderScene);
   }
 
   // Tests if the canvas needs resizing and updates the renderer
@@ -138,7 +152,7 @@ export function main() {
     // Creates the infinite loop
     // If a repeating object is out of frame, move it back into the fog
     for (const repeater of repeaters) {
-      repeater.updateLoop(z);
+      repeater.updateLoop(renderScene, z);
     }
 
     // Moves all fixed elements forward (camera, sunlight, floor)
@@ -200,6 +214,3 @@ var stats = new Stats();
 stats.showPanel(1);
 const statsElement = document.getElementById("stats") as HTMLDivElement;
 statsElement.appendChild(stats.dom);
-
-// Start!
-GLTFScenes = loader(LoadGLTFList, main);

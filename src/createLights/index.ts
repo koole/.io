@@ -4,7 +4,7 @@ import { HemisphereLight } from "three/src/lights/HemisphereLight";
 import { DirectionalLight } from "three/src/lights/DirectionalLight";
 
 export function createLights(
-  scene: Scene,
+  renderScene: Scene,
   skyColor: number,
   shadowColor: number
 ) {
@@ -12,7 +12,7 @@ export function createLights(
   // Ambient sky light, lights everything
   const hemiIntensity = 1;
   const hemiLight = new HemisphereLight(skyColor, shadowColor, hemiIntensity);
-  scene.add(hemiLight);
+  renderScene.add(hemiLight);
 
   //- Directional light
   // Replicates the sun, casts shadow
@@ -24,8 +24,8 @@ export function createLights(
   shadowLight.castShadow = true;
   shadowLight.shadow.mapSize.width = 2014; // default
   shadowLight.shadow.mapSize.height = 2014; // default
-  scene.add(shadowLight);
-  scene.add(shadowLight.target);
+  renderScene.add(shadowLight);
+  renderScene.add(shadowLight.target);
 
   return shadowLight;
 }

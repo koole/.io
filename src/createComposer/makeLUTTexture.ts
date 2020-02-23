@@ -4,19 +4,20 @@ import { ImageLoader } from "three/src/loaders/ImageLoader";
 
 const makeIdentityLutTexture = (function() {
   // prettier-ignore
+  // Ugly temp LUT while the real one is loading
   const identityLUT = new Uint8Array([
-      0,   0,   0, 255,
-    255,   0,   0, 255,
-      0,   0, 255, 255,
-    255,   0, 255, 255,
-      0, 255,   0, 255,
-    255, 255,   0, 255,
-      0, 255, 255, 255,
-    255, 255, 255, 255,
+    126, 22, 0, 32,  
+    181, 51, 0, 255,  
+    181, 51, 0, 32,  
+    181, 51, 0, 255,  
+    255, 181, 0, 33,  
+    255, 181, 0, 255,  
+    255, 181, 0, 35,  
+    255, 181, 0, 255
   ]);
 
   return function() {
-    const texture = new DataTexture(identityLUT, 4, 2, RGBAFormat);
+    const texture = new DataTexture(identityLUT, 3, 2, RGBAFormat);
     texture.minFilter = LinearFilter;
     texture.magFilter = LinearFilter;
     texture.needsUpdate = true;
@@ -50,8 +51,11 @@ export const makeLUTTexture = (function() {
         ctx.drawImage(image, 0, 0);
         const imageData = ctx.getImageData(0, 0, width, height);
 
+        // @ts-ignore
         texture.image.data = new Uint8Array(imageData.data.buffer);
+        // @ts-ignore
         texture.image.width = width;
+        // @ts-ignore
         texture.image.height = height;
         texture.needsUpdate = true;
       });

@@ -1,9 +1,10 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
-import { GLTFLoadable, GLTFSceneObj } from "./declarations";
+import { GLTFLoadable, StructureList } from "./declarations";
+import { Structure } from "./Structure";
 
-export function loader(GLTFModels: GLTFLoadable[], onFinish: () => void) {
-  let GLTFScenes: GLTFSceneObj = {};
+export function loader(GLTFModels: GLTFLoadable[], onFinish: (structures: StructureList) => void) {
+  let Structures: StructureList = {};
 
   // Get terminal element
   const terminal = document.getElementById("terminal") as HTMLDivElement;
@@ -43,14 +44,12 @@ export function loader(GLTFModels: GLTFLoadable[], onFinish: () => void) {
         // We need every mesh in every GLTF scene to draw and cast shadows
         const model = gltf.scene.children[0];
         model.traverse(child => {
-          if (child.isMesh) {
-            child.castShadow = true;
-            child.receiveShadow = true;
-          }
+          child.castShadow = true;
+          child.receiveShadow = true;
         });
 
         // Store loaded GLTF to in object
-        GLTFScenes[LoadedModel.name] = gltf;
+        Structures[LoadedModel.name] = new Structure(gltf);
 
         // Update terminal
         terminalNode.innerText = `Starting download of binary blob ${thisFileIndex} of ${GLTFModels.length} (ready)`;
@@ -60,7 +59,7 @@ export function loader(GLTFModels: GLTFLoadable[], onFinish: () => void) {
         downloaded++;
         if (downloaded === GLTFModels.length) {
           addToTerminal(`Ready`);
-          onFinish();
+          onFinish(Structures);
         }
       },
 
@@ -76,6 +75,4 @@ export function loader(GLTFModels: GLTFLoadable[], onFinish: () => void) {
       }
     );
   }
-
-  return GLTFScenes;
 }

@@ -1,69 +1,83 @@
 import { Scene } from "three/src/scenes/Scene";
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
-import { Box3 } from "three/src/math/Box3";
-import { Vector3 } from "three/src/math/Vector3";
+import { Structure } from "./Structure";
 
 // To what depth should objects be placed?
 const depth = 40;
 
+interface StructureClone {
+  object: Scene;
+  size: number;
+}
+
 export class Repeater {
-  private scenes: Scene[];
-  private index: number;
-  private currentFirstScene: number;
-  private size: number;
+  private clonesInScene: StructureClone[];
+  private currentOffset: number;
 
   constructor(
-    private gltf: GLTF,
+    private structures: Structure[],
     private x: number,
     private y: number,
     private z: number = -8,
     private offset: number = 0
   ) {
-    this.scenes = [];
-    this.index = 0;
-    this.currentFirstScene = 0;
-
-    // Calculate the size of the object
-    // Used for later calculations
-    const box = new Box3().setFromObject(this.gltf.scene);
-    this.size = box.getSize(new Vector3()).z;
+    this.clonesInScene = [];
+    this.currentOffset = 0;
   }
 
-  firstDraw(scene: Scene) {
+  // Gets a random structure and creates a new clone of it's 3D object
+  // to be placed into the renderScene
+  getStructureClone() {
+    const { object, size } = this.structures[
+      Math.floor(Math.random() * this.structures.length)
+    ];
+    return { object: object.clone(), size: size };
+  }
+
+  firstDraw(renderScene: Scene) {
     // How many objects do we need to fill the set depth?
-    const amount = Math.ceil(depth / this.size);
-    // Create these objects, each one placed behind the next
-    while (this.index < amount) {
+    // Get the smallest structure, and divide the depth by that.
+    const amount =
+      depth / Math.ceil(Math.min(...this.structures.map(s => s.size)));
+    // Create new objects, each one placed behind the next
+    for (let step = 0; step < amount; step++) {
       // Create new clone of the GLTF scene and
       // place it at the end of the row
-      const clone = this.gltf.scene.clone();
-      this.placeSceneAtEnd(clone);
+      const structureData = this.getStructureClone();
+      this.placeSceneAtEnd(structureData);
 
-      scene.add(clone);
-      this.scenes.push(clone);
+      renderScene.add(structureData.object);
+      this.clonesInScene.push(structureData);
     }
   }
 
-  updateLoop(currentZ: number) {
+  updateLoop(renderScene: Scene, currentZ: number) {
     // Check only the object closest to the camera for each repeating object
-    const scene = this.scenes[this.currentFirstScene];
+    let structureCopy = this.clonesInScene[0];
     // Check if object is behind the camera
-    if (scene.position.z > currentZ + this.z + this.offset + (this.size * 2)) {
-      // Move the object to the back of the repeating row of objects
-      this.placeSceneAtEnd(scene);
-      // Update currentFirstScene to be used in next iteration
-      this.currentFirstScene =
-        (this.currentFirstScene + 1) % this.scenes.length;
+    if (
+      structureCopy.object.position.z >
+      currentZ + this.z + this.offset + structureCopy.size * 2
+    ) {
+      // If there are multiple objects to pick from, choose a new random one
+      if (this.structures.length > 1) {
+        structureCopy.object.remove();
+        structureCopy = this.getStructureClone();
+      }
+      // Remove the object from the start of the scene list
+      this.clonesInScene.shift();
+      // Move object back into the fog
+      this.placeSceneAtEnd(structureCopy);
+      if (this.structures.length > 1) {
+        renderScene.add(structureCopy.object);
+      }
+      // Add the object again at the back of the list
+      this.clonesInScene.push(structureCopy);
     }
   }
 
   // Moves the item to the end of the row
-  private placeSceneAtEnd(scene: Scene) {
-    scene.position.set(
-      this.x,
-      this.y,
-      this.z - (this.size + this.offset) * this.index
-    );
-    this.index = this.index + 1;
+  private placeSceneAtEnd(structureData: StructureClone) {
+    this.currentOffset -= structureData.size + this.offset;
+    structureData.object.position.set(this.x, this.y, this.currentOffset);
   }
 }

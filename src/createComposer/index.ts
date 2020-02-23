@@ -21,7 +21,7 @@ import { FilmPass } from "./FilmPass";
 import { makeLUTTexture } from "./makeLUTTexture";
 
 export function createComposer(
-  scene: Scene,
+  renderScene: Scene,
   camera: PerspectiveCamera,
   renderer: WebGLRenderer
 ) {
@@ -38,7 +38,7 @@ export function createComposer(
 
   //- Renderer
   // Renders the scene
-  const renderBG = new RenderPass(scene, camera);
+  const renderBG = new RenderPass(renderScene, camera);
 
   //- SMAA
   // Anti-aliasing

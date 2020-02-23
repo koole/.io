@@ -1,10 +1,11 @@
-import { GLTF } from "three/examples/jsm/loaders/GLTFLoader";
+import { Scene } from "three/src/scenes/Scene";
+import { Structure } from "./Structure";
 
 export interface GLTFLoadable {
   name: string;
   file: string;
 }
 
-export interface GLTFSceneObj {
-  [key: string]: GLTF;
+export interface StructureList {
+  [key: string]: Structure;
 }
