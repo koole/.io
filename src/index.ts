@@ -1,105 +1,83 @@
 // Three stuff
-import { Color } from "three/src/math/Color";
 import { Scene } from "three/src/scenes/Scene";
-import { FogExp2 } from "three/src/scenes/FogExp2";
 import { WebGLRenderer } from "three/src/renderers/WebGLRenderer";
 import { PerspectiveCamera } from "three/src/cameras/PerspectiveCamera";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Color } from "three/src/math/Color";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { sRGBEncoding } from "three/src/constants";
 
-// Own stuff
-import { loader } from "./loader";
-import { render } from "./render";
-import { Repeater } from "./Repeater";
-import { createComposer } from "./createComposer";
-import { createLights } from "./createLights";
-import { GLTFLoadable, StructureList } from "./declarations";
+const loader = new GLTFLoader();
 
-// Settings
-const speed = 0.01;
-const skyColor = 0xcccccc;
-const shadowColor = 0x000000;
+let camera: PerspectiveCamera, scene: Scene, controls: OrbitControls;
 
-// GLTF (as GLB) models
-export const GLBList: GLTFLoadable[] = [
-  { name: "road", file: "glb/road.glb" },
-  { name: "left-wall", file: "glb/left-wall.glb" },
-  { name: "tower", file: "glb/tower.glb" },
-  { name: "road-pillars", file: "glb/road-pillars.glb" },
-  { name: "pillars-base", file: "glb/pillars-base.glb" },
-  { name: "right-wall-0", file: "glb/right-wall-0.glb" },
-  { name: "right-wall-1", file: "glb/right-wall-1.glb" },
-  { name: "right-wall-2", file: "glb/right-wall-2.glb" },
-  { name: "test-building-0", file: "glb/test-building-0.glb" },
-  { name: "test-building-1", file: "glb/test-building-1.glb" }
-];
+const canvas = document.querySelector("#c") as HTMLCanvasElement;
+const renderer = new WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(window.devicePixelRatio);
+renderer.outputEncoding = sRGBEncoding;
 
-export function main(structures: StructureList): void {
-  // These objects get repeated infinitely in the scene
-  const repeaters: Repeater[] = [
-    new Repeater([structures["road"]], 3.5, 3.5, undefined, 0),
-    new Repeater([structures["road"]], 0.6, 1.3),
-    new Repeater([structures["pillars-base"]], 3.5, 3.5),
-    new Repeater([structures["left-wall"]], 5.5, 2.5),
-    new Repeater(
-      [
-        structures["right-wall-0"],
-        structures["right-wall-1"],
-        structures["right-wall-2"],
-        structures["right-wall-1"],
-        structures["right-wall-2"]
-      ],
-      7.5,
-      2.8
-    ),
-    new Repeater(
-      [structures["test-building-0"], structures["test-building-1"]],
-      9.1,
-      2.6
-    ),
-    new Repeater(
-      [structures["test-building-0"], structures["test-building-1"]],
-      15.1,
-      2.6
-    )
-  ];
+let coal: Scene | null = null;
 
-  // Create renderer
-  const canvas = document.querySelector("#c") as HTMLCanvasElement;
-  const renderer = new WebGLRenderer({ canvas, antialias: true });
-  renderer.shadowMap.enabled = true;
-
-  // Create camera
-  const camera = new PerspectiveCamera(
-    75,
+function init(): void {
+  camera = new PerspectiveCamera(
+    70,
     window.innerWidth / window.innerHeight,
-    0.1,
-    1000
+    0.01,
+    10
   );
+  camera.position.z = 0.8;
 
-  // Create scene with fog
-  const renderScene = new Scene();
-  renderScene.background = new Color(skyColor);
-  renderScene.fog = new FogExp2(skyColor, 0.13);
+  controls = new OrbitControls(camera, canvas);
+  controls.enableKeys = false;
+  controls.enablePan = false;
+  controls.enableDamping = true;
+  controls.enableZoom = false;
 
-  // Create composer with all effects
-  const composer = createComposer(renderScene, camera, renderer);
+  scene = new Scene();
+  scene.background = new Color(0xf6f2eb);
 
-  // Add lights
-  const shadowLight = createLights(renderScene, skyColor, shadowColor);
-
-  // Add looping objects like roads, pillars and the left wall
-  for (const repeater of repeaters) {
-    repeater.firstDraw(renderScene);
+  function onWindowResize(): void {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    // Update camera
+    const canvasAspect = canvas.clientWidth / canvas.clientHeight;
+    camera.aspect = canvasAspect;
+    camera.updateProjectionMatrix();
   }
 
-  // Start rendering
-  requestAnimationFrame(now =>
-    render(now, renderer, repeaters, camera, composer, speed, shadowLight)
+  loader.load(
+    "/coal.glb",
+    // Finished loading
+    function(gltf) {
+      const object = gltf.scene;
+      object.scale.set(0.02, 0.02, 0.02); // scale here
+      scene.add(object);
+      coal = object;
+    },
+    // Loading progressing
+    function(xhr) {
+      console.log((xhr.loaded / xhr.total) * 100 + "% loaded");
+    },
+    // Loading failed
+    function(error) {
+      console.log(error);
+      console.log("An error happened");
+    }
   );
 
-  // Hide the loading screen
-  const terminal = document.getElementById("terminal") as HTMLDivElement;
-  terminal.style.display = "none";
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  window.addEventListener("resize", onWindowResize, false);
 }
 
-// Load all models, then start the script
-loader(GLBList, main);
+function animate(): void {
+  requestAnimationFrame(animate);
+  if (coal !== null) {
+    coal.rotation.x += 0.0005;
+    coal.rotation.z += 0.0005;
+    coal.rotation.y += 0.0025;
+  }
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+init();
+animate();
