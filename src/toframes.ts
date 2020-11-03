@@ -14,7 +14,7 @@ export default class VideoToFrames {
     videoUrl: string,
     amount: number,
     type: VideoToFramesMethod = VideoToFramesMethod.fps,
-    callback: (frames: ImageData[]) => void
+    onProgress: (frames: number) => void
   ): Promise<ImageData[]> {
     return new Promise(
       (
@@ -40,7 +40,7 @@ export default class VideoToFrames {
           }
           for (let time = 0; time < duration; time += duration / totalFrames) {
             frames.push(await that.getVideoFrame(video, context, time));
-            callback(frames);
+            onProgress(frames.length);
           }
           resolve(frames);
         });
@@ -60,7 +60,7 @@ export default class VideoToFrames {
         resolve: (frame: ImageData) => void,
         reject: (error: string) => void
       ) => {
-        let eventCallback = () => {
+        const eventCallback = () => {
           video.removeEventListener("seeked", eventCallback);
           this.storeFrame(video, context, resolve);
         };
