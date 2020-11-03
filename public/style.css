@@ -3,29 +3,21 @@
   font-style: normal;
   font-weight: bold;
   text-transform: uppercase;
+  box-sizing: border-box;
 }
 
 html {
   font-size: 22px;
 }
 
-.logo-background {
-  z-index: 2;
-  position: fixed;
-  width: 210px;
-  height: 140px;
-  background: var(--orange);
-  mix-blend-mode: screen;
-  left: 50%;
-  transform: translateX(-50%);
-  backdrop-filter: saturate(0) blur(5px);
+:root {
+  --padding: 1rem;
 }
 
 .logo {
   position: fixed;
-  width: 100%;
-  left: 0;
-  top: 0;
+  left: var(--padding);
+  top: var(--padding);
   z-index: 3;
   display: flex;
   justify-content: center;
@@ -43,23 +35,12 @@ header {
 }
 
 header > canvas {
-  position: fixed;
+  position: absolute;
   z-index: 0;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-header > .coal-overlay {
-  position: fixed;
-  z-index: 3;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: var(--black);
-  opacity: 0;
 }
 
 header > canvas:focus {
@@ -70,115 +51,10 @@ header > h1 {
   margin: 2rem;
   position: relative;
   z-index: 2;
-  color: var(--orange);
-  font-size: 2.5rem;
-  line-height: 0.9em;
-  text-align: center;
-}
-
-@media only screen and (min-width: 375px) {
-  header > h1 {
-    font-size: 3rem;
-  }
-}
-
-@media only screen and (min-width: 600px) {
-  header > h1 {
-    font-size: 5rem;
-  }
-}
-
-main {
-  position: relative;
-  z-index: 3;
-  margin-top: calc(-50vh + 100px);
-  opacity: 0;
   color: var(--white);
-}
-
-.container {
-  max-width: 1024px;
-  padding: 0 3rem;
-  margin: 0 auto;
-}
-
-.introduction {
-  text-align: center;
-  font-size: 1.6em;
-}
-
-/* Projects */
-
-.projects {
-
-}
-
-.project {
-  margin: 5rem 0;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.project-preview {
-  flex: 0 0 66.66667%;
-  padding-bottom: 40%;
-  background: var(--white);
-}
-
-.project-info {
-  flex: 0 0 33.33333%;
-}
-
-/* Quote */
-
-.quote {
-  padding: 5rem 0;
-  text-align: center;
-  transform: skew(-10deg) rotate(-8deg);
-}
-
-.quote-content {
-  color: var(--orange);
   font-size: 2.5rem;
   line-height: 0.9em;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.quote-by {
-  font-size: 1.5rem;
-}
-
-/* Footer */
-
-footer {
-  padding-top: 5rem;
-  background: var(--white);
-  color: var(--black);
-}
-
-footer > div {
-  flex: 1;
-}
-
-/* Rainbow */
-
-.rainbow {
-  padding-top: 5rem;
-  display: flex;
-}
-
-
-.rainbow-color {
-  cursor: pointer;
-  flex: 1;
-  height: 10px;
-  transform-origin: bottom center;
-  transition: 0.1s ease-in-out;
-}
-.rainbow-color:hover {
-  transform: scaleY(2);
+  text-align: center;
 }
 
 .circle {
@@ -186,9 +62,85 @@ footer > div {
   z-index: 999;
   left: -200px;
   top: -200px;
-  border: solid 2px var(--orange);
+  border: solid 2px var(--white);
 	width: 60px; 
 	height: 60px; 
   border-radius: 50%;  
   pointer-events: none;
+}
+
+.project {
+  height: 100vh;
+  position: relative;
+  padding: var(--padding);
+  background: #000000;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.project-description {
+  position: absolute;
+  top: 50%;
+  left: var(--padding);
+  color: var(--white);
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.project-description > h2 {
+  font-size: 1.5rem;
+  line-height: 0.9em;
+}
+
+.project-video-container {
+  overflow: hidden;
+  position: relative;
+  height: calc(100vh - var(--padding) - var(--padding));
+  width: calc(100vw - var(--padding) - var(--padding));
+  max-width: calc(100vw - var(--padding) - var(--padding));
+}
+
+.project-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: transparent;
+}
+
+@media only screen and (min-width: 375px) {
+  :root {
+    --padding: 2rem;
+  }
+
+  header > h1 {
+    font-size: 3rem;
+  }
+
+  .project-description > h2 {
+    font-size: 2rem;
+  }
+}
+
+@media only screen and (min-width: 600px) {
+  :root {
+    --padding: 3rem;
+  }
+
+  header > h1 {
+    font-size: 5rem;
+  }
+
+  .project-description > h2 {
+    font-size: 3rem;
+  }
+
+  .project-video-container {
+    width: calc(120vh - 6em);
+  }
 }

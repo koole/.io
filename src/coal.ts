@@ -9,15 +9,12 @@ const loader = new GLTFLoader();
 
 let camera: PerspectiveCamera, scene: Scene;
 
-const overlay = document.getElementById("coal-overlay") as HTMLDivElement;
-const main = document.getElementById("main") as HTMLDivElement;
+const overlay = document.getElementById("coal-overlay") as HTMLVideoElement;
 const canvas = document.querySelector("#c") as HTMLCanvasElement;
 const renderer = new WebGLRenderer({ canvas, antialias: true, alpha: true });
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.outputEncoding = sRGBEncoding;
 renderer.autoClear = false;
-
-const cutoff = 200;
 
 let coal: Scene | null = null;
 
@@ -31,39 +28,33 @@ window.addEventListener("mousemove", (e) => {
   mouseY = e.clientY;
 });
 
-function animate(): void {
-  if (document.body.scrollTop < cutoff + 1) {
-    if (coal !== null) {
-      // Rotation
-      xp += (mouseX - xp) / 6;
-      yp += (mouseY - yp) / 6;
-      coal.rotation.y -=
-        ((window.innerWidth / 2 - xp) / window.innerWidth) * 0.02;
-      coal.rotation.x -=
-        ((window.innerHeight / 2 - yp) / window.innerHeight) * 0.02;
-      coal.rotation.z += 0.001;
+let playing = document.body.scrollTop > 0;
+let played = document.body.scrollTop > 0;
 
-      // Fading to black
-      camera.fov = 70 - document.body.scrollTop * 0.25;
-      camera.updateProjectionMatrix();
-      //   const scale = 0.02 - document.body.scrollTop * -0.00015;
-      //   coal.scale.set(scale, scale, scale);
-      if (overlay !== null) {
-        const opacity = Math.min(
-          1,
-          (document.body.scrollTop / cutoff) *
-            (document.body.scrollTop / cutoff) *
-            (document.body.scrollTop / cutoff)
-        ).toString();
-        overlay.style.opacity = opacity;
-        main.style.opacity = opacity;
-      }
-    }
-    renderer.render(scene, camera);
-  } else {
-    main.style.opacity = "1";
-    overlay.style.opacity = "1";
+window.addEventListener("scroll", (e) => {
+  if (document.body.scrollTop > 0 && playing === false) {
+    overlay.play();
+    setTimeout(() => {
+      canvas.style.display = "none";
+      played = true;
+    }, 1000);
+
+    playing = true;
   }
+});
+
+function animate(): void {
+  if (coal !== null && played === false) {
+    // Rotation
+    xp += (mouseX - xp) / 6;
+    yp += (mouseY - yp) / 6;
+    coal.rotation.y -=
+      ((window.innerWidth / 2 - xp) / window.innerWidth) * 0.02;
+    coal.rotation.x -=
+      ((window.innerHeight / 2 - yp) / window.innerHeight) * 0.02;
+    coal.rotation.z += 0.001;
+  }
+  renderer.render(scene, camera);
   requestAnimationFrame(animate);
 }
 
@@ -77,7 +68,6 @@ function init(): void {
   camera.position.z = 0.8;
 
   scene = new Scene();
-  // scene.background = new Color(0xf6f2eb);
 
   function onWindowResize(): void {
     renderer.setSize(window.innerWidth, window.innerHeight);
