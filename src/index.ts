@@ -66,9 +66,10 @@ const frameCount = Math.min(Math.floor(window.screen.height / 10), 120);
 // }
 
 let projectIndex = 0;
-const getFrames = (index: number) => {
+const getFrames = (index: number): void => {
   const project = projects[index];
   projectIndex++;
+  // https://davidwalsh.name/detect-supported-video-formats-javascript
   VideoToFrames.getFrames(
     project.url.mp4,
     frameCount,
