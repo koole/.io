@@ -151,3 +151,14 @@ header > h1 > span.active {
     width: calc(120vh - 6em);
   }
 }
+
+#light-button {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+}
+
+#light-audio {
+  display: none;
+}
