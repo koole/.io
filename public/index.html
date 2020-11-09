@@ -115,7 +115,12 @@
           style="opacity: 0"
           loop
         >
-          <source src="/videos/header.mp4" type="video/mp4" />
+          <!-- <source src="/videos/header/hevc.mp4" type="video/mp4; codecs=hevc" /> -->
+          <!-- <source
+            src="/videos/header/vp9.webm"
+            type="video/webm; codecs=vp9,opus"
+          /> -->
+          <source src="/videos/header/h264.mp4" type="video/mp4" />
         </video>
       </header>
       <div class="intro">
@@ -128,10 +133,22 @@
           <h2>Revision</h2>
         </div>
         <div class="project-video-container">
-          <video playsinline muted preload="auto" class="project-video" id="s-revision-video-placeholder">
-            <source src="/videos/revision.mp4" type="video/mp4; codecs=hevc">
-            <source src="/videos/revision.webm" type="video/webm; codecs=vp9,opus">
-            <source src="/videos/revision-fallback.mp4" type="video/mp4" />
+          <video
+            playsinline
+            muted
+            preload="auto"
+            class="project-video"
+            id="s-revision-video"
+          >
+            <!-- <source
+              src="/videos/revision/hevc.mp4"
+              type="video/mp4; codecs=hevc"
+            /> -->
+            <source
+              src="/videos/revision/vp9.webm"
+              type="video/webm; codecs=vp9,opus"
+            />
+            <source src="/videos/revision/h264.mp4" type="video/mp4" />
           </video>
         </div>
       </section>
@@ -140,8 +157,22 @@
           <h2>vette.website</h2>
         </div>
         <div class="project-video-container">
-          <video playsinline muted preload="auto" class="project-video" id="s-vw-video-placeholder">
-            <source src="/videos/vet.mp4" type="video/mp4" />
+          <video
+            playsinline
+            muted
+            preload="auto"
+            class="project-video"
+            id="s-vw-video"
+          >
+            <!-- <source
+              src="/videos/vettewebsite/hevc.mp4"
+              type="video/mp4; codecs=hevc"
+            /> -->
+            <!-- <source
+              src="/videos/vettewebsite/vp9.webm"
+              type="video/webm; codecs=vp9,opus"
+            /> -->
+            <source src="/videos/vettewebsite/h264.mp4" type="video/mp4" />
           </video>
         </div>
       </section>
@@ -150,8 +181,22 @@
           <h2>Appmantle</h2>
         </div>
         <div class="project-video-container">
-          <video playsinline muted preload="auto" class="project-video" id="s-appmantle-video-placeholder">
-            <source src="/videos/appmantle.mp4" type="video/mp4" />
+          <video
+            playsinline
+            muted
+            preload="auto"
+            class="project-video"
+            id="s-appmantle-video"
+          >
+            <!-- <source
+              src="/videos/appmantle/hevc.mp4"
+              type="video/mp4; codecs=hevc"
+            /> -->
+            <!-- <source
+              src="/videos/appmantle/vp9.webm"
+              type="video/webm; codecs=vp9,opus"
+            /> -->
+            <source src="/videos/appmantle/h264.mp4" type="video/mp4" />
           </video>
         </div>
       </section>
