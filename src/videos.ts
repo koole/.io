@@ -8,15 +8,15 @@ interface Project {
 const projects: Project[] = [
   {
     id: E("s-revision"),
-    placeholder: E("s-revision-video-placeholder") as HTMLVideoElement,
+    placeholder: E("s-revision-video") as HTMLVideoElement | null,
   },
   {
     id: E("s-vw"),
-    placeholder: E("s-vw-video-placeholder") as HTMLVideoElement,
+    placeholder: E("s-vw-video") as HTMLVideoElement | null,
   },
   {
     id: E("s-appmantle"),
-    placeholder: E("s-appmantle-video-placeholder") as HTMLVideoElement,
+    placeholder: E("s-appmantle-video") as HTMLVideoElement | null,
   },
 ];
 

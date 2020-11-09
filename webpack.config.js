@@ -1,5 +1,5 @@
-const MinifyPlugin = require("babel-minify-webpack-plugin")
-const path = require('path');
+const MinifyPlugin = require("babel-minify-webpack-plugin");
+const path = require("path");
 
 module.exports = {
   mode: process.env.NODE_ENV || "development",
@@ -7,24 +7,22 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: __dirname + "/public",
-    publicPath: "/"
+    publicPath: "/",
   },
   resolve: {
-      extensions: ['.ts', '.js']
+    extensions: [".ts", ".js"],
   },
   module: {
     rules: [
       {
         test: /\.ts$/,
         use: "babel-loader",
-        exclude: /node_modules/
-      }
-    ]
+        exclude: /node_modules/,
+      },
+    ],
   },
-  plugins: [
-    new MinifyPlugin()
-  ],
+  plugins: [new MinifyPlugin()],
   devServer: {
-    contentBase: path.join(__dirname, 'public')
-  }
+    contentBase: path.join(__dirname, "public"),
+  },
 };
