@@ -4,8 +4,34 @@
 
 ## Development server
 
-`npm run start`
+```sh
+npm run start
+```
 
 ## Building
 
-```npm run build```
+```sh
+npm run build
+```
+
+## Encoding videos
+
+Videos need to be encoded using these specific settings to allow for smooth playback
+when scrolling up and down the page.
+
+### x264 (fallback)
+
+```sh
+ffmpeg \
+    -f image2 \
+    -framerate 60 \
+    -i ./input/%04d.png \
+    -c:v libx264 \
+    -preset slow \
+    -tune animation \
+    -crf 18 \
+    -g 1 \
+    -pix_fmt yuv420p \
+    -vf scale=1080x1080 \
+    output.mp4
+```

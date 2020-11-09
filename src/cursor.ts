@@ -1,4 +1,6 @@
-const circle = document.getElementById("circle");
+import { E } from "./utils";
+
+const circle = E("circle");
 let mouseX = 0,
   mouseY = 0;
 let xp = 0,

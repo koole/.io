@@ -4,7 +4,7 @@ import { E } from "./utils";
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
 
-function docReady(fn) {
+function docReady(fn): void {
   // see if DOM is already available
   if (
     document.readyState === "complete" ||
