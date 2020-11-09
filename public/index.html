@@ -107,6 +107,7 @@
         </h1>
         <video
           muted
+          playsinline
           autoplay
           preload="auto"
           class="header-video"
@@ -128,9 +129,10 @@
         </div>
         <div class="project-video-container">
           <video playsinline muted preload="auto" class="project-video" id="s-revision-video-placeholder">
-            <source src="/videos/revision.mp4" type="video/mp4" />
+            <source src="/videos/revision.mp4" type="video/mp4; codecs=hevc">
+            <source src="/videos/revision.webm" type="video/webm; codecs=vp9,opus">
+            <source src="/videos/revision-fallback.mp4" type="video/mp4" />
           </video>
-          <canvas class="project-video" id="s-revision-video"></canvas>
         </div>
       </section>
       <section id="s-vw" class="project">
@@ -141,7 +143,6 @@
           <video playsinline muted preload="auto" class="project-video" id="s-vw-video-placeholder">
             <source src="/videos/vet.mp4" type="video/mp4" />
           </video>
-          <canvas class="project-video" id="s-vw-video"></canvas>
         </div>
       </section>
       <section id="s-appmantle" class="project">
@@ -152,7 +153,6 @@
           <video playsinline muted preload="auto" class="project-video" id="s-appmantle-video-placeholder">
             <source src="/videos/appmantle.mp4" type="video/mp4" />
           </video>
-          <canvas class="project-video" id="s-appmantle-video"></canvas>
         </div>
       </section>
     </main>

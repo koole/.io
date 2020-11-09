@@ -19,19 +19,50 @@ npm run build
 Videos need to be encoded using these specific settings to allow for smooth playback
 when scrolling up and down the page.
 
-### x264 (fallback)
+### H.265/HEVC (.mp4, Safari)
+
+⚠️ Broken
 
 ```sh
 ffmpeg \
     -f image2 \
     -framerate 60 \
     -i ./input/%04d.png \
-    -c:v libx264 \
-    -preset slow \
-    -tune animation \
-    -crf 18 \
+    -crf 20 \
     -g 1 \
-    -pix_fmt yuv420p \
-    -vf scale=1080x1080 \
+    -c:v libx265 \
+    -preset veryslow \
+    -tag:v hvc1 \
     output.mp4
+```
+
+### VP9 (.webm, other modern browsers)
+
+```sh
+ffmpeg \
+    -f image2 \
+    -framerate 60 \
+    -i ./input/%04d.png \
+    -crf 20 \
+    -g 1 \
+    -c:v libvpx-vp9 \
+    -pix_fmt yuva420p \
+    -deadline good \
+    output.webm
+```
+
+### H.264 (.mp4, fallback)
+
+```sh
+ffmpeg \
+    -f image2 \
+    -framerate 60 \
+    -i ./input/%04d.png \
+    -pix_fmt yuv420p \
+    -crf 20 \
+    -g 1 \
+    -c:v libx264 \
+    -preset veryslow \
+    -tune animation \
+    output-fallback.mp4
 ```
