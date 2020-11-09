@@ -63,15 +63,33 @@ header > h1 > span.active {
   text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
 }
 
+.intro {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--padding);
+}
+
+.intro div {
+  width: calc(100vw - var(--padding) - var(--padding));
+  max-width: calc(100vw - var(--padding) - var(--padding));
+  padding: var(--padding);
+  background: rgb(255 255 255 / 10%);
+}
+
+.intro h2 {
+  font-size: 3rem;
+  margin: 0;
+}
+
 .circle {
   position: fixed;
   z-index: 999;
   left: -200px;
   top: -200px;
   border: solid 2px var(--white);
-	width: 60px; 
-	height: 60px; 
-  border-radius: 50%;  
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
   pointer-events: none;
 }
 
@@ -147,7 +165,8 @@ header > h1 > span.active {
     font-size: 3rem;
   }
 
-  .project-video-container {
+  .project-video-container,
+  .intro div {
     width: calc(120vh - 6em);
   }
 }
@@ -157,6 +176,20 @@ header > h1 > span.active {
   top: 50%;
   left: 50%;
   z-index: 100;
+  transform: translateX(-50%) translateY(-50%);
+  color: var(--white);
+  border: 2px solid var(--white);
+  cursor: pointer;
+  border-radius: 0;
+  background: transparent;
+  text-transform: uppercase;
+  padding: 0.5em 1em;
+  font-size: 2em;
+}
+
+#light-button:focus {
+  outline: 0;
+  border-color: var(--orange);
 }
 
 #light-audio {

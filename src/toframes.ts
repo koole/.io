@@ -29,18 +29,23 @@ export default class VideoToFrames {
         let video = document.createElement("video");
         video.preload = "auto";
         let that = this;
-        video.addEventListener("loadeddata", async function() {
+        video.addEventListener("loadeddata", async function () {
           canvas.width = video.videoWidth;
           canvas.height = video.videoHeight;
           duration = video.duration;
+
+          var start, end;
 
           let totalFrames: number = amount;
           if (type === VideoToFramesMethod.fps) {
             totalFrames = duration * amount;
           }
           for (let time = 0; time < duration; time += duration / totalFrames) {
+            start = +new Date();
             frames.push(await that.getVideoFrame(video, context, time));
-            onProgress(frames.length);
+            end = +new Date();
+            var diff = end - start;
+            onProgress(frames.length, diff);
           }
           resolve(frames);
         });
