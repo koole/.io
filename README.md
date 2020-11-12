@@ -66,3 +66,34 @@ ffmpeg \
     -tune animation \
     output-fallback.mp4
 ```
+
+
+## Encoding header
+
+### VP9 (.webm, other modern browsers)
+
+```sh
+ffmpeg \
+    -f image2 \
+    -framerate 60 \
+    -i ./image-sequences/header/%04d.png \
+    -crf 20 \
+    -c:v libvpx-vp9 \
+    -pix_fmt yuva420p \
+    -deadline good \
+    ./public/videos/header/vp9.webm
+```
+
+### H.264 (.mp4, fallback)
+
+```sh
+ffmpeg \
+    -f image2 \
+    -framerate 60 \
+    -i ./image-sequences/header/%04d.png \
+    -c:v libx264 \
+    -preset veryslow -tune animation \
+    -crf 20 \
+    -pix_fmt yuv420p \
+    ./public/videos/header/h264.mp4
+```
