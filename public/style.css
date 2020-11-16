@@ -1,13 +1,12 @@
 * {
-  font-family: "Rajdhani", sans-serif;
-  font-style: normal;
-  font-weight: bold;
-  text-transform: uppercase;
   box-sizing: border-box;
 }
 
 html {
   font-size: 22px;
+  font-family: "Heebo", sans-serif;
+  font-style: normal;
+  font-weight: 400;
 }
 
 :root {
@@ -16,12 +15,15 @@ html {
 
 .logo {
   position: fixed;
-  left: var(--padding);
-  top: var(--padding);
+  top: 0;
+  left: 0;
+  padding: var(--padding);
+  padding: var(--padding);
   z-index: 3;
   display: flex;
   justify-content: center;
   align-items: start;
+  background: linear-gradient(135deg, #00000091 0%, transparent 60%);
 }
 
 header {
@@ -56,6 +58,12 @@ header > h1 {
   line-height: 0.9em;
   text-align: center;
   color: var(--black);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+header > h1 > span {
+  font-family: "Rajdhani", sans-serif;
 }
 
 header > h1 > span.active {
@@ -74,10 +82,11 @@ header > h1 > span.active {
   max-width: calc(100vw - var(--padding) - var(--padding));
   padding: var(--padding);
   background: rgb(255 255 255 / 10%);
+  overflow: hidden;
 }
 
 .intro h2 {
-  font-size: 3rem;
+  font-size: 2.8rem;
   margin: 0;
 }
 
@@ -103,6 +112,18 @@ header > h1 > span.active {
   align-items: center;
 }
 
+.project.revision {
+  background: linear-gradient(0deg, black, #020230);
+}
+
+.project.vettewebsite {
+  background: linear-gradient(0deg, black, #1e1200);
+}
+
+.project.appmantle {
+  background: linear-gradient(0deg, black, #1d1d1d);
+}
+
 .project-description {
   position: absolute;
   top: 50%;
@@ -112,9 +133,20 @@ header > h1 > span.active {
   z-index: 2;
 }
 
+.project-logo {
+  display: block;
+  margin-bottom: 1rem;
+}
+
 .project-description > h2 {
   font-size: 1.5rem;
   line-height: 0.9em;
+  margin: 0.25em 0;
+}
+
+.project-description > .subtitle {
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .project-video-container {
@@ -136,6 +168,18 @@ header > h1 > span.active {
   object-fit: cover;
   object-position: center;
   background: transparent;
+}
+
+.video-grain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.1;
+  mix-blend-mode: soft-light;
+  background: #e2e2e2
+    url(data:image/png;base64,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);
 }
 
 @media only screen and (min-width: 375px) {
