@@ -23,13 +23,13 @@ const projects: Project[] = [
 let prevScrollTop = 0;
 
 function scrollPlay(): void {
-  if (document.body.scrollTop !== prevScrollTop) {
-    prevScrollTop = document.body.scrollTop;
+  if (document.documentElement.scrollTop !== prevScrollTop) {
+    prevScrollTop = document.documentElement.scrollTop;
     for (const project of projects) {
       const offset = Math.min(
         Math.max(
           0,
-          document.body.scrollTop +
+          document.documentElement.scrollTop +
             window.innerHeight -
             (project.id?.offsetTop || 0)
         ),

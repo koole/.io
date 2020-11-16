@@ -304,6 +304,7 @@ header > h1 > span.active {
 }
 
 #light-button {
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -315,7 +316,6 @@ header > h1 > span.active {
   border-radius: 0;
   font-weight: 800;
   background: transparent;
-  text-transform: uppercase;
   padding: 0.5em 1em;
   font-size: 2em;
 }

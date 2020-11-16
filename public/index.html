@@ -1,13 +1,17 @@
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>De Koole Centrale | Voor brandende zaken</title>
+    <meta
+      name="description"
+      content="Wij bouwen webapplicaties die draaien als een lopend vuurtje."
+    />
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <meta name="description" content="Webdevelopment voor brandende kwesties" />
     <style>
       :root {
         --black: #000000;
@@ -25,9 +29,16 @@
     <link rel="stylesheet" type="text/css" href="/style.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
+      rel="preload"
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@100;200;300;400;500;600;700;800;900&display=swap"
-      rel="stylesheet"
+      as="style"
+      onload="this.onload=null;this.rel='stylesheet'"
     />
+    <noscript
+      ><link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@100;200;300;400;500;600;700;800;900&display=swap"
+    /></noscript>
   </head>
   <body>
     <div class="logo">
@@ -78,7 +89,11 @@
           </div>
         </div>
         <div class="project-video-container">
-          <img class="project-video" src="/videos/revision/placeholder.png" />
+          <img
+            class="project-video"
+            src="/videos/revision/placeholder.jpg"
+            alt="Revision visualisation"
+          />
           <video
             playsinline
             muted
@@ -110,6 +125,7 @@
           <img
             class="project-video"
             src="/videos/vettewebsite/placeholder.png"
+            alt="vette.website visualisation"
           />
           <video
             playsinline
@@ -141,7 +157,11 @@
           </div>
         </div>
         <div class="project-video-container">
-          <img class="project-video" src="/videos/appmantle/placeholder.png" />
+          <img
+            class="project-video"
+            src="/videos/appmantle/placeholder.png"
+            alt="Appmantle visualisation"
+          />
           <video
             playsinline
             muted
@@ -166,18 +186,18 @@
         <div>
           <h2>“Dankzij De Koole Centrale zitten wij er warmpjes bij”</h2>
           <br />
-          <div>Roban Reuvers,</div>
-          <a href="https://knalgeel.com/" target="_blank"
-            ><img src="/logos/knalgeel.svg" width="150px" alt="KNALGEEL logo"
-          /></a>
+          <div>Roban Reuvers</div>
+          <a href="https://knalgeel.com/" target="_blank" rel="noopener">
+            <img src="/logos/knalgeel.svg" width="150px" alt="KNALGEEL logo" />
+          </a>
         </div>
       </div>
       <div class="intro vettewebsite vw-animate">
         <div>
           <h2>“Onze samenwerking verliep als een lopend vuurtje”</h2>
           <br />
-          <div>Henk Pop,</div>
-          <a href="https://vette.website/" target="_blank">
+          <div>Henk Pop</div>
+          <a href="https://vette.website/" target="_blank" rel="noopener">
             <img
               src="/logos/vettewebsite.svg"
               width="120px"

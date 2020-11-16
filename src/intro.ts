@@ -19,7 +19,7 @@ function docReady(fn): void {
 
 docReady(() => {
   window.scrollTo(0, 0);
-  document.body.style.overflow = "hidden";
+  document.documentElement.style.overflow = "hidden";
   const startButton = E("light-button") as HTMLButtonElement;
   const audio = E("light-audio") as HTMLAudioElement;
   const video = E("header-video");
@@ -47,7 +47,7 @@ docReady(() => {
     if (T2 !== null) {
       setTimeout(() => {
         T2.classList.add("active");
-        document.body.style.overflow = "unset";
+        document.documentElement.style.overflow = "unset";
       }, 3859);
     }
   });
