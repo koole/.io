@@ -4,7 +4,7 @@
 
 html {
   font-size: 22px;
-  font-family: "Heebo", sans-serif;
+  font-family: "Space Grotesk", "Epilogue", sans-serif;
   font-style: normal;
   font-weight: 400;
 }
@@ -59,11 +59,6 @@ header > h1 {
   text-align: center;
   color: var(--black);
   font-weight: bold;
-  text-transform: uppercase;
-}
-
-header > h1 > span {
-  font-family: "Rajdhani", sans-serif;
 }
 
 header > h1 > span.active {
@@ -77,17 +72,31 @@ header > h1 > span.active {
   padding: var(--padding);
 }
 
-.intro div {
+.intro > div {
   width: calc(100vw - var(--padding) - var(--padding));
   max-width: calc(100vw - var(--padding) - var(--padding));
   padding: var(--padding);
-  background: rgb(255 255 255 / 10%);
+  background: linear-gradient(128.53deg, #2e2e2e 16.55%, #0e0e0e 89.4%);
   overflow: hidden;
 }
 
 .intro h2 {
   font-size: 2.8rem;
   margin: 0;
+  font-weight: 500;
+}
+
+.intro.testimonial {
+  background: linear-gradient(0deg, black, #181709);
+}
+
+.intro.testimonial > div {
+  background: linear-gradient(128.53deg, #f3e338 16.55%, #ada011 89.4%);
+  color: var(--black);
+}
+
+.intro.testimonial img {
+  margin-top: 0.5rem;
 }
 
 .circle {
@@ -236,6 +245,7 @@ header > h1 > span.active {
   border: 2px solid var(--white);
   cursor: pointer;
   border-radius: 0;
+  font-weight: 800;
   background: transparent;
   text-transform: uppercase;
   padding: 0.5em 1em;
