@@ -13,6 +13,46 @@ html {
   --padding: 1rem;
 }
 
+@keyframes partymode {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  24.9% {
+    filter: hue-rotate(0deg);
+  }
+  25% {
+    filter: hue-rotate(90deg);
+  }
+  49.9% {
+    filter: hue-rotate(90deg);
+  }
+  50% {
+    filter: hue-rotate(190deg);
+  }
+  74.9% {
+    filter: hue-rotate(190deg);
+  }
+  75% {
+    filter: hue-rotate(270deg);
+  }
+  100% {
+    filter: hue-rotate(270deg);
+  }
+}
+
+@keyframes hue-rotate {
+  from {
+    filter: hue-rotate(0deg);
+  }
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.vw-animate {
+  animation: 30s linear 0s infinite normal none running hue-rotate;
+}
+
 .logo {
   position: fixed;
   top: 0;
@@ -23,7 +63,7 @@ html {
   display: flex;
   justify-content: center;
   align-items: start;
-  background: linear-gradient(135deg, #00000091 0%, transparent 60%);
+  background: linear-gradient(144deg, #000000ab 9%, transparent 50%);
 }
 
 header {
@@ -86,17 +126,38 @@ header > h1 > span.active {
   font-weight: 500;
 }
 
-.intro.testimonial {
+.intro.knalgeel {
   background: linear-gradient(0deg, black, #181709);
 }
 
-.intro.testimonial > div {
+.intro.knalgeel h2 {
+  /* text-indent: -29px; */
+}
+
+.intro.knalgeel > div {
   background: linear-gradient(128.53deg, #f3e338 16.55%, #ada011 89.4%);
   color: var(--black);
 }
 
-.intro.testimonial img {
+.intro img {
   margin-top: 0.5rem;
+}
+
+.intro.vettewebsite {
+  background: linear-gradient(0deg, black, #181109);
+}
+
+.intro.vettewebsite h2 {
+  /* text-indent: -29px; */
+}
+
+.intro.vettewebsite > div {
+  background: linear-gradient(
+    45deg,
+    rgb(240, 41, 13) 0%,
+    rgb(216, 131, 9) 100%
+  );
+  color: var(--white);
 }
 
 .circle {
@@ -135,7 +196,14 @@ header > h1 > span.active {
   flex: 1;
   padding-top: var(--padding);
   color: var(--white);
-  z-index: 2;
+  align-self: stretch;
+  position: relative;
+}
+
+.project-description-float {
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(96px + var(--padding) * 2);
 }
 
 .project-logo {
@@ -143,13 +211,13 @@ header > h1 > span.active {
   margin-bottom: 1rem;
 }
 
-.project-description > h2 {
+.project-description h2 {
   font-size: 1.5rem;
   line-height: 0.9em;
   margin: 0.25em 0;
 }
 
-.project-description > .subtitle {
+.project-description .subtitle {
   font-size: 1.2rem;
   font-weight: 500;
 }
@@ -195,7 +263,7 @@ header > h1 > span.active {
     font-size: 3rem;
   }
 
-  .project-description > h2 {
+  .project-description h2 {
     font-size: 2rem;
   }
 }
@@ -209,7 +277,7 @@ header > h1 > span.active {
     font-size: 5rem;
   }
 
-  .project-description > h2 {
+  .project-description h2 {
     font-size: 3rem;
   }
 }
