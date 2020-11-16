@@ -103,13 +103,11 @@ header > h1 > span.active {
 }
 
 .project {
-  height: 100vh;
   position: relative;
   padding: var(--padding);
   background: #000000;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column-reverse;
 }
 
 .project.revision {
@@ -125,11 +123,9 @@ header > h1 > span.active {
 }
 
 .project-description {
-  position: absolute;
-  top: 50%;
-  left: var(--padding);
+  flex: 1;
+  padding-top: var(--padding);
   color: var(--white);
-  transform: translateY(-50%);
   z-index: 2;
 }
 
@@ -152,9 +148,8 @@ header > h1 > span.active {
 .project-video-container {
   overflow: hidden;
   position: relative;
-  height: calc(100vh - var(--padding) - var(--padding));
-  width: calc(100vw - var(--padding) - var(--padding));
-  max-width: calc(100vw - var(--padding) - var(--padding));
+  height: 50vh;
+  flex: 0 0 50vh;
 }
 
 .project-video {
@@ -208,10 +203,26 @@ header > h1 > span.active {
   .project-description > h2 {
     font-size: 3rem;
   }
+}
 
-  .project-video-container,
-  .intro div {
-    width: calc(120vh - 6em);
+@media only screen and (min-width: 1200px) {
+  .intro > div {
+    width: calc(66%);
+  }
+  .project {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: row;
+    height: 100vh;
+  }
+  .project-description {
+    padding-top: 0;
+    padding-right: var(--padding);
+  }
+  .project-video-container {
+    flex: 0 0 66%;
+    height: calc(100vh - var(--padding) - var(--padding));
   }
 }
 
