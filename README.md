@@ -17,7 +17,8 @@ npm run build
 ## Encoding videos
 
 Videos need to be encoded using these specific settings to allow for smooth playback
-when scrolling up and down the page.
+when scrolling up and down the page. Most importantly, every frame needs to be a key
+frame.
 
 ### H.265/HEVC (.mp4, Safari)
 
@@ -67,10 +68,39 @@ ffmpeg \
     output-fallback.mp4
 ```
 
+## Encoding header video
 
-## Encoding header
+### AV1 (.mkv | Edge, Firefox, Chrome | experimental)
 
-### VP9 (.webm, other modern browsers)
+```sh
+ffmpeg \
+    -f image2 \
+    -framerate 60 \
+    -i ./image-sequences/header/%04d.png \
+    -c:v libaom-av1 \
+    -crf 20 \
+    -strict experimental \
+    -b:v 0 \
+    -pass 1 \
+    -an \
+    -f null /dev/null && \
+ffmpeg \
+    -f image2 \
+    -framerate 60 \
+    -i ./image-sequences/header/%04d.png \
+    -c:v libaom-av1 \
+    -crf 20 \
+    -strict experimental \
+    -b:v 0 \
+    -pass 2 \
+    -c:a libopus ./public/videos/header/av1.mp4
+```
+
+### H.265/HEVC (.mp4, Safari)
+
+⚠️ Broken
+
+### VP9 (.webm | other modern browsers)
 
 ```sh
 ffmpeg \
@@ -84,7 +114,7 @@ ffmpeg \
     ./public/videos/header/vp9.webm
 ```
 
-### H.264 (.mp4, fallback)
+### H.264 (.mp4 | fallback)
 
 ```sh
 ffmpeg \
