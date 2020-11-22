@@ -135,7 +135,8 @@ header > h1 > span.active {
 }
 
 .intro.knalgeel > div {
-  background: linear-gradient(128.53deg, #f3e338 16.55%, #ada011 89.4%);
+  background: #ffe900;
+  background: color(display-p3 1 0.894 0);
   color: var(--black);
 }
 
