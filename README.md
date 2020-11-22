@@ -28,13 +28,13 @@ frame.
 ffmpeg \
     -f image2 \
     -framerate 60 \
-    -i ./input/%04d.png \
+    -i ./image-sequences/XXX/%04d.png \
     -crf 20 \
     -g 1 \
     -c:v libx265 \
     -preset veryslow \
     -tag:v hvc1 \
-    output.mp4
+    ./public/videos/XXX/hevc.mp4
 ```
 
 ### VP9 (.webm, other modern browsers)
@@ -43,13 +43,13 @@ ffmpeg \
 ffmpeg \
     -f image2 \
     -framerate 60 \
-    -i ./input/%04d.png \
+    -i ./image-sequences/XXX/%04d.png \
     -crf 20 \
     -g 1 \
     -c:v libvpx-vp9 \
     -pix_fmt yuva420p \
     -deadline good \
-    output.webm
+    ./public/videos/XXX/vp9.webm
 ```
 
 ### H.264 (.mp4, fallback)
@@ -58,14 +58,14 @@ ffmpeg \
 ffmpeg \
     -f image2 \
     -framerate 60 \
-    -i ./input/%04d.png \
+    -i ./image-sequences/XXX/%04d.png \
     -pix_fmt yuv420p \
     -crf 20 \
     -g 1 \
     -c:v libx264 \
     -preset veryslow \
     -tune animation \
-    output-fallback.mp4
+    ./public/videos/XXX/h264.mp4
 ```
 
 ## Encoding header video
