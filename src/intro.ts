@@ -27,7 +27,7 @@ docReady(() => {
   const T1 = E("header-text-1");
   const T2 = E("header-text-2");
   audio.addEventListener("play", () => {
-    if (video !== null && grain !== null) {
+    if (video !== null) {
       setTimeout(() => {
         video.style.opacity = "1";
       }, 1319);
@@ -52,7 +52,6 @@ docReady(() => {
   startButton.addEventListener("click", () => {
     audio.play();
     startButton.style.display = "none";
-    document.documentElement.style.overflow = "unset";
   });
 });
 
