@@ -230,19 +230,6 @@ header > h1 > span.active {
   color: var(--white);
 }
 
-.circle {
-  position: fixed;
-  z-index: 999;
-  left: -200px;
-  top: -200px;
-  border: solid 4px var(--white);
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  pointer-events: none;
-  mix-blend-mode: soft-light;
-}
-
 .project {
   position: relative;
   padding: var(--padding);
@@ -459,6 +446,19 @@ footer a {
 }
 
 @media only screen and (min-width: 1200px) {
+  .circle {
+    position: fixed;
+    z-index: 999;
+    left: -200px;
+    top: -200px;
+    border: solid 4px var(--white);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+  }
+  
   .intro > div,
   .team > .members {
     width: calc(66%);
