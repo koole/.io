@@ -23,7 +23,6 @@ docReady(() => {
   const startButton = E("light-button") as HTMLButtonElement;
   const audio = E("light-audio") as HTMLAudioElement;
   const video = E("header-video");
-  const grain = E("header-video-grain");
   const T0 = E("header-text-0");
   const T1 = E("header-text-1");
   const T2 = E("header-text-2");
@@ -31,7 +30,6 @@ docReady(() => {
     if (video !== null && grain !== null) {
       setTimeout(() => {
         video.style.opacity = "1";
-        grain.style.opacity = "0.1";
       }, 1319);
     }
     if (T0 !== null) {
@@ -54,6 +52,7 @@ docReady(() => {
   startButton.addEventListener("click", () => {
     audio.play();
     startButton.style.display = "none";
+    document.documentElement.style.overflow = "unset";
   });
 });
 

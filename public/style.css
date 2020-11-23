@@ -258,6 +258,10 @@ header > h1 > span.active {
   background: linear-gradient(0deg, black, #1d1d1d);
 }
 
+.project.appmantle .subtitle {
+  color: #d8d8d8;
+}
+
 .project-description {
   flex: 1;
   padding-top: var(--padding);
