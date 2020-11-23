@@ -1,21 +1,8 @@
-import { E } from "./utils";
+import { docReady, E } from "./utils";
 
 // Fixes delayed audio playback on Safari
 const AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioCtx = new AudioContext();
-
-function docReady(fn): void {
-  // see if DOM is already available
-  if (
-    document.readyState === "complete" ||
-    document.readyState === "interactive"
-  ) {
-    // call on next available tick
-    setTimeout(fn, 1);
-  } else {
-    document.addEventListener("DOMContentLoaded", fn);
-  }
-}
 
 docReady(() => {
   window.scrollTo(0, 0);
@@ -26,7 +13,7 @@ docReady(() => {
   const T0 = E("header-text-0");
   const T1 = E("header-text-1");
   const T2 = E("header-text-2");
-  // audio.addEventListener("play", () => {
+  audio.addEventListener("play", () => {
     if (video !== null) {
       setTimeout(() => {
         video.style.opacity = "1";
@@ -48,12 +35,11 @@ docReady(() => {
         document.documentElement.style.overflow = "unset";
       }, 3859);
     }
-  // });
-  // startButton.addEventListener("click", () => {
-  //   audio.play();
+  });
+  startButton.addEventListener("click", () => {
+    audio.play();
     startButton.style.display = "none";
-    document.documentElement.style.overflow = "unset";
-  // });
+  });
 });
 
 window.onbeforeunload = function (): void {

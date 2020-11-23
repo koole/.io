@@ -15,6 +15,15 @@ html {
 
 :root {
   --padding: 1rem;
+  --filter-abberation: url("#abberation");
+}
+
+/* SVG filters are disabled on Safari, because css tranform performance is abysmal when
+   these elements overlap. Safari is the only browser with color() support for now. */
+@supports (color: color(display-p3 1 1 1)) {
+  :root {
+    --filter-abberation: url("#");
+  }
 }
 
 ::-moz-selection {
@@ -314,40 +323,54 @@ header > h1 > span.active {
 }
 
 .team {
-  display: flex;
-  flex-direction: column;
-  padding: var(--padding);
-  background: linear-gradient(0deg, black 0%, #0f0f0f 50%);
-}
-
-.team > .members {
-  width: calc(100vw - var(--padding) - var(--padding));
-  max-width: calc(100vw - var(--padding) - var(--padding));
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
-  grid-column-gap: var(--padding);
-  grid-row-gap: var(--padding);
+  background: linear-gradient(0deg, black, #1d1d1d);
+  height: 800px;
+  overflow: hidden;
+  position: relative;
 }
 
 .team-title {
+  left: 0;
+  top: 0;
+  bottom: 0;
   flex: 1;
-  padding-top: var(--padding);
+  padding: var(--padding);
   color: var(--white);
   align-self: stretch;
-  position: relative;
+  position: absolute;
   margin-bottom: 0.5rem;
 }
 
 .team-title-float {
   position: -webkit-sticky;
   position: sticky;
-  top: calc(96px + var(--padding) * 2);
+  /* top: calc(96px + var(--padding) * 2); */
+  top: var(--padding);
 }
 
 .team-title h2 {
   font-size: 1.5rem;
   line-height: 0.9em;
   margin: 0.25em 0;
+}
+
+.team > .members {
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 2000px;
+  transform: rotateZ(-10deg) translateX(-50%) translateY(-50%);
+}
+
+.members-row {
+  display: flex;
+}
+
+.member {
+  padding: calc(var(--padding) / 2)
 }
 
 .member img {
@@ -422,10 +445,6 @@ footer a {
     font-size: 2.8rem;
   }
 
-  .team > .members {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
   .logo > img {
     width: 130px;
   }
@@ -436,12 +455,12 @@ footer a {
     --padding: 3rem;
   }
 
-  .team > .members {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .logo > img {
     width: 163px;
+  }
+
+  .team > .members {
+    width: 3000px;
   }
 }
 
@@ -459,8 +478,7 @@ footer a {
     mix-blend-mode: soft-light;
   }
   
-  .intro > div,
-  .team > .members {
+  .intro > div {
     width: calc(66%);
   }
 
@@ -485,7 +503,7 @@ footer a {
     height: calc(100vh - var(--padding) - var(--padding));
   }
   .project-video-container:hover > .project-video {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
   .team {
     display: flex;
@@ -534,10 +552,10 @@ footer a {
 }
 
 
-/* Filter needs to be added individually to each element for Safari...
-   For other browsers adding it to the body is enough */
-.logo, #light-button, h1, h2, h3, h4, .subtitle {
-  filter: url("#abberation");
+/* No abberation on elements in the team section,
+   this is extremely slow on all browsers */
+.logo, #light-button, h1, h2, .subtitle, .project-video-container {
+  filter: var(--filter-abberation);
 }
 
 .wavy {
