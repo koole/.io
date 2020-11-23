@@ -13,6 +13,16 @@ html {
   --padding: 1rem;
 }
 
+::-moz-selection {
+  color: var(--color);
+  background: var(--black);
+}
+
+::selection {
+  color: var(--color);
+  background: var(--black);
+}
+
 @keyframes partymode {
   0% {
     filter: hue-rotate(0deg);
@@ -64,6 +74,10 @@ html {
   justify-content: center;
   align-items: start;
   background: linear-gradient(144deg, #000000ab 9%, transparent 50%);
+}
+
+.logo > img {
+  width: 100px;
 }
 
 header {
@@ -121,17 +135,13 @@ header > h1 > span.active {
 }
 
 .intro h2 {
-  font-size: 2.8rem;
+  font-size: 1.5rem;
   margin: 0;
   font-weight: 500;
 }
 
 .intro.knalgeel {
   background: linear-gradient(0deg, black, #181709);
-}
-
-.intro.knalgeel h2 {
-  /* text-indent: -29px; */
 }
 
 .intro.knalgeel > div {
@@ -149,16 +159,8 @@ header > h1 > span.active {
   padding-top: 0;
 }
 
-.intro.vettewebsite h2 {
-  /* text-indent: -29px; */
-}
-
 .intro.vettewebsite > div {
-  background: linear-gradient(
-    45deg,
-    rgb(256, 0, 0) 0%,
-    rgb(256, 73, 0) 100%
-  );
+  background: linear-gradient(45deg, rgb(256, 0, 0) 0%, rgb(256, 73, 0) 100%);
   background: linear-gradient(
     45deg,
     color(display-p3 1 0 0) 0%,
@@ -263,18 +265,39 @@ header > h1 > span.active {
 
 .team {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
   padding: var(--padding);
-  background: linear-gradient(0deg, black, #1e1200);
+  background: linear-gradient(0deg, black 0%, #0f0f0f 50%);
 }
 
-.team > div {
+.team > .members {
   width: calc(100vw - var(--padding) - var(--padding));
   max-width: calc(100vw - var(--padding) - var(--padding));
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(1, 1fr);
   grid-column-gap: var(--padding);
   grid-row-gap: var(--padding);
+}
+
+.team-title {
+  flex: 1;
+  padding-top: var(--padding);
+  color: var(--white);
+  align-self: stretch;
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+.team-title-float {
+  position: -webkit-sticky;
+  position: sticky;
+  top: calc(96px + var(--padding) * 2);
+}
+
+.team-title h2 {
+  font-size: 1.5rem;
+  line-height: 0.9em;
+  margin: 0.25em 0;
 }
 
 .member img {
@@ -282,7 +305,8 @@ header > h1 > span.active {
   margin-bottom: 0.5em;
 }
 
-.member h3, .member h4 {
+.member h3,
+.member h4 {
   margin: 0.25em 0;
 }
 
@@ -295,27 +319,62 @@ header > h1 > span.active {
     font-size: 3rem;
   }
 
-  .project-description h2 {
+  .project-description h2, .team-title h2 {
     font-size: 2rem;
+  }
+
+  .intro h2 {
+    font-size: 1.5rem;
+  }
+
+  .team > .members {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media only screen and (min-width: 600px) {
   :root {
-    --padding: 3rem;
+    --padding: 2rem;
   }
 
   header > h1 {
     font-size: 5rem;
   }
 
-  .project-description h2 {
+  .project-description h2, .team-title h2 {
     font-size: 3rem;
+  }
+
+  .intro h2 {
+    font-size: 2.8rem;
+  }
+
+  .team > .members {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .logo > img {
+    width: 130px;
+  }
+}
+
+@media only screen and (min-width: 800px) {
+  :root {
+    --padding: 3rem;
+  }
+  
+  .team > .members {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .logo > img {
+    width: 163px;
   }
 }
 
 @media only screen and (min-width: 1200px) {
-  .intro > div, .team > div {
+  .intro > div,
+  .team > .members {
     width: calc(66%);
   }
   .project {
@@ -332,6 +391,16 @@ header > h1 > span.active {
   .project-video-container {
     flex: 0 0 66%;
     height: calc(100vh - var(--padding) - var(--padding));
+  }
+  .team {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: row;
+  }
+  .team-title {
+    padding-top: 0;
+    padding-right: var(--padding);
   }
 }
 
