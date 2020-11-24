@@ -271,6 +271,25 @@ header > h1 > span.active {
   color: #d8d8d8;
 }
 
+.project-link {
+  display: inline-block;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.1);
+  text-decoration: none;
+  padding: 1em;
+  margin-top: 1rem;
+}
+
+.project-link > span {
+  display: block;
+  transition: 0.5s all cubic-bezier(0.85, 0, 0.15, 1);
+
+}
+
+.project-link:hover > span {
+  transform: scale(0.95);
+}
+
 .project-description {
   flex: 1;
   padding-top: var(--padding);
@@ -554,7 +573,7 @@ footer a {
 
 /* No abberation on elements in the team section,
    this is extremely slow on all browsers */
-.logo, #light-button, h1, h2, .subtitle, .project-video-container {
+.logo, #light-button, h1, h2, .subtitle, .project-video-container, .project-link > span {
   filter: var(--filter-abberation);
 }
 

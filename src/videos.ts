@@ -10,17 +10,17 @@ const projects: Project[] = [
   {
     id: E("s-revision"),
     placeholder: E("s-revision-video") as HTMLVideoElement | null,
-    smoothed: 0
+    smoothed: 0,
   },
   {
     id: E("s-vw"),
     placeholder: E("s-vw-video") as HTMLVideoElement | null,
-    smoothed: 0
+    smoothed: 0,
   },
   {
     id: E("s-appmantle"),
     placeholder: E("s-appmantle-video") as HTMLVideoElement | null,
-    smoothed: 0
+    smoothed: 0,
   },
 ];
 
