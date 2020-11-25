@@ -1,0 +1,19 @@
+.intro {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--padding);
+}
+
+.intro > div {
+  width: calc(100vw - var(--padding) - var(--padding));
+  max-width: calc(100vw - var(--padding) - var(--padding));
+  padding: var(--padding);
+  background: linear-gradient(128.53deg, #2e2e2e 16.55%, #0e0e0e 89.4%);
+  overflow: hidden;
+}
+
+.intro h2 {
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 500;
+}

@@ -19,12 +19,6 @@
       :root {
         --black: #000000;
         --white: #ffffff;
-        --color: #ff4300;
-      }
-      @supports (color: color(display-p3 1 1 1)) {
-        :root {
-          --color: color(display-p3 1 0.342 0);
-        }
       }
       html {
         background-color: var(--black);
@@ -35,8 +29,7 @@
         color: var(--white);
       }
     </style>
-    <link rel="stylesheet" type="text/css" href="/normalize.css" />
-    <link rel="stylesheet" type="text/css" href="/style.css" />
+    <link rel="stylesheet" type="text/css" href="/main.css" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -477,6 +470,6 @@
     </audio>
     <button id="light-button">Zet de lampen aan</button>
     <span id="circle" class="circle"></span>
-    <script async src="/bundle.js"></script>
+    <script async src="/main.js"></script>
   </body>
 </html>

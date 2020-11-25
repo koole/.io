@@ -1,0 +1,28 @@
+:root {
+  /* Colors */
+  --black: #000000;
+  --white: #ffffff;
+  --color: #ff4300;
+  /* Sizes */
+  --padding: 1rem;
+  /* Filters */
+  --filter-abberation: url("#abberation");
+}
+
+/* Breakpoints */
+/* Can't use css variables in media queries */
+$br-xs: 375px;
+$br-sm: 600px;
+$br-md: 800px;
+$br-lg: 1200px;
+$br-xl: 1400px;
+
+@supports (color: color(display-p3 1 1 1)) {
+  :root {
+    /* Use a P3 color for orange on supported browsers */
+    --color: color(display-p3 1 0.342 0);
+    /* SVG filters are disabled on Safari, because css tranform performance is abysmal when
+       these elements overlap. Safari is the only browser with color() support for now. */
+    --filter-abberation: url("#");
+  }
+}

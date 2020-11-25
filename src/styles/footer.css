@@ -1,0 +1,16 @@
+footer {
+  background: linear-gradient(0deg, black 0%, #0f0f0f 50%);
+  padding: var(--padding);
+}
+
+footer address {
+  font-style: normal;
+  filter: url(#wavy);
+  padding: 1rem;
+  margin: -1rem;
+}
+
+footer a {
+  display: block;
+  color: inherit;
+}

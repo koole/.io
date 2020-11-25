@@ -1,28 +1,94 @@
-const MinifyPlugin = require("babel-minify-webpack-plugin");
 const path = require("path");
+const webpack = require("webpack");
+
+const autoprefixer = require("autoprefixer");
+const precss = require("precss");
+const atImport = require("postcss-import");
+const cssnano = require("cssnano");
+
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const TerserPlugin = require("terser-webpack-plugin");
+
+const isDev = process.env.NODE_ENV == "development";
 
 module.exports = {
   mode: process.env.NODE_ENV || "development",
-  entry: ["./src/index.ts"],
-  output: {
-    filename: "bundle.js",
-    path: __dirname + "/public",
-    publicPath: "/",
-  },
-  resolve: {
-    extensions: [".ts", ".js"],
-  },
+  entry: "./src/index.ts",
+  plugins: [
+    new webpack.ProgressPlugin(),
+    new MiniCssExtractPlugin({ filename: "main.css" }),
+  ],
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        use: "babel-loader",
-        exclude: /node_modules/,
+        test: /\.tsx?$/,
+        loader: "babel-loader",
+        include: [path.resolve(__dirname, "src")],
+        exclude: ["/node_modules/"],
+      },
+      {
+        test: /.css$/,
+        use: [
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
+          {
+            loader: "css-loader",
+            options: {
+              importLoaders: 1,
+              sourceMap: isDev,
+              url: false,
+            },
+          },
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [
+                  atImport,
+                  precss,
+                  autoprefixer,
+                  cssnano({ preset: "default" }),
+                ],
+                minimize: !isDev,
+              },
+            },
+          },
+        ],
       },
     ],
   },
-  plugins: [new MinifyPlugin()],
-  devServer: {
-    contentBase: path.join(__dirname, "public"),
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
+  output: {
+    filename: "main.js",
+    path: path.resolve(__dirname, "public"),
+  },
+  optimization: {
+    minimize: !isDev,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      }),
+    ],
+    splitChunks: {
+      cacheGroups: {
+        vendors: {
+          priority: -10,
+          test: /[\\/]node_modules[\\/]/,
+        },
+      },
+      chunks: "async",
+      minChunks: 1,
+      minSize: 30000,
+      name: false,
+    },
   },
 };

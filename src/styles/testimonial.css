@@ -1,0 +1,27 @@
+.intro.knalgeel {
+  background: linear-gradient(0deg, black, #181709);
+}
+
+.intro.knalgeel > div {
+  background: #ffe900;
+  background: color(display-p3 1 0.894 0);
+  color: var(--black);
+}
+
+.intro img {
+  margin-top: 0.5rem;
+}
+
+.intro.vettewebsite {
+  padding-top: 0;
+}
+
+.intro.vettewebsite > div {
+  background: linear-gradient(45deg, rgb(256, 0, 0) 0%, rgb(256, 73, 0) 100%);
+  background: linear-gradient(
+    45deg,
+    color(display-p3 1 0 0) 0%,
+    color(display-p3 1 0.287 0) 100%
+  );
+  color: var(--white);
+}

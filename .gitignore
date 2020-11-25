@@ -1,6 +1,10 @@
 /node_modules
-public/bundle.js
 .DS_Store
 
+# Used for making the videos
 /image-sequences/
 /source-3d/
+
+# Compiled files
+/public/main.js
+/public/main.css

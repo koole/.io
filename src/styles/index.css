@@ -1,0 +1,133 @@
+@import "normalize.css";
+
+@import "variables.css";
+
+@import "global.css";
+
+@import "logo.css";
+@import "header.css";
+@import "intro.css";
+@import "project.css";
+@import "testimonial.css";
+@import "team.css";
+@import "footer.css";
+
+@media only screen and (min-width: $br-xs) {
+  :root {
+    --padding: 1.5rem;
+  }
+
+  header > h1 {
+    font-size: 3rem;
+  }
+
+  .project-description h2,
+  .team-title h2 {
+    font-size: 2rem;
+  }
+
+  .intro h2 {
+    font-size: 1.5rem;
+  }
+
+  .team > .members {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: $br-sm) {
+  :root {
+    --padding: 2rem;
+  }
+
+  header > h1 {
+    font-size: 5rem;
+  }
+
+  .project-description h2,
+  .team-title h2 {
+    font-size: 3rem;
+  }
+
+  .intro h2 {
+    font-size: 2.8rem;
+  }
+
+  .logo > img {
+    width: 130px;
+  }
+}
+
+@media only screen and (min-width: $br-md) {
+  :root {
+    --padding: 3rem;
+  }
+
+  .logo > img {
+    width: 163px;
+  }
+
+  .team > .members {
+    width: 3000px;
+  }
+}
+
+@media only screen and (min-width: $br-lg) {
+  .circle {
+    position: fixed;
+    z-index: 999;
+    left: -200px;
+    top: -200px;
+    border: solid 4px var(--white);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+  }
+
+  .intro > div {
+    width: calc(66%);
+  }
+
+  .project-description h2,
+  .team-title h2 {
+    font-size: 2.3rem;
+  }
+
+  .project {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: row;
+    height: 100vh;
+  }
+  .project-description {
+    padding-top: 0;
+    padding-right: var(--padding);
+  }
+  .project-video-container {
+    flex: 0 0 66%;
+    height: calc(100vh - var(--padding) - var(--padding));
+  }
+  .project-video-container:hover > .project-video {
+    transform: scale(1.05);
+  }
+  .team {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: row;
+  }
+  .team-title {
+    padding-top: 0;
+    padding-right: var(--padding);
+  }
+}
+
+@media only screen and (min-width: $br-xl) {
+  .project-description h2,
+  .team-title h2 {
+    font-size: 3rem;
+  }
+}

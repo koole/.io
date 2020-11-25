@@ -1,7 +1,7 @@
 export const E = (id: string): HTMLElement | null =>
   document.getElementById(id);
 
-export function docReady(fn): void {
+export function docReady(fn: () => void): void {
   // see if DOM is already available
   if (
     document.readyState === "complete" ||

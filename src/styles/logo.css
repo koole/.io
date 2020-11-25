@@ -1,0 +1,17 @@
+.logo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: var(--padding);
+  padding: var(--padding);
+  z-index: 3;
+  display: flex;
+  justify-content: center;
+  align-items: start;
+  background: linear-gradient(144deg, #000000ab 9%, transparent 50%);
+  filter: var(--filter-abberation);
+}
+
+.logo > img {
+  width: 100px;
+}

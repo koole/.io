@@ -6,7 +6,7 @@ let mouseX = 0,
 let xp = 0,
   yp = 0;
 
-window.addEventListener("mousemove", e => {
+window.addEventListener("mousemove", (e) => {
   mouseX = e.clientX - 30 + 200;
   mouseY = e.clientY - 30 + 200;
 });
