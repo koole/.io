@@ -37,7 +37,6 @@
   > span {
     display: block;
     transition: 0.5s all cubic-bezier(0.85, 0, 0.15, 1);
-    filter: var(--filter-abberation);
   }
 
   &:hover {
@@ -70,13 +69,11 @@
   font-size: 1.5rem;
   line-height: 0.9em;
   margin: 0.25em 0;
-  filter: var(--filter-abberation);
 }
 
 .project-description .subtitle {
   font-size: 1.2rem;
   font-weight: 300;
-  filter: var(--filter-abberation);
 }
 
 .project-video-container {
@@ -84,7 +81,6 @@
   position: relative;
   height: 50vh;
   flex: 0 0 50vh;
-  filter: var(--filter-abberation);
 }
 
 .project-video {

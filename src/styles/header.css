@@ -29,9 +29,8 @@ header > h1 {
   font-size: 2.5rem;
   line-height: 0.9em;
   text-align: center;
-  color: var(--black);
+  color: rgba(0, 0, 0, 0.5);
   font-weight: bold;
-  filter: var(--filter-abberation);
 }
 
 header > h1 > span.active {
@@ -55,7 +54,6 @@ header > h1 > span.active {
   background: transparent;
   padding: 0.5em 1em;
   font-size: 2em;
-  filter: var(--filter-abberation);
 }
 
 #light-button:focus {

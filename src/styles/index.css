@@ -26,10 +26,6 @@
     font-size: 2rem;
   }
 
-  .intro h2 {
-    font-size: 1.5rem;
-  }
-
   .team > .members {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -47,10 +43,6 @@
   .project-description h2,
   .team-title h2 {
     font-size: 3rem;
-  }
-
-  .intro h2 {
-    font-size: 2.8rem;
   }
 
   .logo > img {
@@ -84,10 +76,6 @@
     border-radius: 50%;
     pointer-events: none;
     mix-blend-mode: soft-light;
-  }
-
-  .intro > div {
-    width: calc(66%);
   }
 
   .project-description h2,

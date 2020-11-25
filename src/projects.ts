@@ -1,4 +1,13 @@
 import { E } from "./utils";
+import ScrollReveal from "scrollreveal";
+
+const sr = ScrollReveal();
+sr.reveal(".project-description-float", {
+  duration: 500,
+  scale: 0,
+  viewFactor: 1,
+  easing: "ease-in-out",
+});
 
 interface Project {
   id: HTMLElement | null;

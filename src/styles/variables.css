@@ -21,8 +21,5 @@ $br-xl: 1400px;
   :root {
     /* Use a P3 color for orange on supported browsers */
     --color: color(display-p3 1 0.342 0);
-    /* SVG filters are disabled on Safari, because css tranform performance is abysmal when
-       these elements overlap. Safari is the only browser with color() support for now. */
-    --filter-abberation: url("#");
   }
 }

@@ -9,7 +9,6 @@
   justify-content: center;
   align-items: start;
   background: linear-gradient(144deg, #000000ab 9%, transparent 50%);
-  filter: var(--filter-abberation);
 }
 
 .logo > img {

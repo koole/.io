@@ -91,4 +91,8 @@ module.exports = {
       name: false,
     },
   },
+  devServer: {
+    contentBase: path.join(__dirname, "public"),
+    port: 9000,
+  },
 };

@@ -1,19 +1,42 @@
 .intro {
   display: flex;
-  justify-content: flex-end;
-  padding: var(--padding);
+  justify-content: center;
+  padding: 0 var(--padding);
+  margin-bottom: calc(var(--padding) * 2);
 }
 
 .intro > div {
-  width: calc(100vw - var(--padding) - var(--padding));
-  max-width: calc(100vw - var(--padding) - var(--padding));
-  padding: var(--padding);
-  background: linear-gradient(128.53deg, #2e2e2e 16.55%, #0e0e0e 89.4%);
-  overflow: hidden;
+  max-width: 940px;
 }
 
 .intro h2 {
   font-size: 1.5rem;
   margin: 0;
   font-weight: 500;
+  background: linear-gradient(
+    90deg,
+    var(--color) 5%,
+    rgb(238, 15, 238) 50%,
+    rgb(86, 20, 240) 95%
+  );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@media only screen and (min-width: $br-xs) {
+  .intro h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media only screen and (min-width: $br-sm) {
+  .intro h2 {
+    font-size: 2.8rem;
+  }
+}
+
+@media only screen and (min-width: $br-lg) {
+  .intro > div {
+    width: calc(66%);
+  }
 }
