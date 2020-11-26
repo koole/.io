@@ -78,35 +78,17 @@
     mix-blend-mode: soft-light;
   }
 
-  .project-description h2,
   .team-title h2 {
     font-size: 2.3rem;
   }
 
-  .project {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    flex-direction: row;
-    height: 100vh;
-  }
-  .project-description {
-    padding-top: 0;
-    padding-right: var(--padding);
-  }
-  .project-video-container {
-    flex: 0 0 66%;
-    height: calc(100vh - var(--padding) - var(--padding));
-  }
-  .project-video-container:hover > .project-video {
-    transform: scale(1.05);
-  }
   .team {
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
     flex-direction: row;
   }
+
   .team-title {
     padding-top: 0;
     padding-right: var(--padding);

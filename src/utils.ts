@@ -1,3 +1,5 @@
+import ScrollReveal from "scrollreveal";
+
 export const E = (id: string): HTMLElement | null =>
   document.getElementById(id);
 
@@ -13,3 +15,5 @@ export function docReady(fn: () => void): void {
     document.addEventListener("DOMContentLoaded", fn);
   }
 }
+
+export const SR = ScrollReveal();

@@ -1,8 +1,6 @@
-import { E } from "./utils";
-import ScrollReveal from "scrollreveal";
+import { E, SR } from "./utils";
 
-const sr = ScrollReveal();
-sr.reveal(".project-description-float", {
+SR.reveal(".project-description-float", {
   duration: 500,
   scale: 0,
   viewFactor: 1,

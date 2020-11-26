@@ -1,53 +1,18 @@
-import { docReady, E } from "./utils";
+import { docReady, E, SR } from "./utils";
 
-// Fixes delayed audio playback on Safari
-declare global {
-  interface Window {
-    webkitAudioContext: typeof AudioContext;
-  }
-}
-
-const AudioCtx = window.AudioContext || window.webkitAudioContext;
-const _ = new AudioCtx();
-
-docReady(() => {
-  window.scrollTo(0, 0);
-  document.documentElement.style.overflow = "hidden";
-  const startButton = E("light-button") as HTMLButtonElement;
-  const audio = E("light-audio") as HTMLAudioElement;
-  const video = E("header-video");
-  const T0 = E("header-text-0");
-  const T1 = E("header-text-1");
-  const T2 = E("header-text-2");
-  audio.addEventListener("play", () => {
-    if (video !== null) {
-      setTimeout(() => {
-        video.style.opacity = "1";
-      }, 1319);
-    }
-    if (T0 !== null) {
-      setTimeout(() => {
-        T0.classList.add("active");
-      }, 2994);
-    }
-    if (T1 !== null) {
-      setTimeout(() => {
-        T1.classList.add("active");
-      }, 3597);
-    }
-    if (T2 !== null) {
-      setTimeout(() => {
-        T2.classList.add("active");
-        document.documentElement.style.overflow = "unset";
-      }, 3859);
-    }
-  });
-  startButton.addEventListener("click", () => {
-    audio.play();
-    startButton.style.display = "none";
-  });
+SR.reveal(".intro h2, .intro p", {
+  duration: 500,
+  scale: 0,
+  viewFactor: 1,
+  easing: "ease-in-out",
 });
 
-window.onbeforeunload = function (): void {
-  window.scrollTo(0, 0);
-};
+docReady(() => {
+  const diffInMs = Date.now() - new Date("1997-09-01");
+  console.log(diffInMs);
+  const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+  console.log(diffInDays);
+  E("days").innerText = Math.floor(diffInDays)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+});
