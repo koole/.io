@@ -122,6 +122,6 @@
 
   .project-video-container:hover > .project-video {
     transform: scale(1.05);
-    filter: blur(10px) brightness(1.2);
+    filter: blur(5px) brightness(1.2);
   }
 }

@@ -36,6 +36,7 @@ header > h1 {
 header > h1 > span.active {
   color: var(--white);
   text-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+  filter: url(#blur);
 }
 
 #light-button {
