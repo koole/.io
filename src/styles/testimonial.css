@@ -2,7 +2,8 @@
   display: flex;
   justify-content: center;
   padding: calc(var(--padding) * 3) var(--padding);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%,  rgba(0, 0, 0, 0) 100%), url("/testimonial.png");
+  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%),
+    url("/testimonial.png");
   background-position: center;
   background-size: cover;
   text-align: center;
@@ -15,13 +16,22 @@
     font-size: 1.5rem;
     margin: 0;
     font-weight: 500;
-    color: #fece00;
-    background: linear-gradient(00deg, #e7bd02 0%, #fece00 100%);
+    color: #ecf003;
+    background: linear-gradient(to top, #e3e702, #ecf003);
     background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 50px rgba(99, 85, 53, 0.4);
     filter: url("#blur");
     mix-blend-mode: color-dodge;
+    &::-moz-selection {
+      color: var(--black);
+      background: #ecf003;
+    }
+
+    &::selection {
+      color: var(--black);
+      background: #ecf003;
+    }
   }
 
   img {
