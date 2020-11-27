@@ -2,7 +2,7 @@ footer {
   background: linear-gradient(0deg, black 0%, #0f0f0f 50%);
   padding: calc(var(--padding) * 2) var(--padding);
 
-  p {
+  .contact {
     padding-right: var(--padding);
   }
 
@@ -12,30 +12,84 @@ footer {
     margin: -1rem;
   }
 
+  .contact,
+  address {
+    line-height: 1.4;
+  }
+
   a {
     display: block;
     color: inherit;
+    color: var(--color) aaa;
   }
 
   .contacts {
     display: flex;
     flex-wrap: wrap;
-    > p {
-      flex: 0 0 calc(1 / 3 * 100%);
+    > .contact {
+      flex: 0 0 calc(1 / 1 * 100%);
+      @media only screen and (min-width: $br-sm) {
+        flex: 0 0 calc(1 / 2 * 100%);
+      }
+      @media only screen and (min-width: $br-lg) {
+        flex: 0 0 calc(1 / 3 * 100%);
+      }
     }
   }
 
   h2 {
-    margin-bottom: 0;
+    font-size: 1.5rem;
+    line-height: 0.9em;
+    margin: 0.25em 0;
   }
 
-  p {
+  h3 {
+    margin-bottom: 0;
+
+    font-size: 1.2rem;
+    @media only screen and (min-width: $br-sm) {
+      font-size: 1.5rem;
+    }
+    @media only screen and (min-width: $br-lg) {
+      font-size: 1.8rem;
+    }
+    @media only screen and (min-width: $br-xl) {
+      font-size: 2.2rem;
+    }
+  }
+
+  .contact-title {
+    -webkit-text-fill-color: transparent;
+  }
+
+  .eu .contact-title {
+    background: linear-gradient(to right, #50a0ff 5.04%, #006dff 95%);
+    background-clip: text;
+  }
+
+  .us .contact-title {
+    background: linear-gradient(to right, #ff6771 5.04%, #da000f 95%);
+    background-clip: text;
+  }
+
+  .br .contact-title {
+    background: linear-gradient(to right, #adfab0 5.04%, #47e04c 95%);
+    background-clip: text;
+  }
+
+  .kz .contact-title {
+    background: linear-gradient(to right, #97dff2 5.04%, #1ec4f1 95%);
+    background-clip: text;
+  }
+
+  .contact {
     margin-top: 0.5em;
     color: rgba(255, 255, 255, 0.6);
     font-weight: 300;
     strong {
       color: rgba(255, 255, 255, 1);
       font-weight: 500;
+      font-size: 1.1rem;
     }
   }
 }

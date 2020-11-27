@@ -6,3 +6,4 @@ import "./intro";
 import "./projects";
 import "./testimonial";
 import "./team";
+import "./footer";

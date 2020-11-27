@@ -40,9 +40,10 @@
     font-size: 5rem;
   }
 
+  footer h2,
   .project-description h2,
   .team-title h2 {
-    font-size: 3rem;
+    font-size: 2.2rem;
   }
 
   .logo > img {
@@ -78,8 +79,9 @@
     mix-blend-mode: soft-light;
   }
 
+  footer h2,
   .team-title h2 {
-    font-size: 2.3rem;
+    font-size: 2.5rem;
   }
 
   .team {
@@ -96,6 +98,7 @@
 }
 
 @media only screen and (min-width: $br-xl) {
+  footer h2,
   .project-description h2,
   .team-title h2 {
     font-size: 3rem;

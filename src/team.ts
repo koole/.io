@@ -1,4 +1,11 @@
-import { E } from "./utils";
+import { E, SR } from "./utils";
+
+SR.reveal(".team h2", {
+  duration: 500,
+  scale: 0,
+  viewFactor: 1,
+  easing: "ease-in-out",
+});
 
 const maxMove = 300;
 
