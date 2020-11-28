@@ -59,27 +59,7 @@ footer {
   }
 
   .contact-title {
-    -webkit-text-fill-color: transparent;
-  }
-
-  .eu .contact-title {
-    background: linear-gradient(to right, #50a0ff 5.04%, #006dff 95%);
-    background-clip: text;
-  }
-
-  .us .contact-title {
-    background: linear-gradient(to right, #ff6771 5.04%, #da000f 95%);
-    background-clip: text;
-  }
-
-  .br .contact-title {
-    background: linear-gradient(to right, #adfab0 5.04%, #47e04c 95%);
-    background-clip: text;
-  }
-
-  .kz .contact-title {
-    background: linear-gradient(to right, #97dff2 5.04%, #1ec4f1 95%);
-    background-clip: text;
+    color: var(--color);
   }
 
   .contact {
