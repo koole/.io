@@ -1,6 +1,7 @@
 .team {
   background: var(--black);
   height: 800px;
+  max-height: 100vh;
   overflow: hidden;
   position: relative;
 }
