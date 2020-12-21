@@ -48,7 +48,11 @@ function scrollPlay(): void {
       );
       project.smoothed += (offset - project.smoothed) / 6;
       const percentage = project.smoothed / (window.innerHeight * 2);
-      if (project.placeholder !== null) {
+      if (
+        project.placeholder !== null &&
+        percentage > 0.01 &&
+        percentage < 0.99
+      ) {
         project.placeholder.currentTime = percentage * 2;
       }
     }
