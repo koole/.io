@@ -12,10 +12,10 @@ window.addEventListener("mousemove", (e) => {
 });
 
 function animateCursor(): void {
-  xp += (mouseX - xp) / 6;
-  yp += (mouseY - yp) / 6;
+  xp += Math.floor((mouseX - xp) / 6);
+  yp += Math.floor((mouseY - yp) / 6);
   if (circle !== null) {
-    circle.style.transform = `translateX(${xp}px) translateY(${yp}px)`;
+    circle.style.transform = `translate3d(${xp}px, ${yp}px, 0)`;
   }
   requestAnimationFrame(animateCursor);
 }

@@ -32,14 +32,15 @@ docReady(() => {
       smoothed += (offset - smoothed) / 6;
 
       const percentage = smoothed / (window.innerHeight * 2);
+      const move = Math.floor(percentage * maxMove);
       if (row0 !== null) {
-        row0.style.transform = `translateX(${percentage * maxMove}px)`;
+        row0.style.transform = `translate3d(${move}px, 0, 0)`;
       }
       if (row1 !== null) {
-        row1.style.transform = `translateX(${percentage * maxMove * -1}px)`;
+        row1.style.transform = `translate3d(${move * -1}px, 0, 0)`;
       }
       if (row2 !== null) {
-        row2.style.transform = `translateX(${percentage * maxMove}px)`;
+        row2.style.transform = `translate3d(${move}px, 0, 0)`;
       }
     }
     window.requestAnimationFrame(moveMembers);
