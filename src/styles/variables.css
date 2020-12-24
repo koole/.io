@@ -7,6 +7,7 @@
   --padding: 1rem;
   /* Filters */
   --filter-abberation: url("#abberation");
+  --transition: 0.5s all cubic-bezier(0.85, 0, 0.15, 1);
 }
 
 /* Breakpoints */

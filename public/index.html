@@ -133,9 +133,6 @@
         <feBlend mode="screen" in="red" in2="blue" />
       </filter>
     </svg>
-    <div class="noise-container">
-      <div class="noise-overlay"></div>
-    </div>
     <div class="logo">
       <img
         src="/logos/dekoolecentrale.svg"
@@ -202,7 +199,7 @@
             >
           </div>
         </div>
-        <div class="project-video-container">
+        <a href="https://getrevision.com" class="project-video-container">
           <img
             class="project-video"
             src="/videos/revision/placeholder.png"
@@ -225,7 +222,7 @@
             />
             <source src="/videos/revision/h264.mp4" type="video/mp4" />
           </video>
-        </div>
+        </a>
       </section>
       <section id="s-vw" class="project vettewebsite vw-animate">
         <div class="project-description">
@@ -237,7 +234,7 @@
             >
           </div>
         </div>
-        <div class="project-video-container">
+        <a href="https://vette.website" class="project-video-container">
           <img
             class="project-video"
             src="/videos/vettewebsite/placeholder.png"
@@ -260,7 +257,7 @@
             />
             <source src="/videos/vettewebsite/h264.mp4" type="video/mp4" />
           </video>
-        </div>
+        </a>
       </section>
       <section id="s-appmantle" class="project appmantle">
         <div class="project-description">
@@ -274,7 +271,7 @@
             >
           </div>
         </div>
-        <div class="project-video-container">
+        <a href="https://appmantle.com" class="project-video-container">
           <img
             class="project-video"
             src="/videos/appmantle/placeholder.png"
@@ -297,7 +294,7 @@
             /> -->
             <source src="/videos/appmantle/h264.mp4" type="video/mp4" />
           </video>
-        </div>
+        </a>
       </section>
       <div class="testimonial knalgeel">
         <div>
@@ -481,19 +478,31 @@
           <h3>Europa</h3>
           <div class="contacts">
             <div class="contact">
-              <strong>Leon Koole</strong>
-              <div class="contact-title">Head of Media Relations</div>
-              <a href="mailto:leon@koole.io">leon@koole.io</a>
+              <div class="contact-background">
+                <div>
+                  <strong>Leon Koole</strong>
+                  <div class="contact-title">Head of Media Relations</div>
+                  <a href="mailto:leon@koole.io">leon@koole.io</a>
+                </div>
+              </div>
             </div>
             <div class="contact">
-              <strong>Leon Koole</strong>
-              <div class="contact-title">Corporate Communications</div>
-              <a href="mailto:leon@koole.io">leon@koole.io</a>
+              <div class="contact-background">
+                <div>
+                  <strong>Leon Koole</strong>
+                  <div class="contact-title">Corporate Communications</div>
+                  <a href="mailto:leon@koole.io">leon@koole.io</a>
+                </div>
+              </div>
             </div>
             <div class="contact">
-              <strong>Leon Koole</strong>
-              <div class="contact-title">Global Enterprise Sales</div>
-              <a href="mailto:leon@koole.io">leon@koole.io</a>
+              <div class="contact-background">
+                <div>
+                  <strong>Leon Koole</strong>
+                  <div class="contact-title">Global Enterprise Sales</div>
+                  <a href="mailto:leon@koole.io">leon@koole.io</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -501,14 +510,22 @@
           <h3>Verenigde Staten</h3>
           <div class="contacts">
             <div class="contact">
-              <strong>Leon Koole</strong>
-              <div class="contact-title">Communications US</div>
-              <a href="mailto:leon@koole.io">leon@koole.io</a>
+              <div class="contact-background">
+                <div>
+                  <strong>Leon Koole</strong>
+                  <div class="contact-title">Communications US</div>
+                  <a href="mailto:leon@koole.io">leon@koole.io</a>
+                </div>
+              </div>
             </div>
             <div class="contact">
-              <strong>Leon Koole</strong>
-              <div class="contact-title">Head Legal US</div>
-              <a href="mailto:leon@koole.io">leon@koole.io</a>
+              <div class="contact-background">
+                <div>
+                  <strong>Leon Koole</strong>
+                  <div class="contact-title">Head Legal US</div>
+                  <a href="mailto:leon@koole.io">leon@koole.io</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -516,9 +533,13 @@
           <h3>Brazilië</h3>
           <div class="contacts">
             <div class="contact">
-              <strong>Leon Koole</strong>
-              <div class="contact-title">Communications South America</div>
-              <a href="mailto:leon@koole.io">leon@koole.io</a>
+              <div class="contact-background">
+                <div>
+                  <strong>Leon Koole</strong>
+                  <div class="contact-title">Communications South America</div>
+                  <a href="mailto:leon@koole.io">leon@koole.io</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -526,9 +547,13 @@
           <h3>Kazachstan</h3>
           <div class="contacts">
             <div class="contact">
-              <strong>Leon Koole</strong>
-              <div class="contact-title">Communications Asia</div>
-              <a href="mailto:leon@koole.io">leon@koole.io</a>
+              <div class="contact-background">
+                <div>
+                  <strong>Leon Koole</strong>
+                  <div class="contact-title">Communications Asia</div>
+                  <a href="mailto:leon@koole.io">leon@koole.io</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -538,7 +563,11 @@
       <source src="/lights.mp3" type="audio/mpeg" />
     </audio>
     <button id="light-button">Zet de lampen aan</button>
-    <span id="circle" class="circle"></span>
+    <span id="circle" class="circle">
+      <div id="circle-content" class="circle-content">
+        <div class="circle-project-content">Bezoek website</div>
+      </div>
+    </span>
     <script async src="/main.js"></script>
   </body>
 </html>

@@ -60,4 +60,13 @@ function scrollPlay(): void {
   window.requestAnimationFrame(scrollPlay);
 }
 
+for (const project of projects) {
+  project.placeholder.addEventListener("mouseenter", () => {
+    E("circle-content").classList.add("circle-project");
+  });
+  project.placeholder.addEventListener("mouseleave", () => {
+    E("circle-content").classList.remove("circle-project");
+  });
+}
+
 window.requestAnimationFrame(scrollPlay);
