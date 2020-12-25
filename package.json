@@ -19,7 +19,7 @@
     "postcss-import": "^13.0.0",
     "postcss-loader": "^4.1.0",
     "precss": "^4.0.0",
-    "scrollreveal": "^3.4.0",
+    "sal.js": "^0.8.2",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.0.3",
     "ts-loader": "^8.0.11",

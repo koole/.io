@@ -1,3 +1,5 @@
+@import "sal.js/dist/sal.css";
+
 @import "normalize.css";
 
 @import "variables.css";
@@ -11,6 +13,10 @@
 @import "testimonial.css";
 @import "team.css";
 @import "footer.css";
+
+[data-sal="slide-up"] {
+  transform: translateY(20px);
+}
 
 @media only screen and (min-width: $br-xs) {
   :root {
@@ -65,9 +71,14 @@
   }
 }
 
+.circle {
+  display: none;
+}
+
 @media only screen and (min-width: $br-lg) {
   .circle {
     position: fixed;
+    display: block;
     z-index: 999;
     left: -200px;
     top: -200px;

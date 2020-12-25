@@ -1,12 +1,4 @@
-import { E, SR } from "./utils";
-
-SR.reveal(".project-description-float", {
-  duration: 500,
-  scale: 0,
-  viewFactor: 1,
-  easing: "ease-in-out",
-});
-
+import { E } from "./utils";
 interface Project {
   id: HTMLElement | null;
   placeholder: HTMLVideoElement | null;

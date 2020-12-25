@@ -1,14 +1,7 @@
-import { docReady, E, SR } from "./utils";
-
-SR.reveal(".intro h2, .intro p", {
-  duration: 500,
-  scale: 0,
-  viewFactor: 1,
-  easing: "ease-in-out",
-});
+import { docReady, E } from "./utils";
 
 docReady(() => {
-  const diffInMs = Date.now() - new Date("1997-09-01");
+  const diffInMs = Date.now() - +new Date("1997-09-01");
   const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
   E("days").innerText = Math.floor(diffInDays)
     .toString()

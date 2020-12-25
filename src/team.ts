@@ -1,11 +1,4 @@
-import { docReady, E, SR } from "./utils";
-
-SR.reveal(".team h2", {
-  duration: 500,
-  scale: 0,
-  viewFactor: 1,
-  easing: "ease-in-out",
-});
+import { docReady, E } from "./utils";
 
 const maxMove = 300;
 
