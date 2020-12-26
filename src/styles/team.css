@@ -85,3 +85,29 @@
   color: rgba(255, 255, 255, 0.6);
   font-weight: 300;
 }
+
+@media only screen and (min-width: $br-xs) {
+  .team > .members {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media only screen and (min-width: $br-md) {
+  .team > .members {
+    width: 3000px;
+  }
+}
+
+@media only screen and (min-width: $br-lg) {
+  .team {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    flex-direction: row;
+  }
+
+  .team-title {
+    padding-top: 0;
+    padding-right: var(--padding);
+  }
+}

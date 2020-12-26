@@ -2,6 +2,7 @@
   box-sizing: border-box;
 }
 
+/* Utils */
 .hidden {
   display: none;
 }
@@ -10,6 +11,7 @@
   filter: url("#wavy");
 }
 
+/* Typography */
 html {
   font-size: 22px;
   font-family: "Space Grotesk", "Epilogue", sans-serif;
@@ -17,6 +19,29 @@ html {
   font-weight: 400;
 }
 
+.heading {
+  font-size: 2rem;
+}
+
+@media only screen and (min-width: $br-sm) {
+  .heading {
+    font-size: 2.2rem;
+  }
+}
+
+@media only screen and (min-width: $br-lg) {
+  .heading {
+    font-size: 2.5rem;
+  }
+}
+
+@media only screen and (min-width: $br-xl) {
+  .heading {
+    font-size: 3rem;
+  }
+}
+
+/* Selection */
 ::-moz-selection {
   color: var(--color);
   background: var(--black);
@@ -27,6 +52,7 @@ html {
   background: var(--black);
 }
 
+/* Vette Website color loop */
 @keyframes hue-rotate {
   from {
     filter: hue-rotate(0deg);
@@ -40,39 +66,7 @@ html {
   animation: 30s linear 0s infinite normal none running hue-rotate;
 }
 
-
-@keyframes noise {
-  0% {
-    transform: translate3d(0, 9rem, 0);
-  }
-  10% {
-    transform: translate3d(-1rem, -4rem, 0);
-  }
-  20% {
-    transform: translate3d(-8rem, 2rem, 0);
-  }
-  30% {
-    transform: translate3d(9rem, -9rem, 0);
-  }
-  40% {
-    transform: translate3d(-2rem, 7rem, 0);
-  }
-  50% {
-    transform: translate3d(-9rem, -4rem, 0);
-  }
-  60% {
-    transform: translate3d(8rem, 6rem, 0);
-  }
-  70% {
-    transform: translate3d(-7rem, -8rem, 0);
-  }
-  80% {
-    transform: translate3d(5rem, 5rem, 0);
-  }
-  90% {
-    transform: translate3d(-6rem, -5rem, 0);
-  }
-  100% {
-    transform: translate3d(8rem, -9rem, 0);
-  }
+/* Slide up fade in effect */
+[data-sal="slide-up"] {
+  transform: translateY(20px);
 }

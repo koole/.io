@@ -24,3 +24,21 @@ $br-xl: 1400px;
     --color: color(display-p3 1 0.342 0);
   }
 }
+
+@media only screen and (min-width: $br-xs) {
+  :root {
+    --padding: 1.5rem;
+  }
+}
+
+@media only screen and (min-width: $br-sm) {
+  :root {
+    --padding: 2rem;
+  }
+}
+
+@media only screen and (min-width: $br-md) {
+  :root {
+    --padding: 3rem;
+  }
+}

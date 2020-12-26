@@ -1,0 +1,41 @@
+.cursor {
+  display: none;
+}
+
+@media only screen and (min-width: $br-lg) {
+  .cursor {
+    position: fixed;
+    display: block;
+    z-index: 999;
+    left: -200px;
+    top: -200px;
+    pointer-events: none;
+    mix-blend-mode: soft-light;
+  }
+  .cursor-content {
+    border: solid 4px var(--white);
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    will-change: transform;
+    transition: var(--transition);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &.cursor-project {
+      border-radius: 0;
+      width: 200px;
+      transform: translateX(-70px);
+      .cursor-project-content {
+        opacity: 1;
+      }
+    }
+    .cursor-project-content {
+      flex: 1 0 200px;
+      text-align: center;
+      opacity: 0;
+      transition: var(--transition);
+    }
+  }
+}

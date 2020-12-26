@@ -1,11 +1,10 @@
 @import "sal.js/dist/sal.css";
-
 @import "normalize.css";
 
 @import "variables.css";
 
 @import "global.css";
-
+@import "cursor.css";
 @import "logo.css";
 @import "header.css";
 @import "intro.css";
@@ -13,127 +12,3 @@
 @import "testimonial.css";
 @import "team.css";
 @import "footer.css";
-
-[data-sal="slide-up"] {
-  transform: translateY(20px);
-}
-
-@media only screen and (min-width: $br-xs) {
-  :root {
-    --padding: 1.5rem;
-  }
-
-  header > h1 {
-    font-size: 3rem;
-  }
-
-  .project-description h2,
-  .team-title h2 {
-    font-size: 2rem;
-  }
-
-  .team > .members {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media only screen and (min-width: $br-sm) {
-  :root {
-    --padding: 2rem;
-  }
-
-  header > h1 {
-    font-size: 5rem;
-  }
-
-  footer h2,
-  .project-description h2,
-  .team-title h2 {
-    font-size: 2.2rem;
-  }
-
-  .logo > img {
-    width: 130px;
-  }
-}
-
-@media only screen and (min-width: $br-md) {
-  :root {
-    --padding: 3rem;
-  }
-
-  .logo > img {
-    width: 163px;
-  }
-
-  .team > .members {
-    width: 3000px;
-  }
-}
-
-.circle {
-  display: none;
-}
-
-@media only screen and (min-width: $br-lg) {
-  .circle {
-    position: fixed;
-    display: block;
-    z-index: 999;
-    left: -200px;
-    top: -200px;
-    pointer-events: none;
-    mix-blend-mode: soft-light;
-  }
-  .circle-content {
-    border: solid 4px var(--white);
-    width: 60px;
-    height: 60px;
-    border-radius: 30px;
-    will-change: transform;
-    transition: var(--transition);
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    &.circle-project {
-      border-radius: 0;
-      width: 200px;
-      transform: translateX(-70px);
-      .circle-project-content {
-        opacity: 1;
-      }
-    }
-    .circle-project-content {
-      flex: 1 0 200px;
-      text-align: center;
-      opacity: 0;
-      transition: var(--transition);
-    }
-  }
-
-  footer h2,
-  .team-title h2 {
-    font-size: 2.5rem;
-  }
-
-  .team {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    flex-direction: row;
-  }
-
-  .team-title {
-    padding-top: 0;
-    padding-right: var(--padding);
-  }
-}
-
-@media only screen and (min-width: $br-xl) {
-  footer h2,
-  .project-description h2,
-  .team-title h2 {
-    font-size: 3rem;
-  }
-}

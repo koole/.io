@@ -1,6 +1,6 @@
 import { E } from "./utils";
 
-const circle = E("circle");
+const cursor = E("cursor");
 let mouseX = 0,
   mouseY = 0;
 let xp = 0,
@@ -14,8 +14,8 @@ window.addEventListener("mousemove", (e) => {
 function animateCursor(): void {
   xp += Math.floor((mouseX - xp) / 6);
   yp += Math.floor((mouseY - yp) / 6);
-  if (circle !== null) {
-    circle.style.transform = `translate3d(${xp}px, ${yp}px, 0)`;
+  if (cursor !== null) {
+    cursor.style.transform = `translate3d(${xp}px, ${yp}px, 0)`;
   }
   requestAnimationFrame(animateCursor);
 }

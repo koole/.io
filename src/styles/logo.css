@@ -15,3 +15,15 @@
 .logo > img {
   width: 100px;
 }
+
+@media only screen and (min-width: $br-sm) {
+  .logo > img {
+    width: 130px;
+  }
+}
+
+@media only screen and (min-width: $br-md) {
+  .logo > img {
+    width: 163px;
+  }
+}
