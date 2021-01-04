@@ -1,4 +1,4 @@
-import "./styles/index.css";
+import "./styles/index.pcss";
 
 import sal from "sal.js";
 sal();
