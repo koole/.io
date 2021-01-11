@@ -4,26 +4,22 @@
   background: #000000;
   display: flex;
   flex-direction: column-reverse;
-
-  &.revision {
-    background: linear-gradient(0deg, black, #020230);
-    .subtitle {
-      color: #3a5ae7;
-    }
-  }
-
-  &.vettewebsite {
-    background: linear-gradient(0deg, black, #1e1200);
-    .subtitle {
-      color: #fffd96;
-    }
-  }
-
-  &.appmantle {
     background: linear-gradient(0deg, black, #1d1d1d);
-    .subtitle {
-      color: #d8d8d8;
-    }
+
+  .subtitle {
+    color: var(--color);
+  }
+
+  &.revision .subtitle {
+    color: var(--color);
+  }
+
+  &.vettewebsite .subtitle {
+    color: var(--color2);
+  }
+
+  &.appmantle .subtitle {
+    color: var(--color3);
   }
 }
 
@@ -115,10 +111,5 @@
   .project-video-container {
     flex: 0 0 66%;
     height: calc(100vh - var(--padding) - var(--padding));
-  }
-
-  .project-video-container:hover > .project-video {
-    transform: scale(1.05);
-    filter: brightness(1.2);
   }
 }
