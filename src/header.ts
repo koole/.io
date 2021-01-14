@@ -19,7 +19,7 @@ docReady(() => {
   const T0 = E("header-text-0");
   const T1 = E("header-text-1");
   const T2 = E("header-text-2");
-  // audio.addEventListener("play", () => {
+  audio.addEventListener("play", () => {
     if (video !== null) {
       setTimeout(() => {
         video.style.opacity = "1";
@@ -36,16 +36,16 @@ docReady(() => {
       }, 3597);
     }
     if (T2 !== null) {
-      // setTimeout(() => {
+      setTimeout(() => {
         T2.classList.add("active");
         document.documentElement.style.overflow = "unset";
-      // }, 3859);
+      }, 3859);
     }
-  // });
-  // startButton.addEventListener("click", () => {
-    // audio.play();
+  });
+  startButton.addEventListener("click", () => {
+    audio.play();
     startButton.style.display = "none";
-  // });
+  });
 });
 
 window.onbeforeunload = function (): void {
