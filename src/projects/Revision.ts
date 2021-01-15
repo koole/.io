@@ -33,8 +33,10 @@ export default class Revision extends Renderer {
     const white = new THREE.Color(0xffffff);
     white.convertSRGBToLinear();
 
-    const orange = new THREE.Color(0xff4300);
+    const orange = new THREE.Color(0xff8f00);
     orange.convertSRGBToLinear();
+    const lineOrange = new THREE.Color(0xff4300);
+    lineOrange.convertSRGBToLinear();
 
     this.camera.position.z = 6;
     this.controls.update();
@@ -73,7 +75,7 @@ export default class Revision extends Renderer {
       this.scene.add(this.rightLineMesh);
 
       const geometry = new THREE.SphereBufferGeometry(0.02, 16, 16);
-      const sphereMaterial = new THREE.MeshBasicMaterial({ color: orange });
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: lineOrange });
       this.screenPoint = new THREE.Mesh(geometry, sphereMaterial);
       this.screenPoint.position.copy(this.initialScreenLookAtPoint);
       this.scene.add(this.screenPoint);

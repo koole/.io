@@ -5,7 +5,7 @@ import {
   EffectComposer,
   EffectPass,
   RenderPass,
-  DepthOfFieldEffect,
+  KernelSize,
 } from "postprocessing";
 
 import { Easing } from "../utils";
@@ -36,10 +36,13 @@ class Renderer {
   public timeStep: number;
   public mouseX: number;
   public mouseY: number;
+  public bloomEnabled: boolean;
+
   composer: any;
   clock: THREE.Clock;
 
-  constructor(container: HTMLDivElement) {
+  constructor(container: HTMLDivElement, bloomEnabled: boolean) {
+    this.bloomEnabled = bloomEnabled;
     this.gltfLoader = new GLTFLoader();
     this.clock = new THREE.Clock();
 
@@ -65,6 +68,7 @@ class Renderer {
       powerPreference: "high-performance",
     });
     this.renderer.setSize(this.width, this.height);
+    this.renderer.setClearColor(0x000000);
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = exposure;
     this.renderer.physicallyCorrectLights = true;
@@ -72,17 +76,24 @@ class Renderer {
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(this.renderer.domElement);
 
-    // this.composer = new EffectComposer(this.renderer, {
-    //   frameBufferType: THREE.HalfFloatType,
-    //   // multisampling: 4,
-    // });
-    // this.composer.addPass(new RenderPass(this.scene, this.camera));
-    // this.composer.addPass(
-    //   new EffectPass(
-    //     this.camera,
-    //     new BloomEffect({ luminanceThreshold: 0.8, intensity: 1 })
-    //   )
-    // );
+    this.composer = new EffectComposer(this.renderer, {
+      frameBufferType: THREE.HalfFloatType,
+      // multisampling: 4,
+    });
+    this.composer.addPass(new RenderPass(this.scene, this.camera));
+    if (this.bloomEnabled === true) {
+      this.composer.addPass(
+        new EffectPass(
+          this.camera,
+          new BloomEffect({
+            luminanceThreshold: 0.1,
+            intensity: 0.1,
+            luminanceSmoothing: 1,
+            kernelSize: KernelSize.HUGE,
+          })
+        )
+      );
+    }
 
     // Bind methods to class
     this.createScene = this.createScene.bind(this);
@@ -166,8 +177,8 @@ class Renderer {
   }
 
   protected render(): void {
-    this.renderer.render(this.scene, this.camera);
-    // this.composer.render(this.clock.getDelta());
+    // this.renderer.render(this.scene, this.camera);
+    this.composer.render(this.clock.getDelta());
   }
 
   protected loadGLTF(url: string): Promise<GLTF> {

@@ -12,5 +12,5 @@
   for = "/*"
   [headers.values]
     Link = '''
-    </style.css>; rel=preload; as=style, \
+    </main.css>; rel=preload; as=style, \
     </bundle.js>; rel=preload; as=script'''
