@@ -76,24 +76,24 @@ class Renderer {
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(this.renderer.domElement);
 
-    this.composer = new EffectComposer(this.renderer, {
-      frameBufferType: THREE.HalfFloatType,
-      // multisampling: 4,
-    });
-    this.composer.addPass(new RenderPass(this.scene, this.camera));
-    if (this.bloomEnabled === true) {
-      this.composer.addPass(
-        new EffectPass(
-          this.camera,
-          new BloomEffect({
-            luminanceThreshold: 0.1,
-            intensity: 0.1,
-            luminanceSmoothing: 1,
-            kernelSize: KernelSize.HUGE,
-          })
-        )
-      );
-    }
+    // this.composer = new EffectComposer(this.renderer, {
+    //   frameBufferType: THREE.HalfFloatType,
+    //   // multisampling: 4,
+    // });
+    // this.composer.addPass(new RenderPass(this.scene, this.camera));
+    // if (this.bloomEnabled === true) {
+    //   this.composer.addPass(
+    //     new EffectPass(
+    //       this.camera,
+    //       new BloomEffect({
+    //         luminanceThreshold: 0.1,
+    //         intensity: 0.1,
+    //         luminanceSmoothing: 1,
+    //         kernelSize: KernelSize.HUGE,
+    //       })
+    //     )
+    //   );
+    // }
 
     // Bind methods to class
     this.createScene = this.createScene.bind(this);
@@ -177,8 +177,8 @@ class Renderer {
   }
 
   protected render(): void {
-    // this.renderer.render(this.scene, this.camera);
-    this.composer.render(this.clock.getDelta());
+    this.renderer.render(this.scene, this.camera);
+    // this.composer.render(this.clock.getDelta());
   }
 
   protected loadGLTF(url: string): Promise<GLTF> {

@@ -29,6 +29,7 @@ export default class VetteWebsite extends Renderer {
       color.convertSRGBToLinear();
       this.leds = [...Array(1024).keys()].map((key) => {
         const sphereMaterial = new THREE.MeshStandardMaterial({
+          roughness: 0,
           color: color,
           emissive: color,
           emissiveIntensity: 1,
@@ -43,6 +44,8 @@ export default class VetteWebsite extends Renderer {
         this.pivot.add(led);
         return led;
       });
+      // Render once after the scene has loaded
+      this.render();
     });
 
     const topLight = new THREE.DirectionalLight(white, 2);
@@ -68,7 +71,6 @@ export default class VetteWebsite extends Renderer {
       this.gltf.children[3].rotation.y = this.mouseX / window.innerWidth - 0.5;
       this.pivot.rotation.y = this.mouseX / window.innerWidth - 0.5;
     }
-    console.log(this.leds);
     this.hue = (this.hue + 1) % 360;
     for (let index = 0; index < this.leds.length; index++) {
       const led = this.leds[index];

@@ -52,7 +52,6 @@ export default class Revision extends Renderer {
 
     this.loadGLTF("/revision.glb").then((gltf) => {
       this.gltf = gltf.scene;
-      console.log(this.gltf.children);
       this.scene.add(gltf.scene);
       this.intialHeadPosition = this.gltf.children[1].position.clone();
       this.headPosition = this.intialHeadPosition.clone();
@@ -79,6 +78,8 @@ export default class Revision extends Renderer {
       this.screenPoint = new THREE.Mesh(geometry, sphereMaterial);
       this.screenPoint.position.copy(this.initialScreenLookAtPoint);
       this.scene.add(this.screenPoint);
+      // Render once after the scene has loaded
+      this.render();
     });
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);

@@ -8,7 +8,6 @@ interface Project {
   placeholder: HTMLDivElement | null;
   renderer: any;
   instance?: Renderer;
-  bloom: boolean;
 }
 
 const projects: Project[] = [
@@ -16,19 +15,16 @@ const projects: Project[] = [
     id: E("s-revision"),
     placeholder: E("s-revision-video") as HTMLDivElement | null,
     renderer: Revision,
-    bloom: false,
   },
   {
     id: E("s-vw"),
     placeholder: E("s-vw-video") as HTMLDivElement | null,
     renderer: VetteWebsite,
-    bloom: true,
   },
   {
     id: E("s-appmantle"),
     placeholder: E("s-appmantle-video") as HTMLDivElement | null,
     renderer: Appmantle,
-    bloom: false,
   },
 ];
 
@@ -74,7 +70,7 @@ function start(): void {
   // Create a new instance for every project. This also appends a canvas to each
   // placeholder and such.
   for (const project of projects) {
-    project.instance = new project.renderer(project.placeholder, project.bloom);
+    project.instance = new project.renderer(project.placeholder);
   }
 
   // Star the scrollUpdate checker
