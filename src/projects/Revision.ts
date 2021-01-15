@@ -104,7 +104,8 @@ export default class Revision extends Renderer {
   public animate(): void {
     const T = this.timeStep;
     this.camera.fov =
-      39.6 - 15 * Math.sin(this.controls.getAzimuthalAngle() - 0.3);
+      39.6 -
+      15 * Math.sin(this.controls.getAzimuthalAngle() - 0.3) * this.timeStep;
     this.camera.updateProjectionMatrix();
     this.controls.autoRotateSpeed = -2 * T;
     this.controls.update();

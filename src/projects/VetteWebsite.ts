@@ -6,7 +6,7 @@ export default class VetteWebsite extends Renderer {
   gltf: THREE.Group;
   leds: THREE.Mesh<THREE.SphereBufferGeometry, THREE.MeshStandardMaterial>[];
   pivot: THREE.Group;
-  hue: number;
+  frame: number;
 
   public createScene(): void {
     const white = new THREE.Color(0xffffff);
@@ -17,7 +17,7 @@ export default class VetteWebsite extends Renderer {
     this.loadGLTF("/vettewebsite.glb").then((gltf) => {
       this.gltf = gltf.scene;
       this.scene.add(gltf.scene);
-      this.hue = 0;
+      this.frame = 0;
 
       this.pivot = new THREE.Group();
       this.pivot.position.set(0, 0, 0);
@@ -62,17 +62,23 @@ export default class VetteWebsite extends Renderer {
   }
 
   public animate(): void {
-    const cameraX = this.mouseX / window.innerWidth - 0.5;
-    const cameraY = this.mouseY / window.innerHeight - 0.5;
+    const mouseXOffset =
+      this.mouseX / window.innerWidth -
+      0.625 +
+      (Math.sin(this.frame / 200) / 4) * this.timeStep;
+    const mouseYOffset = this.mouseY / window.innerHeight - 0.5;
+
+    const cameraX = mouseXOffset;
+    const cameraY = mouseYOffset;
     this.camera.position.x = cameraX;
     this.camera.position.y = -cameraY;
     if (this.gltf) {
-      this.gltf.children[1].rotation.y = this.mouseX / window.innerWidth - 0.5;
-      this.gltf.children[2].rotation.y = this.mouseX / window.innerWidth - 0.5;
-      this.gltf.children[3].rotation.y = this.mouseX / window.innerWidth - 0.5;
-      this.pivot.rotation.y = this.mouseX / window.innerWidth - 0.5;
+      this.gltf.children[1].rotation.y = mouseXOffset;
+      this.gltf.children[2].rotation.y = mouseXOffset;
+      this.gltf.children[3].rotation.y = mouseXOffset;
+      this.pivot.rotation.y = mouseXOffset;
     }
-    this.hue = (this.hue + 1) % 360;
+    this.frame++;
 
     if (currentColors.length === 1024) {
       for (let index = 0; index < this.leds.length; index++) {
