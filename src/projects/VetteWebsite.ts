@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import Renderer from "./Renderer";
+import { currentColors } from "../vw-client";
 
 export default class VetteWebsite extends Renderer {
   gltf: THREE.Group;
@@ -25,19 +26,19 @@ export default class VetteWebsite extends Renderer {
       const geometry = new THREE.SphereBufferGeometry(0.015, 6, 3);
       const ledSpace = 0.0458;
 
-      const color = new THREE.Color(0xee0fee);
+      const color = new THREE.Color(0x000000);
       color.convertSRGBToLinear();
       this.leds = [...Array(1024).keys()].map((key) => {
         const sphereMaterial = new THREE.MeshStandardMaterial({
           roughness: 0,
           color: color,
           emissive: color,
-          emissiveIntensity: 1,
+          emissiveIntensity: 1.5,
         });
         const led = new THREE.Mesh(geometry, sphereMaterial);
         led.parent = this.gltf.children[3];
         led.position.set(
-          -0.71 + (key % 32) * ledSpace,
+          0.71 - (key % 32) * ledSpace,
           -0.31 + Math.floor(key / 32) * ledSpace,
           0.52
         );
@@ -72,14 +73,15 @@ export default class VetteWebsite extends Renderer {
       this.pivot.rotation.y = this.mouseX / window.innerWidth - 0.5;
     }
     this.hue = (this.hue + 1) % 360;
-    for (let index = 0; index < this.leds.length; index++) {
-      const led = this.leds[index];
-      const color = new THREE.Color(
-        `hsl(${(this.hue + (index % 32)) % 360}, 100%, 50%)`
-      );
-      color.convertSRGBToLinear();
-      led.material.emissive.set(color);
-      led.material.color.set(color);
+
+    if (currentColors.length === 1024) {
+      for (let index = 0; index < this.leds.length; index++) {
+        const led = this.leds[index];
+        const color = new THREE.Color(...currentColors[index]);
+        color.convertSRGBToLinear();
+        led.material.emissive.set(color);
+        led.material.color.set(color);
+      }
     }
     this.finishFrame();
   }
