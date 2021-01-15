@@ -53,7 +53,7 @@ export default class Revision extends Renderer {
     this.loadGLTF("/revision.glb").then((gltf) => {
       this.gltf = gltf.scene;
       this.scene.add(gltf.scene);
-      this.intialHeadPosition = this.gltf.children[1].position.clone();
+      this.intialHeadPosition = this.gltf.children[4].position.clone();
       this.headPosition = this.intialHeadPosition.clone();
 
       const lineMaterial = new MeshLineMaterial({
@@ -89,23 +89,28 @@ export default class Revision extends Renderer {
     light.position.set(0, 4, 0);
     this.scene.add(light);
 
-    const topLight = new THREE.DirectionalLight(white, 3);
+    const topLight = new THREE.DirectionalLight(white, 2);
     topLight.position.set(3, 3, 0);
     this.scene.add(topLight);
 
-    const rightLight = new THREE.DirectionalLight(white, 3);
-    rightLight.position.set(-4, 4, 0);
+    const rightLight = new THREE.DirectionalLight(white, 2);
+    rightLight.position.set(-2, 4, -3);
     this.scene.add(rightLight);
 
+    const leftLight = new THREE.DirectionalLight(white, 2);
+    leftLight.position.set(-2, 4, 3);
+    this.scene.add(leftLight);
+
     // this.scene.add(new THREE.DirectionalLightHelper(topLight));
+    // this.scene.add(new THREE.DirectionalLightHelper(leftLight));
     // this.scene.add(new THREE.DirectionalLightHelper(rightLight));
   }
 
   public animate(): void {
     const T = this.timeStep;
     this.camera.fov =
-      39.6 -
-      15 * Math.sin(this.controls.getAzimuthalAngle() - 0.3) * this.timeStep;
+      35 -
+      12 * Math.sin(this.controls.getAzimuthalAngle() - 0.4) * this.timeStep;
     this.camera.updateProjectionMatrix();
     this.controls.autoRotateSpeed = -2 * T;
     this.controls.update();
@@ -120,7 +125,7 @@ export default class Revision extends Renderer {
           (0.5 - Math.sin(Date.now() / 2000 + 0.1)) * 0.2
         )
       );
-      this.gltf.children[1].position.copy(this.headPosition);
+      this.gltf.children[4].position.copy(this.headPosition);
 
       // Look at point & lines
       const lookAtPoint = new THREE.Vector3().addVectors(
