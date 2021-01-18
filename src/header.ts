@@ -36,27 +36,34 @@ docReady(() => {
   const startButton = E("light-button") as HTMLButtonElement;
   const audio = E("light-audio") as HTMLAudioElement;
   const video = E("header-video") as HTMLVideoElement;
+  const blackOverlay = E("black-overlay") as HTMLDivElement;
   const T0 = E("header-text-0");
   const T1 = E("header-text-1");
   const T2 = E("header-text-2");
   console.log(audio.readyState);
-  const audioReady = readyCallback();
-  const videoReady = readyCallback();
-  if (audio.readyState > 2) {
-    audioReady();
-  } else {
-    audio.addEventListener("canplaythrough", audioReady);
-  }
-  if (video.readyState > 2) {
-    videoReady();
-  } else {
-    video.addEventListener("canplaythrough", videoReady);
-  }
+  //-// Don't wait for audio/video, mobile Safari doesn't preload till playthrough.
+  // const audioReady = readyCallback();
+  // const videoReady = readyCallback();
+  // if (audio.readyState > 2) {
+  //   audioReady();
+  // } else {
+  //   audio.addEventListener("canplaythrough", audioReady);
+  // }
+  // if (video.readyState > 2) {
+  //   videoReady();
+  // } else {
+  //   video.addEventListener("canplaythrough", videoReady);
+  // }
+  //-// Wait at least one second instead.
+  setTimeout(() => {
+    readyCallback()();
+  }, 1200);
   audio.addEventListener("play", () => {
-    document.documentElement.style.overflow = "unset";
+    window.scrollTo(0, 0);
+    video.play();
     if (video !== null) {
       setTimeout(() => {
-        video.style.opacity = "1";
+        blackOverlay.style.display = "none";
       }, 1319);
     }
     if (T0 !== null) {

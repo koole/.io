@@ -39,6 +39,28 @@ header > h1 > span.active {
   filter: url(#blur);
 }
 
+@media only screen and (min-width: $br-xs) {
+  header > h1 {
+    font-size: 3rem;
+  }
+}
+
+@media only screen and (min-width: $br-sm) {
+  header > h1 {
+    font-size: 5rem;
+  }
+}
+
+#black-overlay {
+  z-index: 99;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: fixed;
+  background: #000;
+}
+
 #light-button {
   position: fixed;
   top: 50%;
@@ -71,18 +93,6 @@ header > h1 > span.active {
 
 #light-audio {
   display: none;
-}
-
-@media only screen and (min-width: $br-xs) {
-  header > h1 {
-    font-size: 3rem;
-  }
-}
-
-@media only screen and (min-width: $br-sm) {
-  header > h1 {
-    font-size: 5rem;
-  }
 }
 
 @keyframes loading-line {
