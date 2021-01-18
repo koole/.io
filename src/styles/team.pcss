@@ -42,12 +42,6 @@
   top: var(--padding);
 }
 
-.team-title h2 {
-  font-size: 1.5rem;
-  line-height: 0.9em;
-  margin: 0.25em 0;
-}
-
 .team > .members {
   z-index: 1;
   position: absolute;
@@ -72,6 +66,11 @@
 .member img {
   width: 100%;
   margin-bottom: 0.5em;
+  filter: saturate(0);
+  transition: var(--transition);
+  &:hover {
+    filter: saturate(1);
+  }
 }
 
 .member h3 {

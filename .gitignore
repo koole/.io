@@ -1,8 +1,7 @@
 /node_modules
 .DS_Store
 
-# Used for making the videos
-/image-sequences/
+# 3D source files & assets for the project scenes
 /source-3d/
 
 # Compiled files

@@ -3,11 +3,14 @@
   publish = "public"
 
 [context.production]
-  environment = { NODE_ENV = "production", NODE_VERSION = "12.13.1" }
+  environment = { NODE_ENV = "production" }
+
+[build.environment]
+  NODE_VERSION = "12"
 
 [[headers]]
   for = "/*"
   [headers.values]
     Link = '''
-    </style.css>; rel=preload; as=style, \
+    </main.css>; rel=preload; as=style, \
     </bundle.js>; rel=preload; as=script'''

@@ -10,16 +10,50 @@ declare global {
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
 const _ = new AudioCtx();
 
+let needLoading = 0;
+let hasLoaded = 0;
+export const readyCallback = (): (() => void) => {
+  needLoading++;
+  return (): void => {
+    hasLoaded++;
+    if (hasLoaded === needLoading) {
+      const loadingIndicator = E("loading-indicator") as HTMLDivElement;
+      const startButton = E("light-button") as HTMLButtonElement;
+      const logo = E("logo") as HTMLDivElement;
+      // Hide loader
+      loadingIndicator.classList.add("ready");
+      // Show logo
+      logo.classList.add("ready");
+      // Show start button
+      startButton.classList.add("ready");
+    }
+  };
+};
+
 docReady(() => {
   window.scrollTo(0, 0);
   document.documentElement.style.overflow = "hidden";
   const startButton = E("light-button") as HTMLButtonElement;
   const audio = E("light-audio") as HTMLAudioElement;
-  const video = E("header-video");
+  const video = E("header-video") as HTMLVideoElement;
   const T0 = E("header-text-0");
   const T1 = E("header-text-1");
   const T2 = E("header-text-2");
+  console.log(audio.readyState);
+  const audioReady = readyCallback();
+  const videoReady = readyCallback();
+  if (audio.readyState > 2) {
+    audioReady();
+  } else {
+    audio.addEventListener("canplaythrough", audioReady);
+  }
+  if (video.readyState > 2) {
+    videoReady();
+  } else {
+    video.addEventListener("canplaythrough", videoReady);
+  }
   audio.addEventListener("play", () => {
+    document.documentElement.style.overflow = "unset";
     if (video !== null) {
       setTimeout(() => {
         video.style.opacity = "1";
