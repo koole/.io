@@ -10,6 +10,16 @@
   align-items: start;
   background: linear-gradient(144deg, #000000ab 9%, transparent 50%);
   pointer-events: none;
+
+  opacity: 0;
+  transform: translateX(calc(-1 * var(--padding)));
+  transition: var(--transition);
+
+  &.ready {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
 }
 
 .logo > img {

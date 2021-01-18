@@ -40,14 +40,11 @@ header > h1 > span.active {
 }
 
 #light-button {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
   position: fixed;
   top: 50%;
   left: 50%;
   max-width: calc(100vw - var(--padding) * 2);
   z-index: 100;
-  transform: translateX(-50%) translateY(-50%);
   color: var(--white);
   border: 2px solid var(--white);
   cursor: pointer;
@@ -56,6 +53,15 @@ header > h1 > span.active {
   background: transparent;
   padding: 0.5em 1em;
   font-size: 2em;
+  pointer-events: none;
+  transition: var(--transition);
+  transform: translateX(-50%) translateY(calc(2 * var(--padding) - 50%));
+  opacity: 0;
+  &.ready {
+    pointer-events: unset;
+    transform: translateX(-50%) translateY(-50%);
+    opacity: 1;
+  }
 }
 
 #light-button:focus {
@@ -76,5 +82,31 @@ header > h1 > span.active {
 @media only screen and (min-width: $br-sm) {
   header > h1 {
     font-size: 5rem;
+  }
+}
+
+@keyframes loading-line {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  25% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  60% {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+  85% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+}
+
+#loading-indicator {
+  &.ready {
+    transform: translateX(-50%) translateY(calc(-2 * var(--padding) - 50%));
+    opacity: 0;
   }
 }

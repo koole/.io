@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import Renderer from "./Renderer";
 import { currentColors } from "../vw-client";
+import { readyCallback } from "../header";
+const ready = readyCallback();
 
 export default class VetteWebsite extends Renderer {
   gltf: THREE.Group;
@@ -47,6 +49,7 @@ export default class VetteWebsite extends Renderer {
       });
       // Render once after the scene has loaded
       this.render();
+      ready();
     });
 
     const topLight = new THREE.DirectionalLight(white, 2);

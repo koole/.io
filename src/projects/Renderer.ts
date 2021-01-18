@@ -36,13 +36,11 @@ class Renderer {
   public timeStep: number;
   public mouseX: number;
   public mouseY: number;
-  public bloomEnabled: boolean;
 
   composer: any;
   clock: THREE.Clock;
 
-  constructor(container: HTMLDivElement, bloomEnabled: boolean) {
-    this.bloomEnabled = bloomEnabled;
+  constructor(container: HTMLDivElement) {
     this.gltfLoader = new GLTFLoader();
     this.clock = new THREE.Clock();
 
@@ -81,7 +79,7 @@ class Renderer {
     //   // multisampling: 4,
     // });
     // this.composer.addPass(new RenderPass(this.scene, this.camera));
-    // if (this.bloomEnabled === true) {
+    // if (this.readyCallback === true) {
     //   this.composer.addPass(
     //     new EffectPass(
     //       this.camera,

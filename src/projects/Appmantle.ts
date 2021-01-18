@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import Renderer from "./Renderer";
+import { readyCallback } from "../header";
+const ready = readyCallback();
 
 export default class Appmantle extends Renderer {
   gltf: THREE.Group;
@@ -13,6 +15,7 @@ export default class Appmantle extends Renderer {
     this.loadGLTF("/appmantle.glb").then((gltf) => {
       this.gltf = gltf.scene;
       this.scene.add(gltf.scene);
+      ready();
     });
 
     const ambientLight = new THREE.AmbientLight(0xeeeeee);

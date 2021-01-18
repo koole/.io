@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
+import { readyCallback } from "../header";
+const ready = readyCallback();
 
 import Renderer from "./Renderer";
 export default class Revision extends Renderer {
@@ -81,6 +83,7 @@ export default class Revision extends Renderer {
       this.scene.add(this.screenPoint);
       // Render once after the scene has loaded
       this.render();
+      ready();
     });
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);
