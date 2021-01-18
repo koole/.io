@@ -59,7 +59,8 @@ export default class Revision extends Renderer {
       const lineMaterial = new MeshLineMaterial({
         color: orange,
         resolution: new THREE.Vector2(1, 1),
-        lineWidth: 0.015,
+        lineWidth: 0.01,
+        sizeAttenuation: 1,
       });
       const points = [this.intialHeadPosition, this.initialLookAtPoint];
 
