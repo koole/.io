@@ -1,12 +1,5 @@
 import * as THREE from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import {
-  BloomEffect,
-  EffectComposer,
-  EffectPass,
-  RenderPass,
-  KernelSize,
-} from "postprocessing";
 
 import { Easing } from "../utils";
 
@@ -37,7 +30,6 @@ class Renderer {
   public mouseX: number;
   public mouseY: number;
 
-  composer: any;
   clock: THREE.Clock;
 
   constructor(container: HTMLDivElement) {
@@ -73,25 +65,6 @@ class Renderer {
     this.renderer.gammaFactor = 2.2;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(this.renderer.domElement);
-
-    // this.composer = new EffectComposer(this.renderer, {
-    //   frameBufferType: THREE.HalfFloatType,
-    //   // multisampling: 4,
-    // });
-    // this.composer.addPass(new RenderPass(this.scene, this.camera));
-    // if (this.readyCallback === true) {
-    //   this.composer.addPass(
-    //     new EffectPass(
-    //       this.camera,
-    //       new BloomEffect({
-    //         luminanceThreshold: 0.1,
-    //         intensity: 0.1,
-    //         luminanceSmoothing: 1,
-    //         kernelSize: KernelSize.HUGE,
-    //       })
-    //     )
-    //   );
-    // }
 
     // Bind methods to class
     this.createScene = this.createScene.bind(this);
@@ -176,11 +149,10 @@ class Renderer {
 
   protected render(): void {
     this.renderer.render(this.scene, this.camera);
-    // this.composer.render(this.clock.getDelta());
   }
 
   protected loadGLTF(url: string): Promise<GLTF> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.gltfLoader.load(url, function (gltf) {
         // // We need every mesh in every GLTF scene to draw and cast shadows
         // for (const model of gltf.scene.children) {
