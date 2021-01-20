@@ -37,9 +37,9 @@ docReady(() => {
   const audio = E("light-audio") as HTMLAudioElement;
   const video = E("header-video") as HTMLVideoElement;
   const blackOverlay = E("black-overlay") as HTMLDivElement;
-  const T0 = E("header-text-0");
-  const T1 = E("header-text-1");
-  const T2 = E("header-text-2");
+  const T0 = E("header-text-0") as HTMLSpanElement;
+  const T1 = E("header-text-1") as HTMLSpanElement;
+  const T2 = E("header-text-2") as HTMLSpanElement;
   console.log(audio.readyState);
   //-// Don't wait for audio/video, mobile Safari doesn't preload till playthrough.
   // const audioReady = readyCallback();
