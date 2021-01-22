@@ -14,3 +14,28 @@
     Link = '''
     </main.css>; rel=preload; as=style, \
     </bundle.js>; rel=preload; as=script'''
+
+[[redirects]]
+  from = "https://dekoolecentrale.com/*"
+  to = "https://dekoolecentrale.nl/:splat"
+  status = 301
+
+[[redirects]]
+  from = "https://www.dekoolecentrale.com/*"
+  to = "https://dekoolecentrale.nl/:splat"
+  status = 301
+
+[[redirects]]
+  from = "https://koole.io/*"
+  to = "https://dekoolecentrale.nl/:splat"
+  status = 301
+
+[[redirects]]
+  from = "https://www.koole.io/*"
+  to = "https://dekoolecentrale.nl/:splat"
+  status = 301
+
+[[redirects]]
+  from = "https://www.dekoolecentrale.nl/*"
+  to = "https://dekoolecentrale.nl/:splat"
+  status = 301
