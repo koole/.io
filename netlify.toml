@@ -19,23 +19,28 @@
   from = "https://dekoolecentrale.com/*"
   to = "https://dekoolecentrale.nl/:splat"
   status = 301
+  force = true
 
 [[redirects]]
   from = "https://www.dekoolecentrale.com/*"
   to = "https://dekoolecentrale.nl/:splat"
   status = 301
+  force = true
 
 [[redirects]]
   from = "https://koole.io/*"
   to = "https://dekoolecentrale.nl/:splat"
   status = 301
+  force = true
 
 [[redirects]]
   from = "https://www.koole.io/*"
   to = "https://dekoolecentrale.nl/:splat"
   status = 301
+  force = true
 
 [[redirects]]
   from = "https://www.dekoolecentrale.nl/*"
   to = "https://dekoolecentrale.nl/:splat"
   status = 301
+  force = true
