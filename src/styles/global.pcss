@@ -7,16 +7,30 @@
   display: none;
 }
 
-.wavy {
-  filter: url("#wavy");
-}
-
 /* Typography */
 html {
   font-size: 22px;
   font-family: "Space Grotesk", "Epilogue", sans-serif;
   font-style: normal;
   font-weight: 400;
+}
+
+body {
+  font-synthesis: none;
+  -moz-font-feature-settings: 'kern';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  direction: ltr;
+  text-align: left;
+}
+
+.body-text {
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica",
+    "Arial", -apple-system, sans-serif;
+  line-height: 1.38105;
+  font-weight: 400;
+  letter-spacing: 0.011em;
+  color: #c4c4c4;
 }
 
 .heading {

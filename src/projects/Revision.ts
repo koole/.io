@@ -35,10 +35,10 @@ export default class Revision extends Renderer {
     const white = new THREE.Color(0xffffff);
     white.convertSRGBToLinear();
 
-    const orange = new THREE.Color(0xff8f00);
-    orange.convertSRGBToLinear();
-    const lineOrange = new THREE.Color(0xff4300);
-    lineOrange.convertSRGBToLinear();
+    const lineColor = new THREE.Color(0xffd600);
+    lineColor.convertSRGBToLinear();
+    const sphereColor = new THREE.Color(0xffb309);
+    sphereColor.convertSRGBToLinear();
 
     this.camera.position.z = 6;
     this.controls.update();
@@ -59,7 +59,7 @@ export default class Revision extends Renderer {
       this.headPosition = this.intialHeadPosition.clone();
 
       const lineMaterial = new MeshLineMaterial({
-        color: orange,
+        color: lineColor,
         resolution: new THREE.Vector2(1, 1),
         lineWidth: 0.01,
         sizeAttenuation: 1,
@@ -77,7 +77,7 @@ export default class Revision extends Renderer {
       this.scene.add(this.rightLineMesh);
 
       const geometry = new THREE.SphereBufferGeometry(0.02, 16, 16);
-      const sphereMaterial = new THREE.MeshBasicMaterial({ color: lineOrange });
+      const sphereMaterial = new THREE.MeshBasicMaterial({ color: sphereColor });
       this.screenPoint = new THREE.Mesh(geometry, sphereMaterial);
       this.screenPoint.position.copy(this.initialScreenLookAtPoint);
       this.scene.add(this.screenPoint);

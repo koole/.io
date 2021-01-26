@@ -5,22 +5,26 @@
   display: flex;
   flex-direction: column-reverse;
   background: linear-gradient(0deg, black, #1d1d1d);
+  &.revision {
+    --projectColor: var(--color);
+  }
+
+  &.vettewebsite {
+    --projectColor: var(--color);
+  }
+
+  &.appmantle {
+    --projectColor: var(--color);
+  }
 
   .subtitle {
-    color: var(--color);
+  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica",
+    "Arial", -apple-system, sans-serif;
+  line-height: 1.38105;
+  font-weight: 400;
+  letter-spacing: 0.011em;
+  color: #c4c4c4;
   }
-
-  /* &.revision .subtitle {
-    color: var(--color);
-  }
-
-  &.vettewebsite .subtitle {
-    color: var(--color2);
-  }
-
-  &.appmantle .subtitle {
-    color: var(--color3);
-  } */
 }
 
 .project-link {
@@ -44,16 +48,18 @@
 
 .project-description {
   flex: 1;
-  padding-top: var(--padding);
+  /* padding: calc(var(--padding) / 2);
+  background: rgba(0,0,0,0.1); */
   color: var(--white);
   align-self: stretch;
   position: relative;
+  /* border-top: 3px solid var(--projectColor); */
 }
 
 .project-description-float {
   position: -webkit-sticky;
   position: sticky;
-  top: calc(96px + var(--padding) * 2);
+  top: calc(var(--padding) * 0.5);
 }
 
 .project-logo {
@@ -66,6 +72,7 @@
   margin: 0.25em 0;
   display: flex;
   flex-wrap: wrap;
+  margin-top: calc(var(--padding) / 2);
 }
 
 .project-description .subtitle {
@@ -105,7 +112,7 @@
 
   .project-description {
     padding-top: 0;
-    padding-right: var(--padding);
+    margin-right: var(--padding);
   }
 
   .project-video-container {

@@ -14,7 +14,7 @@ export default class VetteWebsite extends Renderer {
     const white = new THREE.Color(0xffffff);
     white.convertSRGBToLinear();
 
-    this.camera.position.z = 8;
+    this.camera.position.z = 8 + 1.5 * (1 - this.timeStep);
 
     this.loadGLTF("/vettewebsite.glb").then((gltf) => {
       this.gltf = gltf.scene;
@@ -75,6 +75,7 @@ export default class VetteWebsite extends Renderer {
     const cameraY = mouseYOffset;
     this.camera.position.x = cameraX;
     this.camera.position.y = -cameraY;
+    this.camera.position.z = 8 + 1.5 * (1 - this.timeStep);
     if (this.gltf) {
       this.gltf.children[1].rotation.y = mouseXOffset;
       this.gltf.children[2].rotation.y = mouseXOffset;

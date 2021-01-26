@@ -2,11 +2,9 @@
   /* Colors */
   --black: #000000;
   --white: #ffffff;
-  --color: #ff4300;
-  --color2: #ee0fee;
-  --color3: #5614f0;
-  /* Filters */
-  --filter-abberation: url("#abberation");
+  --color: #ffb309;
+  --color2: #fe0d14;
+  --color3: #fe145f;
 }
 
 /* Breakpoints */
@@ -19,10 +17,10 @@ $br-xl: 1400px;
 
 @supports (color: color(display-p3 1 1 1)) {
   :root {
-    /* Use a P3 color for orange on supported browsers */
-    --color: color(display-p3 1 0.342 0);
-    --color2: color(display-p3 0.881 0 1);
-    --color3: color(display-p3 0.259 0 1);
+    /* Use a P3 colors on supported browsers */
+    --color: color(display-p3 1 0.715 0);
+    --color2: color(display-p3 1 0 0.062);
+    --color3: color(display-p3 1 0 0.373);
   }
 }
 

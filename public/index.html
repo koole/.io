@@ -99,93 +99,6 @@
     /></noscript>
   </head>
   <body>
-    <svg xmlns="http://www.w3.org/2000/svg" class="hidden">
-      <filter width="100%" height="100%" x="0%" y="0%" id="wavy">
-        <feTurbulence
-          type="turbulence"
-          baseFrequency="0.01"
-          id="turbulence"
-          numOctaves="5"
-          result="turbulence"
-          seed="5"
-        ></feTurbulence>
-        <feDisplacementMap
-          in="SourceGraphic"
-          in2="turbulence"
-          scale="10"
-          xChannelSelector="R"
-          yChannelSelector="R"
-          result="displacement"
-        ></feDisplacementMap>
-        <feColorMatrix
-          in="displacement"
-          type="matrix"
-          result="red_"
-          values="1 0 0 0 0
-              0 0 0 0 0 
-              0 0 0 0 0 
-              0 0 0 1 0"
-        />
-        <feOffset in="red_" dx="-1" dy="0" result="red" />
-        <feColorMatrix
-          type="matrix"
-          in="displacement"
-          result="blue_"
-          values="0 0 0 0 0
-              0 1 0 0 0 
-              0 0 1 0 0 
-              0 0 0 1 0"
-        />
-        <feOffset in="blue_" dx="0" dy="0" result="blue" />
-        <feBlend mode="screen" in="red" in2="blue" />
-      </filter>
-      <filter width="100%" height="100%" x="0%" y="0%" id="blur">
-        <feGaussianBlur stdDeviation="1 0" result="blurred" />
-        <feBlend mode="normal" in="blurred" in2="SourceGraphic" />
-      </filter>
-      <filter width="100%" height="100%" x="0%" y="0%" id="blur-wavy">
-        <feTurbulence
-          type="turbulence"
-          baseFrequency="0.01"
-          id="turbulence"
-          numOctaves="5"
-          result="turbulence"
-          seed="5"
-        ></feTurbulence>
-        <feDisplacementMap
-          in="SourceGraphic"
-          in2="turbulence"
-          scale="10"
-          xChannelSelector="R"
-          yChannelSelector="R"
-          result="displaced"
-        ></feDisplacementMap>
-
-        <feGaussianBlur in="displaced" stdDeviation="5 0" />
-      </filter>
-      <filter id="abberation" filterRes="1" color-interpolation-filters="sRGB">
-        <feColorMatrix
-          type="matrix"
-          result="red_"
-          values="1 0 0 0 0
-              0 0 0 0 0 
-              0 0 0 0 0 
-              0 0 0 1 0"
-        />
-        <feOffset in="red_" dx="-1" dy="0" result="red" />
-        <feColorMatrix
-          type="matrix"
-          in="SourceGraphic"
-          result="blue_"
-          values="0 0 0 0 0
-              0 1 0 0 0 
-              0 0 1 0 0 
-              0 0 0 1 0"
-        />
-        <feOffset in="blue_" dx="0" dy="0" result="blue" />
-        <feBlend mode="screen" in="red" in2="blue" />
-      </filter>
-    </svg>
     <div class="logo" id="logo">
       <img
         src="/logos/dekoolecentrale.svg"
@@ -235,6 +148,7 @@
             data-sal="slide-up"
             data-sal-duration="500"
             data-sal-easing="ease-in-out"
+            class="body-text"
           >
             De Koole Centrale is een creatief powerhouse. Wij zijn er voor
             klanten die gave dingen willen. Door het combineren van onze
@@ -245,6 +159,7 @@
             data-sal="slide-up"
             data-sal-duration="500"
             data-sal-easing="ease-in-out"
+            class="body-text"
           >
             Wij doen dit uit passie, al <span id="days"></span> dagen op rij.
           </p>
@@ -518,7 +433,7 @@
             Contact & locaties
           </h2>
           <p
-            class="lead"
+            class="lead body-text"
             data-sal="slide-up"
             data-sal-duration="500"
             data-sal-easing="ease-in-out"
@@ -535,6 +450,7 @@
             Global headquarters
           </h3>
           <address
+            class="body-text"
             data-sal="slide-up"
             data-sal-duration="500"
             data-sal-easing="ease-in-out"
