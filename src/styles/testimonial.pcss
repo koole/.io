@@ -2,8 +2,6 @@
   display: flex;
   justify-content: center;
   padding: calc(var(--padding) * 3) var(--padding);
-  background: linear-gradient(0deg, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%),
-    url("/testimonial.png");
   background-position: center;
   background-size: cover;
   text-align: center;
@@ -16,8 +14,14 @@
     font-size: 1.5rem;
     margin: 0;
     font-weight: 500;
-    color: var(--color);
-    text-shadow: 0 0 50px rgba(99, 53, 71, 0.4);
+    background: linear-gradient(
+      90deg,
+      var(--color2) -50%,
+      var(--color) 50%,
+      var(--color3) 150%
+    );
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
     &::-moz-selection {
       color: var(--black);
     }
@@ -26,6 +30,11 @@
       color: var(--black);
     }
   }
+
+    /* Drop shadows this big look horrible in chromium browsers */
+    @supports (color: color(display-p3 1 1 1)) {
+      text-shadow: var(--color) 0 0 200px;
+    }
 
   img {
     margin-top: 0.5rem;

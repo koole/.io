@@ -1,4 +1,6 @@
 .intro {
+  position: relative;
+  z-index: 2;
   display: flex;
   justify-content: center;
   padding: 0 var(--padding);
@@ -20,6 +22,11 @@
     );
     background-clip: text;
     -webkit-text-fill-color: transparent;
+
+    /* Drop shadows this big look horrible in chromium browsers */
+    @supports (color: color(display-p3 1 1 1)) {
+      text-shadow: var(--color2) 0 0 300px;
+    }
   }
 
   p {
@@ -35,12 +42,6 @@
   @media only screen and (min-width: $br-sm) {
     h2 {
       font-size: 2.8rem;
-    }
-  }
-
-  @media only screen and (min-width: $br-lg) {
-    > div {
-      width: calc(66%);
     }
   }
 }

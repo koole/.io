@@ -38,7 +38,7 @@ export default class VetteWebsite extends Renderer {
           emissiveIntensity: 1.5,
         });
         const led = new THREE.Mesh(geometry, sphereMaterial);
-        led.parent = this.gltf.children[3];
+        led.parent = this.gltf.children[2];
         led.position.set(
           0.71 - (key % 32) * ledSpace,
           -0.31 + Math.floor(key / 32) * ledSpace,
@@ -48,7 +48,16 @@ export default class VetteWebsite extends Renderer {
         return led;
       });
       // Render once after the scene has loaded
+      this.animate();
       this.render();
+
+      // Render this at least once every second so it stays somewhat true to the
+      // real panel
+      setInterval(() => {
+        this.animate();
+        this.render();
+      }, 1000);
+
       ready();
     });
 
@@ -77,9 +86,9 @@ export default class VetteWebsite extends Renderer {
     this.camera.position.y = -cameraY;
     this.camera.position.z = 8 + 1.5 * (1 - this.timeStep);
     if (this.gltf) {
+      this.gltf.children[0].rotation.y = mouseXOffset;
       this.gltf.children[1].rotation.y = mouseXOffset;
       this.gltf.children[2].rotation.y = mouseXOffset;
-      this.gltf.children[3].rotation.y = mouseXOffset;
       this.pivot.rotation.y = mouseXOffset;
     }
     this.frame++;

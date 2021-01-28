@@ -53,12 +53,11 @@ class Renderer {
     // Create renderer and add to canvas
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
-      alpha: false,
+      alpha: true,
       stencil: false,
       powerPreference: "high-performance",
     });
     this.renderer.setSize(this.width, this.height);
-    this.renderer.setClearColor(0x000000);
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = exposure;
     this.renderer.physicallyCorrectLights = true;

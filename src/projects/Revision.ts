@@ -29,8 +29,8 @@ export default class Revision extends Renderer {
     this.controls.autoRotate = true;
     this.controls.enableDamping = true;
     this.controls.enableZoom = false;
-    this.controls.minPolarAngle = Math.PI / 3;
-    this.controls.maxPolarAngle = (Math.PI / 3) * 2;
+    this.controls.minPolarAngle = Math.PI / 2;
+    this.controls.maxPolarAngle = Math.PI / 2;
 
     const white = new THREE.Color(0xffffff);
     white.convertSRGBToLinear();
@@ -55,7 +55,7 @@ export default class Revision extends Renderer {
     this.loadGLTF("/revision.glb").then((gltf) => {
       this.gltf = gltf.scene;
       this.scene.add(gltf.scene);
-      this.intialHeadPosition = this.gltf.children[4].position.clone();
+      this.intialHeadPosition = this.gltf.children[5].position.clone();
       this.headPosition = this.intialHeadPosition.clone();
 
       const lineMaterial = new MeshLineMaterial({
@@ -82,6 +82,7 @@ export default class Revision extends Renderer {
       this.screenPoint.position.copy(this.initialScreenLookAtPoint);
       this.scene.add(this.screenPoint);
       // Render once after the scene has loaded
+      this.animate();
       this.render();
       ready();
     });
@@ -114,7 +115,7 @@ export default class Revision extends Renderer {
     const T = this.timeStep;
     this.camera.fov =
       35 -
-      12 * Math.sin(this.controls.getAzimuthalAngle() - 0.4) * this.timeStep;
+      11 * Math.sin(this.controls.getAzimuthalAngle() - 0.4) * this.timeStep;
     this.camera.updateProjectionMatrix();
     this.controls.autoRotateSpeed = -2 * T;
     this.controls.update();
@@ -124,12 +125,12 @@ export default class Revision extends Renderer {
       this.headPosition.addVectors(
         this.intialHeadPosition,
         new THREE.Vector3(
-          (0.5 - Math.sin(Date.now() / 1600)) * 0.2,
-          (0.5 - Math.sin(Date.now() / 2300 + 1.52)) * 0.1,
-          (0.5 - Math.sin(Date.now() / 2000 + 0.1)) * 0.2
+          (0.5 - Math.sin(Date.now() / 1600)) * 0.2 * T,
+          (0.5 - Math.sin(Date.now() / 2300 + 1.52)) * 0.1 * T,
+          (0.5 - Math.sin(Date.now() / 2000 + 0.1)) * 0.2 * T
         )
       );
-      this.gltf.children[4].position.copy(this.headPosition);
+      this.gltf.children[5].position.copy(this.headPosition);
 
       // Look at point & lines
       const lookAtPoint = new THREE.Vector3().addVectors(
