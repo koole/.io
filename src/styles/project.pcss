@@ -21,14 +21,18 @@
   text-decoration: none;
   padding: 1em;
   margin-top: 1rem;
+  transition: var(--transition);
   > span {
     display: block;
     transition: var(--transition);
   }
 
   &:hover {
+    background: var(--color);
     > span {
+      color: #000;
       transform: scale(0.95);
+      text-shadow: var(--color2) 0 0 40px;
     }
   }
 }
@@ -38,7 +42,8 @@
   z-index: 2;
   padding: var(--padding);
   margin: calc(var(--padding) * -2) var(--padding) 0 var(--padding);
-  background: #000000;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
 }
 
 .project-description h2 {
@@ -60,7 +65,7 @@
   min-height: 65vh;
   max-width: calc(940px + var(--padding) * 4);
   width: 100vw;
-  background: linear-gradient(0deg, #0f0f0f 0%, black 80%);
+  background: linear-gradient(0deg, #080808 0%, black 80%);
   canvas {
     filter: saturate(1.3);
   }
