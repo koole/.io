@@ -1,43 +1,27 @@
-import { docReady, E } from "./utils";
+const fistName = ["Leon", "Leon", "Leon P.", "L. P."];
+const lastName = ["Koole"];
+const title = ["BSc", "", "", "", "", ""];
 
-const maxMove = 300;
-
-let smoothed = 0;
-
-docReady(() => {
-  const section = E("team-section");
-  const row0 = E("members-row-0");
-  const row1 = E("members-row-1");
-  const row2 = E("members-row-2");
-
-  // function moveMembers(): void {
-  //   const offset = Math.min(
-  //     Math.max(
-  //       0,
-  //       document.documentElement.scrollTop +
-  //         window.innerHeight -
-  //         (section?.offsetTop || 0)
-  //     ),
-  //     window.innerHeight * 2
-  //   );
-
-  //   if (offset > 0 && offset < window.innerHeight * 2) {
-  //     smoothed += (offset - smoothed) / 6;
-
-  //     const percentage = smoothed / (window.innerHeight * 2);
-  //     const move = Math.floor(percentage * maxMove);
-  //     if (row0 !== null) {
-  //       row0.style.transform = `translate3d(${move}px, 0, 0)`;
-  //     }
-  //     if (row1 !== null) {
-  //       row1.style.transform = `translate3d(${move * -1}px, 0, 0)`;
-  //     }
-  //     if (row2 !== null) {
-  //       row2.style.transform = `translate3d(${move}px, 0, 0)`;
-  //     }
-  //   }
-  //   window.requestAnimationFrame(moveMembers);
-  // }
-
-  // window.requestAnimationFrame(moveMembers);
-});
+const jobs = [
+  "Chief Vision Officer",
+  "Front-End Wizard",
+  "User Experience Alchemist",
+  "Digital Design Demi-God",
+  "Customer Relations Captain",
+  "Full Stack Magicican",
+  "Three-Dimensional Jedi",
+  "Knowledge Overlord",
+  "Stagair",
+  "Code Librarian",
+  "Tax Wrangler",
+  "SVG Manager",
+  "Human Resource Rockstar",
+  "Scrum Master",
+  "User Interface Prophet",
+  "Innovation Sherpa",
+  "Swiss Army Knife",
+  "Inspiration Officer",
+  "Fashion Evangelist",
+  "Purpose Promoter",
+  "Extreme Unicyclist",
+];

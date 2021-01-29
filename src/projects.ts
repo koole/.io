@@ -80,11 +80,11 @@ function start(): void {
 docReady(start);
 
 // Change the cursor when hovering over a project
-for (const project of projects) {
-  project.placeholder.addEventListener("mouseenter", () => {
-    E("cursor-content").classList.add("cursor-project");
-  });
-  project.placeholder.addEventListener("mouseleave", () => {
-    E("cursor-content").classList.remove("cursor-project");
-  });
-}
+// for (const project of projects) {
+//   project.placeholder.addEventListener("mouseenter", () => {
+//     E("cursor-content").classList.add("cursor-project");
+//   });
+//   project.placeholder.addEventListener("mouseleave", () => {
+//     E("cursor-content").classList.remove("cursor-project");
+//   });
+// }

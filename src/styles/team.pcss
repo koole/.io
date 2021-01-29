@@ -1,66 +1,34 @@
+.team-title {
+  padding: 0 calc(var(--padding));
+  h2 {
+    margin-bottom: 0;
+  }
+}
+
 .team {
   background: var(--black);
-  height: 800px;
-  max-height: 100vh;
-  overflow: hidden;
-  position: relative;
+  max-width: calc(940px + var(--padding) * 2);
+  margin: 0 auto;
 }
 
-.team-overlay {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0) 50%,
-    rgba(255, 255, 255, 0.1) 100%
-  );
-}
-
-.team-title {
-  left: 0;
-  top: 0;
-  bottom: 0;
-  flex: 1;
-  padding: var(--padding);
-  color: var(--white);
-  align-self: stretch;
-  position: absolute;
-  margin-bottom: 0.5rem;
-  z-index: 3;
-  pointer-events: none;
-}
-
-.team-title-float {
-  position: -webkit-sticky;
-  position: sticky;
-  top: var(--padding);
-}
-
-.team > .members {
-  z-index: 1;
-  position: absolute;
-  top: 25%;
-  left: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 2000px;
-  transform: rotateZ(-10deg) translateX(-50%) translateY(-50%);
+.members {
 }
 
 .members-row {
   display: flex;
-  will-change: transform;
+  flex-wrap: wrap;
+  padding: 0 calc(var(--padding) / 2);
 }
 
 .member {
   padding: calc(var(--padding) / 2);
+  flex: 0 0 100%;
+  @media only screen and (min-width: $br-sm) {
+    flex: 0 0 calc(1 / 2 * 100%);
+  }
+  @media only screen and (min-width: $br-md) {
+    flex: 0 0 calc(1 / 3 * 100%);
+  }
 }
 
 .member img {
@@ -83,30 +51,5 @@
   padding: 1em 0;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 300;
-}
-
-@media only screen and (min-width: $br-xs) {
-  .team > .members {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media only screen and (min-width: $br-md) {
-  .team > .members {
-    width: 3000px;
-  }
-}
-
-@media only screen and (min-width: $br-lg) {
-  .team {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end;
-    flex-direction: row;
-  }
-
-  .team-title {
-    padding-top: 0;
-    padding-right: var(--padding);
-  }
+  height: 4.5rem;
 }
