@@ -73,6 +73,12 @@ export default class Revision extends Renderer {
       this.animate();
       this.render();
       ready();
+
+      console.log("Revision");
+      console.log("Scene polycount:", this.renderer.info.render.triangles);
+      console.log("Active Drawcalls:", this.renderer.info.render.calls);
+      console.log("Textures in Memory", this.renderer.info.memory.textures);
+      console.log("Geometries in Memory", this.renderer.info.memory.geometries);
     });
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 1);

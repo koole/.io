@@ -6,7 +6,7 @@ const ready = readyCallback();
 
 export default class VetteWebsite extends Renderer {
   gltf: THREE.Group;
-  leds: THREE.Mesh<THREE.SphereBufferGeometry, THREE.MeshStandardMaterial>[];
+  leds: THREE.Mesh<THREE.CircleBufferGeometry, THREE.MeshStandardMaterial>[];
   pivot: THREE.Group;
   frame: number;
 
@@ -25,7 +25,7 @@ export default class VetteWebsite extends Renderer {
       this.pivot.position.set(0, 0, 0);
       this.scene.add(this.pivot);
 
-      const geometry = new THREE.SphereBufferGeometry(0.015, 6, 3);
+      const geometry = new THREE.CircleBufferGeometry(0.015, 6);
       const ledSpace = 0.0458;
 
       const color = new THREE.Color(0x000000);
@@ -36,13 +36,13 @@ export default class VetteWebsite extends Renderer {
           color: color,
           emissive: color,
           emissiveIntensity: 1.5,
+          side: THREE.FrontSide,
         });
         const led = new THREE.Mesh(geometry, sphereMaterial);
-        led.parent = this.gltf.children[2];
         led.position.set(
           0.71 - (key % 32) * ledSpace,
           -0.31 + Math.floor(key / 32) * ledSpace,
-          0.52
+          0.54
         );
         this.pivot.add(led);
         return led;
@@ -59,6 +59,12 @@ export default class VetteWebsite extends Renderer {
       }, 1000);
 
       ready();
+
+      console.log("VetteWebsite");
+      console.log("Scene polycount:", this.renderer.info.render.triangles);
+      console.log("Active Drawcalls:", this.renderer.info.render.calls);
+      console.log("Textures in Memory", this.renderer.info.memory.textures);
+      console.log("Geometries in Memory", this.renderer.info.memory.geometries);
     });
 
     const topLight = new THREE.DirectionalLight(white, 2);
@@ -68,9 +74,6 @@ export default class VetteWebsite extends Renderer {
     const rightLight = new THREE.DirectionalLight(white, 3);
     rightLight.position.set(-4, 4, 4);
     this.scene.add(rightLight);
-
-    // this.scene.add(new THREE.DirectionalLightHelper(topLight));
-    // this.scene.add(new THREE.DirectionalLightHelper(rightLight));
   }
 
   public animate(): void {
