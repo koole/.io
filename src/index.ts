@@ -8,3 +8,14 @@ import "./header";
 import "./intro";
 import "./projects";
 import "./team";
+import "./debug";
+import "./party";
+
+import Stats from "stats.js";
+const stats = new Stats();
+stats.dom.className = "statsjs";
+document.body.appendChild(stats.dom);
+requestAnimationFrame(function loop() {
+  stats.update();
+  requestAnimationFrame(loop);
+});

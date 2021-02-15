@@ -1,12 +1,13 @@
 import * as THREE from "three";
 import Renderer from "./Renderer";
-import { currentColors } from "../vw-client";
+import { currentColors, setHandler } from "../vw-client";
 import { readyCallback } from "../header";
+import { BufferGeometryUtils } from "three/examples/jsm/utils/BufferGeometryUtils";
 const ready = readyCallback();
 
 export default class VetteWebsite extends Renderer {
   gltf: THREE.Group;
-  leds: THREE.Mesh<THREE.SphereBufferGeometry, THREE.MeshStandardMaterial>[];
+  leds: THREE.Mesh<THREE.BufferGeometry, THREE.MeshStandardMaterial>;
   pivot: THREE.Group;
   frame: number;
 
@@ -25,28 +26,60 @@ export default class VetteWebsite extends Renderer {
       this.pivot.position.set(0, 0, 0);
       this.scene.add(this.pivot);
 
-      const geometry = new THREE.SphereBufferGeometry(0.015, 6, 3);
+      const geometry = new THREE.CircleBufferGeometry(0.015, 6);
       const ledSpace = 0.0458;
 
-      const color = new THREE.Color(0x000000);
-      color.convertSRGBToLinear();
-      this.leds = [...Array(1024).keys()].map((key) => {
-        const sphereMaterial = new THREE.MeshStandardMaterial({
-          roughness: 0,
-          color: color,
-          emissive: color,
-          emissiveIntensity: 1.5,
-        });
-        const led = new THREE.Mesh(geometry, sphereMaterial);
-        led.parent = this.gltf.children[2];
-        led.position.set(
-          0.71 - (key % 32) * ledSpace,
-          -0.31 + Math.floor(key / 32) * ledSpace,
-          0.52
-        );
-        this.pivot.add(led);
-        return led;
+      const sphereMaterial = new THREE.MeshStandardMaterial({
+        roughness: 0,
+        color: 0xffffff,
+        vertexColors: true,
+        side: THREE.FrontSide,
       });
+
+      // Create LEDs and merge them into a single BufferGeometry for performance.
+      const ledsGeometry = BufferGeometryUtils.mergeBufferGeometries(
+        [...Array(1024).keys()].map((key) => {
+          // const color = new THREE.Color();
+          const led = geometry.clone();
+          const count = led.attributes.position.count;
+          // Create color attribute for each LED so we can easily change it later
+          led.setAttribute(
+            "color",
+            new THREE.BufferAttribute(new Float32Array(count * 3), 3)
+          );
+          led.applyMatrix4(
+            new THREE.Matrix4().makeTranslation(
+              0.71 - (key % 32) * ledSpace,
+              -0.31 + Math.floor(key / 32) * ledSpace,
+              0.54
+            )
+          );
+          return led;
+        })
+      );
+      this.leds = new THREE.Mesh(ledsGeometry, sphereMaterial);
+      this.pivot.add(this.leds);
+
+      // The vw-client calls this function with an array of colors when the panel
+      // changes.
+      setHandler((colors) => {
+        // 1024 LEDs
+        for (let i = 0; i < 1024; i++) {
+          // 8 vertexes per LED
+          for (let vi = 0; vi < 8; vi++) {
+            const color = new THREE.Color(...colors[i]);
+            color.convertSRGBToLinear();
+            this.leds.geometry.attributes.color.setXYZ(
+              i * 8 + vi,
+              color.r * 4,
+              color.g * 4,
+              color.b * 4
+            );
+          }
+        }
+        this.leds.geometry.attributes.color.needsUpdate = true;
+      });
+
       // Render once after the scene has loaded
       this.animate();
       this.render();
@@ -59,6 +92,12 @@ export default class VetteWebsite extends Renderer {
       }, 1000);
 
       ready();
+
+      console.log("VetteWebsite");
+      console.log("Scene polycount:", this.renderer.info.render.triangles);
+      console.log("Active Drawcalls:", this.renderer.info.render.calls);
+      console.log("Textures in Memory", this.renderer.info.memory.textures);
+      console.log("Geometries in Memory", this.renderer.info.memory.geometries);
     });
 
     const topLight = new THREE.DirectionalLight(white, 2);
@@ -68,9 +107,6 @@ export default class VetteWebsite extends Renderer {
     const rightLight = new THREE.DirectionalLight(white, 3);
     rightLight.position.set(-4, 4, 4);
     this.scene.add(rightLight);
-
-    // this.scene.add(new THREE.DirectionalLightHelper(topLight));
-    // this.scene.add(new THREE.DirectionalLightHelper(rightLight));
   }
 
   public animate(): void {
@@ -92,16 +128,6 @@ export default class VetteWebsite extends Renderer {
       this.pivot.rotation.y = mouseXOffset;
     }
     this.frame++;
-
-    if (currentColors.length === 1024) {
-      for (let index = 0; index < this.leds.length; index++) {
-        const led = this.leds[index];
-        const color = new THREE.Color(...currentColors[index]);
-        color.convertSRGBToLinear();
-        led.material.emissive.set(color);
-        led.material.color.set(color);
-      }
-    }
     this.finishFrame();
   }
 }

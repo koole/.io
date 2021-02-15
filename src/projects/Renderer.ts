@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import Stats from "stats.js";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import { Easing } from "../utils";
@@ -31,8 +32,15 @@ class Renderer {
   public mouseY: number;
 
   clock: THREE.Clock;
+  stats: Stats;
 
   constructor(container: HTMLDivElement) {
+    this.stats = new Stats();
+    this.stats.showPanel(0);
+    this.stats.dom.className = "statsjs";
+    this.stats.dom.style.position = "absolute";
+    container.appendChild(this.stats.dom);
+
     this.gltfLoader = new GLTFLoader();
     this.clock = new THREE.Clock();
 
@@ -46,8 +54,8 @@ class Renderer {
     this.camera = new THREE.PerspectiveCamera(
       39.6,
       this.width / this.height,
-      0.1,
-      1000
+      3,
+      12
     );
 
     // Create renderer and add to canvas
@@ -115,6 +123,7 @@ class Renderer {
 
   protected loop(): void {
     requestAnimationFrame(this.loop);
+    this.stats.begin();
     if (this.animating) {
       this.mouseX += Math.floor((mouseX - this.mouseX) / 20) * this.timeStep;
       this.mouseY += Math.floor((mouseY - this.mouseY) / 20) * this.timeStep;
@@ -140,6 +149,7 @@ class Renderer {
 
       this.animate();
     }
+    this.stats.end();
   }
 
   protected finishFrame(): void {

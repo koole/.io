@@ -5,6 +5,14 @@ import { SaferEval } from "safer-eval";
 
 export let currentColors: string[][] | number[][] = [];
 
+let handler: (colors: string[][] | number[][]) => void = null;
+
+export const setHandler = (
+  newHandler: (colors: string[][] | number[][]) => void
+): void => {
+  handler = newHandler;
+};
+
 const firebaseConfig = {
   apiKey: "AIzaSyD4iFcFgJ6FzfGg1XWUFEuIf_pHgeOqReA",
   authDomain: "koole-io.firebaseapp.com",
@@ -80,6 +88,9 @@ function render(): void {
             ]);
             currentColors = arr;
           }
+          if (handler !== null) {
+            handler(arr);
+          }
         }
         frame++;
         requestAnimationFrame(render);
@@ -102,6 +113,9 @@ function render(): void {
         }
       }
       currentColors = arr;
+      if (handler !== null) {
+        handler(arr);
+      }
     }
   } else {
     setTimeout(render, 1000);

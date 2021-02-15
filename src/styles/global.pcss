@@ -27,6 +27,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   direction: ltr;
   text-align: left;
+  overflow-x: hidden;
 }
 
 .body-text {
@@ -88,4 +89,41 @@ body {
 /* Slide up fade in effect */
 [data-sal="slide-up"] {
   transform: translateY(20px);
+}
+
+.statsjs {
+  display: none;
+}
+
+body.debug {
+  * {
+    outline: dashed 1px hsla(160, 100%, 50%, 0.5);
+    > * {
+      outline: dashed 1px hsla(140, 100%, 50%, 0.5);
+      > * {
+        outline: dashed 1px hsla(120, 100%, 50%, 0.5);
+        > * {
+          outline: dashed 1px hsla(100, 100%, 50%, 0.5);
+          > * {
+            outline: dashed 1px hsla(80, 100%, 50%, 0.5);
+            > * {
+              outline: dashed 1px hsla(60, 100%, 50%, 0.5);
+              > * {
+                outline: dashed 1px hsla(40, 100%, 50%, 0.5);
+                > * {
+                  outline: dashed 1px hsla(20, 100%, 50%, 0.5);
+                  > * {
+                    outline: dashed 1px hsla(0, 100%, 50%, 0.5);
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .statsjs {
+    display: block;
+  }
 }
