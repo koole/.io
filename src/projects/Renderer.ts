@@ -36,7 +36,8 @@ class Renderer {
 
   constructor(container: HTMLDivElement) {
     this.stats = new Stats();
-    this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    this.stats.showPanel(0);
+    this.stats.dom.className = "statsjs";
     this.stats.dom.style.position = "absolute";
     container.appendChild(this.stats.dom);
 

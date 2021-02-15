@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
 import { readyCallback } from "../header";
+
 const ready = readyCallback();
 
 import Renderer from "./Renderer";
@@ -113,7 +114,6 @@ export default class Revision extends Renderer {
     this.camera.updateProjectionMatrix();
     this.controls.autoRotateSpeed = -2 * T;
     this.controls.update();
-    this.finishFrame();
     if (this.initialLookAtPoint) {
       // Head position
       this.headPosition.addVectors(
@@ -151,5 +151,6 @@ export default class Revision extends Renderer {
       this.rightLineMesh.geometry.dispose();
       this.rightLineMesh.geometry = this.rightLine;
     }
+    this.finishFrame();
   }
 }
