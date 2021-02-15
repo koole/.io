@@ -12,18 +12,12 @@ export default class Appmantle extends Renderer {
 
     this.camera.position.z = 6;
 
-    // this.loadGLTF("/appmantle.glb").then((gltf) => {
-    //   this.gltf = gltf.scene;
-    //   this.scene.add(gltf.scene);
+    this.loadGLTF("/appmantle.glb").then((gltf) => {
+      this.gltf = gltf.scene;
+      this.scene.add(gltf.scene);
+      this.gltf.children[0].rotation.y = 0.5;
       ready();
-    // });
-
-    const ambientLight = new THREE.AmbientLight(0xeeeeee);
-    this.scene.add(ambientLight);
-
-    const light = new THREE.PointLight(white, 1);
-    light.position.set(0, 4, 0);
-    this.scene.add(light);
+    });
 
     const topLight = new THREE.DirectionalLight(white, 5);
     topLight.position.set(3, 3, 0);
@@ -32,25 +26,23 @@ export default class Appmantle extends Renderer {
     const rightLight = new THREE.DirectionalLight(white, 5);
     rightLight.position.set(-4, 4, 0);
     this.scene.add(rightLight);
-
-    const bottomLight = new THREE.DirectionalLight(white, 1);
-    bottomLight.position.set(0, -2, 1);
-    this.scene.add(bottomLight);
   }
 
   public animate(): void {
-    // const T = this.timeStep;
-    // const cameraX = this.mouseX / window.innerWidth - 0.5;
-    // const cameraY = this.mouseY / window.innerHeight - 0.5;
-    // this.camera.position.x = cameraX * 2;
-    // this.camera.position.y = -cameraY * 2;
-    // if (this.gltf) {
-    //   this.gltf.children[2].rotation.y +=
-    //     (this.mouseX / window.innerWidth - 0.5) * 0.05 * T;
-    //   this.gltf.children[2].rotation.x += 0.01 * T;
-    //   this.gltf.children[3].rotation.x += 0.02 * T;
-    //   this.gltf.children[3].rotation.y += 0.02 * T;
-    // }
+    const T = this.timeStep;
+    const mouseXOffset = this.mouseX / window.innerWidth - 0.625;
+    const mouseYOffset = this.mouseY / window.innerHeight - 0.5;
+
+    const cameraX = mouseXOffset;
+    const cameraY = mouseYOffset;
+    this.camera.position.x = cameraX;
+    this.camera.position.y = -cameraY - 0.5;
+    this.camera.position.z = 6 + 1.5 * (1 - this.timeStep);
+
+    if (this.gltf) {
+      this.gltf.children[0].rotation.x += 0.005 * T;
+      this.gltf.children[0].rotation.z += 0.001 * T;
+    }
     this.finishFrame();
   }
 }

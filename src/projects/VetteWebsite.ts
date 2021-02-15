@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import Renderer from "./Renderer";
-import { currentColors, setHandler } from "../vw-client";
+import { setHandler } from "../vw-client";
 import { readyCallback } from "../header";
 import { BufferGeometryUtils } from "three/examples/jsm/utils/BufferGeometryUtils";
 const ready = readyCallback();
