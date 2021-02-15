@@ -71,9 +71,9 @@ export default class VetteWebsite extends Renderer {
             color.convertSRGBToLinear();
             this.leds.geometry.attributes.color.setXYZ(
               i * 8 + vi,
-              color.r,
-              color.g,
-              color.b
+              color.r * 4,
+              color.g * 4,
+              color.b * 4
             );
           }
         }
