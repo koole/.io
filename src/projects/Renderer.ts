@@ -54,7 +54,7 @@ class Renderer {
       39.6,
       this.width / this.height,
       3,
-      10
+      12
     );
 
     // Create renderer and add to canvas
