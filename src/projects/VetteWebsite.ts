@@ -36,28 +36,28 @@ export default class VetteWebsite extends Renderer {
         side: THREE.FrontSide,
       });
 
+      const createLED = (key: number): THREE.BufferGeometry => {
+        // const color = new THREE.Color();
+        const led = geometry.clone();
+        const count = led.attributes.position.count;
+        // Create color attribute for each LED so we can easily change it later
+        led.setAttribute(
+          "color",
+          new THREE.BufferAttribute(new Float32Array(count * 3), 3)
+        );
+        led.applyMatrix4(
+          new THREE.Matrix4().makeTranslation(
+            0.71 - (key % 32) * ledSpace,
+            -0.31 + Math.floor(key / 32) * ledSpace,
+            0.54
+          )
+        );
+        return led;
+      };
+
       // Create LEDs and merge them into a single BufferGeometry for performance.
       const ledsGeometry = BufferGeometryUtils.mergeBufferGeometries(
-        [...Array(1024).keys()].map(
-          (key): THREE.BufferGeometry => {
-            // const color = new THREE.Color();
-            const led = geometry.clone();
-            const count = led.attributes.position.count;
-            // Create color attribute for each LED so we can easily change it later
-            led.setAttribute(
-              "color",
-              new THREE.BufferAttribute(new Float32Array(count * 3), 3)
-            );
-            led.applyMatrix4(
-              new THREE.Matrix4().makeTranslation(
-                0.71 - (key % 32) * ledSpace,
-                -0.31 + Math.floor(key / 32) * ledSpace,
-                0.54
-              )
-            );
-            return led;
-          }
-        )
+        [...Array(1024).keys()].map(createLED)
       );
       this.leds = new THREE.Mesh(ledsGeometry, sphereMaterial);
       this.pivot.add(this.leds);
