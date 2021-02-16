@@ -6,7 +6,7 @@ import { E, docReady } from "./utils";
 interface Project {
   id: HTMLElement | null;
   placeholder: HTMLDivElement | null;
-  renderer: any;
+  renderer: typeof Renderer;
   instance?: Renderer;
 }
 
