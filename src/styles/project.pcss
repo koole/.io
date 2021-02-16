@@ -60,12 +60,15 @@
 .project-video-container {
   position: relative;
   z-index: 1;
-  height: calc(100vh - var(--padding) * 4);
-  min-height: 65vh;
+  height: calc(100vh - var(--padding) * 6);
+  max-height: 1000px;
   max-width: calc(940px + var(--padding) * 4);
   width: 100vw;
   background: linear-gradient(to top, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0) 80%);
   canvas {
     filter: saturate(1.3);
+  }
+  @media only screen and (min-width: $br-sm) {
+    height: calc(100vh - var(--padding) * 4);
   }
 }

@@ -8,6 +8,7 @@ declare global {
 }
 
 const AudioCtx = window.AudioContext || window.webkitAudioContext;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const _ = new AudioCtx();
 
 let needLoading = 0;

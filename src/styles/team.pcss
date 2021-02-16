@@ -18,7 +18,7 @@
 
 .member {
   padding: calc(var(--padding) / 2);
-  flex: 0 0 100%;
+  flex: 0 0 calc(1 / 2 * 100%);
   @media only screen and (min-width: $br-sm) {
     flex: 0 0 calc(1 / 2 * 100%);
   }
@@ -46,6 +46,11 @@
   margin: -0.75em 0;
   padding: 1em 0;
   color: rgba(255, 255, 255, 0.6);
-  font-weight: 300;
   height: 4.5rem;
+  font-weight: 400;
+  font-size: 0.8em;
+  @media only screen and (min-width: $br-sm) {
+    font-weight: 300;
+    font-size: 1em;
+  }
 }
