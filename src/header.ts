@@ -40,7 +40,7 @@ docReady(() => {
   const T0 = E("header-text-0") as HTMLSpanElement;
   const T1 = E("header-text-1") as HTMLSpanElement;
   const T2 = E("header-text-2") as HTMLSpanElement;
-  console.log(audio.readyState);
+
   //-// Don't wait for audio/video, mobile Safari doesn't preload till playthrough.
   // const audioReady = readyCallback();
   // const videoReady = readyCallback();
@@ -58,14 +58,15 @@ docReady(() => {
   setTimeout(() => {
     readyCallback()();
   }, 1200);
+
   audio.addEventListener("play", () => {
     window.scrollTo(0, 0);
-    video.play();
     if (video !== null) {
-      setTimeout(() => {
-        blackOverlay.style.display = "none";
-      }, 1319);
+      video.play();
     }
+    setTimeout(() => {
+      blackOverlay.style.display = "none";
+    }, 1319);
     if (T0 !== null) {
       setTimeout(() => {
         T0.classList.add("active");

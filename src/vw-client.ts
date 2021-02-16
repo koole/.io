@@ -1,8 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 
-import { SaferEval } from "safer-eval";
-
 let handler: (colors: string[][] | number[][]) => void = null;
 
 export const setHandler = (
@@ -35,17 +33,12 @@ interface Document {
 
 let dataDocument: Document = null;
 
+// Used by scripts as persistents storage
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 let persistent = {};
 
 const canvas = document.createElement("canvas");
 const canvasContext = canvas.getContext("2d");
-
-const context = {
-  persistent: persistent,
-  context: canvasContext,
-};
-
-let safer = new SaferEval(context);
 
 const doc = db.collection("panels").doc("1");
 
@@ -54,7 +47,6 @@ doc.onSnapshot(
     dataDocument = docSnapshot.data();
     // Clear VM and persistent storage for new script
     persistent = {};
-    safer = new SaferEval(context);
     canvasContext.fillStyle = "#000000";
     canvasContext.fillRect(0, 0, 32, 32);
   },
@@ -70,8 +62,7 @@ function render(): void {
       try {
         // Limit to half the framerate, as the real panel only runs at 30fps.
         if (frame % 2 === 0) {
-          safer.runInContext("(function(){" + dataDocument.script + "})()");
-          // sendToSocket(canvas.toDataURL());
+          eval("(function(){" + dataDocument.script + "})()");
           const arr: number[][] = [];
           const imageData = canvasContext.getImageData(0, 0, 32, 32);
           for (

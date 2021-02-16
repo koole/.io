@@ -1,5 +1,4 @@
-export const E = (id: string): HTMLElement | null =>
-  document.getElementById(id);
+export const E = (id: string): HTMLElement => document.getElementById(id);
 
 export function docReady(fn: () => void): void {
   // see if DOM is already available
@@ -336,9 +335,9 @@ export const Easing = {
      * @returns {number} The tweened value.
      */
     In: function (k: number): number {
-      var s,
-        a = 0.1,
-        p = 0.4;
+      let s,
+        a = 0.1;
+      const p = 0.4;
       if (k === 0) return 0;
       if (k === 1) return 1;
       if (!a || a < 1) {
@@ -360,9 +359,9 @@ export const Easing = {
      * @returns {number} The tweened value.
      */
     Out: function (k: number): number {
-      var s,
-        a = 0.1,
-        p = 0.4;
+      let s,
+        a = 0.1;
+      const p = 0.4;
       if (k === 0) return 0;
       if (k === 1) return 1;
       if (!a || a < 1) {
@@ -382,9 +381,9 @@ export const Easing = {
      * @returns {number} The tweened value.
      */
     InOut: function (k: number): number {
-      var s,
-        a = 0.1,
-        p = 0.4;
+      let s,
+        a = 0.1;
+      const p = 0.4;
       if (k === 0) return 0;
       if (k === 1) return 1;
       if (!a || a < 1) {
@@ -422,7 +421,7 @@ export const Easing = {
      * @returns {number} The tweened value.
      */
     In: function (k: number): number {
-      var s = 1.70158;
+      const s = 1.70158;
       return k * k * ((s + 1) * k - s);
     },
 
@@ -434,7 +433,7 @@ export const Easing = {
      * @returns {number} The tweened value.
      */
     Out: function (k: number): number {
-      var s = 1.70158;
+      const s = 1.70158;
       return --k * k * ((s + 1) * k + s) + 1;
     },
 
@@ -446,7 +445,7 @@ export const Easing = {
      * @returns {number} The tweened value.
      */
     InOut: function (k: number): number {
-      var s = 1.70158 * 1.525;
+      const s = 1.70158 * 1.525;
       if ((k *= 2) < 1) return 0.5 * (k * k * ((s + 1) * k - s));
       return 0.5 * ((k -= 2) * k * ((s + 1) * k + s) + 2);
     },
