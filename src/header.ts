@@ -89,9 +89,6 @@ docReady(() => {
     audio.play();
     startButton.style.display = "none";
   });
-  document.documentElement.style.overflow = "unset";
-  blackOverlay.style.display = "none";
-  startButton.style.display = "none";
 });
 
 window.onbeforeunload = function (): void {
