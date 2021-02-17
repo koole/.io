@@ -7,7 +7,6 @@ import "./cursor";
 import "./header";
 import "./intro";
 import "./projects";
-import "./team";
 import "./debug";
 import "./party";
 

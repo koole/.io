@@ -16,6 +16,8 @@ export default class Appmantle extends Renderer {
       this.gltf = gltf.scene;
       this.scene.add(gltf.scene);
       this.gltf.children[0].rotation.y = 0.5;
+      this.animate();
+      this.render();
       ready();
     });
 

@@ -55,6 +55,7 @@ docReady(() => {
   // } else {
   //   video.addEventListener("canplaythrough", videoReady);
   // }
+
   //-// Wait at least one second instead.
   setTimeout(() => {
     readyCallback()();

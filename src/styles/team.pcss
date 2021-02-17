@@ -14,16 +14,22 @@
   display: flex;
   flex-wrap: wrap;
   padding: 0 calc(var(--padding) / 2);
+  & > div {
+    flex: 0 0 calc(1 / 2 * 100%);
+    @media only screen and (min-width: $br-sm) {
+      flex: 0 0 calc(1 / 2 * 100%);
+    }
+    @media only screen and (min-width: $br-md) {
+      flex: 0 0 calc(1 / 3 * 100%);
+    }
+  }
 }
 
 .member {
   padding: calc(var(--padding) / 2);
-  flex: 0 0 calc(1 / 2 * 100%);
-  @media only screen and (min-width: $br-sm) {
-    flex: 0 0 calc(1 / 2 * 100%);
-  }
-  @media only screen and (min-width: $br-md) {
-    flex: 0 0 calc(1 / 3 * 100%);
+  transition: var(--transition);
+  &:hover {
+    transform: scale(1.05);
   }
 }
 

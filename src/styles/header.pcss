@@ -26,11 +26,12 @@ header > h1 {
   margin: 2rem;
   position: relative;
   z-index: 2;
-  font-size: 2.5rem;
+  font-size: 3rem;
   line-height: 0.9em;
   text-align: center;
   color: rgba(0, 0, 0, 0.5);
-  font-weight: bold;
+  font-family: "EB Garamond", serif;
+  font-weight: 600;
 }
 
 header > h1 > span.active {
@@ -40,13 +41,13 @@ header > h1 > span.active {
 
 @media only screen and (min-width: $br-xs) {
   header > h1 {
-    font-size: 3rem;
+    font-size: 3.5rem;
   }
 }
 
 @media only screen and (min-width: $br-sm) {
   header > h1 {
-    font-size: 5rem;
+    font-size: 6rem;
   }
 }
 
@@ -61,6 +62,7 @@ header > h1 > span.active {
 }
 
 #light-button {
+  filter: sepia(0.15);
   position: fixed;
   top: 50%;
   left: 50%;
@@ -114,6 +116,7 @@ header > h1 > span.active {
 }
 
 #loading-indicator {
+  filter: sepia(0.15);
   &.ready {
     transform: translateX(-50%) translateY(calc(-2 * var(--padding) - 50%));
     opacity: 0;

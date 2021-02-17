@@ -15,9 +15,15 @@
 /* Typography */
 html {
   font-size: 22px;
-  font-family: "Space Grotesk", "Epilogue", sans-serif;
+  font-family: "IBM Plex Sans", "SF Pro Display", "SF Pro Icons",
+    "Helvetica Neue", "Helvetica", "Arial", -apple-system, sans-serif;
   font-style: normal;
   font-weight: 400;
+}
+
+.serif {
+  font-family: "EB Garamond", serif;
+  font-weight: 600;
 }
 
 body {
@@ -30,34 +36,39 @@ body {
   overflow-x: hidden;
 }
 
+main {
+  opacity: 0.8;
+  filter: sepia(0.15);
+}
+
 .body-text {
-  font-family: "SF Pro Display", "SF Pro Icons", "Helvetica Neue", "Helvetica",
-    "Arial", -apple-system, sans-serif;
   line-height: 1.38105;
   font-weight: 400;
   letter-spacing: 0.011em;
-  color: #c4c4c4;
+  color: #dfdfdf;
 }
 
 .heading {
-  font-size: 2rem;
+  font-family: "EB Garamond", serif;
+  font-weight: 600;
+  font-size: 2.2rem;
 }
 
 @media only screen and (min-width: $br-sm) {
   .heading {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
   }
 }
 
 @media only screen and (min-width: $br-lg) {
   .heading {
-    font-size: 2.5rem;
+    font-size: 2.6rem;
   }
 }
 
 @media only screen and (min-width: $br-xl) {
   .heading {
-    font-size: 3rem;
+    font-size: 3.2rem;
   }
 }
 
