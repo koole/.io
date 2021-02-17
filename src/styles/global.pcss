@@ -114,8 +114,20 @@ body.debug {
   }
 }
 
+@keyframes party {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
 body.party {
-  .header-video {
-    mix-blend-mode: plus-lighter;
+  background: #ff0000;
+  animation: party 5s steps(10) infinite;
+  main {
+    background: black;
+    mix-blend-mode: luminosity;
   }
 }

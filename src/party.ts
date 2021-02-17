@@ -5,9 +5,6 @@ export let partyMode = false;
 docReady(() => {
   const button = E("partyButton");
   const toggleParty = (): void => {
-    window.alert(
-      "Vanwege de huidige maatregelen omtrend COVID-19 is party mode tijdelijk uitgeschakeld."
-    );
     partyMode = !partyMode;
     if (partyMode) {
       document.body.classList.add("party");
