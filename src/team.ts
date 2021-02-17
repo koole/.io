@@ -1,15 +1,10 @@
 // const jobs = [
 //   "Front-End Wizard",
-//   "Full Stack Magicican",
-//   "Code Librarian",
 //   "Tax Wrangler",
-//   "SVG Manager",
 //   "Human Resource Rockstar",
 //   "Scrum Master",
 //   "User Interface Prophet",
-//   "Innovation Sherpa",
 //   "Inspiration Officer",
 //   "Fashion Evangelist",
-//   "Purpose Promoter",
 //   "Extreme Unicyclist",
 // ];
