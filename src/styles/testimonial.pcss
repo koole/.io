@@ -4,7 +4,6 @@
   padding: calc(var(--padding) * 3) var(--padding);
   background-position: center;
   background-size: cover;
-  text-align: center;
 
   > div {
     max-width: 940px;
@@ -14,27 +13,16 @@
     font-size: 1.5rem;
     margin: 0;
     font-weight: 500;
-    background: linear-gradient(
-      90deg,
-      var(--color2) -50%,
-      var(--color) 50%,
-      var(--color3) 150%
-    );
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: var(--white);
+
     &::-moz-selection {
-      color: var(--black);
+      color: var(--white);
     }
 
     &::selection {
-      color: var(--black);
+      color: var(--white);
     }
   }
-
-    /* Drop shadows this big look horrible in chromium browsers */
-    @supports (color: color(display-p3 1 1 1)) {
-      text-shadow: var(--color) 0 0 200px;
-    }
 
   img {
     margin-top: 0.5rem;

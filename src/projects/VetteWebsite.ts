@@ -69,7 +69,7 @@ export default class VetteWebsite extends Renderer {
         for (let i = 0; i < 1024; i++) {
           // 8 vertexes per LED
           for (let vi = 0; vi < 8; vi++) {
-            const color = new THREE.Color(...colors[i]);
+            const color = new THREE.Color(colors[i], colors[i], colors[i]);
             color.convertSRGBToLinear();
             this.leds.geometry.attributes.color.setXYZ(
               i * 8 + vi,

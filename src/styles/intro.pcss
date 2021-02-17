@@ -14,19 +14,7 @@
     font-size: 1.5rem;
     margin: 0;
     font-weight: 500;
-    background: linear-gradient(
-      90deg,
-      var(--color) 5%,
-      var(--color2) 50%,
-      var(--color3) 95%
-    );
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-
-    /* Drop shadows this big look horrible in chromium browsers */
-    @supports (color: color(display-p3 1 1 1)) {
-      text-shadow: var(--color2) 0 0 300px;
-    }
+    color: var(--white);
   }
 
   p {

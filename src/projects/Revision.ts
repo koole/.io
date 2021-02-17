@@ -34,11 +34,6 @@ export default class Revision extends Renderer {
     const white = new THREE.Color(0xffffff);
     white.convertSRGBToLinear();
 
-    const lineColor = new THREE.Color(0xffd600);
-    lineColor.convertSRGBToLinear();
-    const sphereColor = new THREE.Color(0xffb309);
-    sphereColor.convertSRGBToLinear();
-
     this.camera.position.z = 6;
     this.controls.update();
 
@@ -53,7 +48,7 @@ export default class Revision extends Renderer {
       this.headPosition = this.intialHeadPosition.clone();
 
       const lineMaterial = new MeshLineMaterial({
-        color: lineColor,
+        color: white,
         resolution: new THREE.Vector2(1, 1),
         lineWidth: 0.01,
         sizeAttenuation: 1,
