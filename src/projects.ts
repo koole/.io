@@ -75,16 +75,14 @@ function start(): void {
 
   // Star the scrollUpdate checker
   window.requestAnimationFrame(scrollUpdate);
-}
 
-docReady(start);
-
-// Change the cursor when hovering over a project
-for (const project of projects) {
-  project.placeholder.addEventListener("mouseenter", () => {
+  // Change the cursor when hovering over the Revision canvas
+  E("s-revision-video").addEventListener("mouseenter", () => {
     E("cursor-content").classList.add("cursor-project");
   });
-  project.placeholder.addEventListener("mouseleave", () => {
+  E("s-revision-video").addEventListener("mouseleave", () => {
     E("cursor-content").classList.remove("cursor-project");
   });
 }
+
+docReady(start);
