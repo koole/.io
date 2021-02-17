@@ -10,7 +10,7 @@ export default class Appmantle extends Renderer {
     const white = new THREE.Color(0xffffff);
     white.convertSRGBToLinear();
 
-    this.camera.position.z = 6;
+    this.camera.position.z = 6 + 1.5 * (1 - this.timeStep);
 
     this.loadGLTF("/appmantle.glb").then((gltf) => {
       this.gltf = gltf.scene;
