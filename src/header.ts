@@ -20,11 +20,11 @@ export const readyCallback = (): (() => void) => {
     if (hasLoaded === needLoading) {
       const loadingIndicator = E("loading-indicator") as HTMLDivElement;
       const startButton = E("light-button") as HTMLButtonElement;
-      const logo = E("logo") as HTMLDivElement;
+      // const logo = E("logo") as HTMLDivElement;
       // Hide loader
       loadingIndicator.classList.add("ready");
       // Show logo
-      logo.classList.add("ready");
+      // logo.classList.add("ready");
       // Show start button
       startButton.classList.add("ready");
     }
