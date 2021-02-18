@@ -10,7 +10,7 @@ export default class Appmantle extends Renderer {
     const white = new THREE.Color(0xffffff);
     white.convertSRGBToLinear();
 
-    this.camera.position.z = 6 + 1.5 * (1 - this.timeStep);
+    this.camera.position.z = 7 + 0.5 * (1 - this.timeStep);
 
     this.loadGLTF("/appmantle.glb").then((gltf) => {
       this.gltf = gltf.scene;
@@ -39,7 +39,7 @@ export default class Appmantle extends Renderer {
     const cameraY = mouseYOffset;
     this.camera.position.x = cameraX;
     this.camera.position.y = -cameraY - 0.5;
-    this.camera.position.z = 6 + 1.5 * (1 - this.timeStep);
+    this.camera.position.z = 7 + 0.5 * (1 - this.timeStep);
 
     if (this.gltf) {
       this.gltf.children[0].rotation.x += 0.005 * T;

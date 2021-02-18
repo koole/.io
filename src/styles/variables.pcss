@@ -3,6 +3,8 @@
   --black: #000000;
   --white: #ffffff;
   --color: #ff0000;
+  --containerWidth: 940px;
+  --baseSize: 22px;
 }
 
 /* Breakpoints */
@@ -12,6 +14,7 @@ $br-sm: 600px;
 $br-md: 800px;
 $br-lg: 1200px;
 $br-xl: 1400px;
+$br-2xl: 1600px;
 
 @supports (color: color(display-p3 1 1 1)) {
   :root {
@@ -35,5 +38,24 @@ $br-xl: 1400px;
 @media only screen and (min-width: $br-md) {
   :root {
     --padding: 3rem;
+  }
+}
+
+@media only screen and (min-width: $br-lg) {
+  :root {
+    --containerWidth: calc(100vw - var(--padding) * 6);
+    --baseSize: 24px;
+  }
+}
+
+@media only screen and (min-width: $br-xl) {
+  :root {
+    --baseSize: 24px;
+  }
+}
+
+@media only screen and (min-width: $br-2xl) {
+  :root {
+    --baseSize: 30px;
   }
 }

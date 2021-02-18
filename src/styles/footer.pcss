@@ -1,9 +1,9 @@
 footer {
-  background: linear-gradient(
+  /* background: linear-gradient(
     to top,
     rgba(255, 255, 255, 0.1) 0%,
     rgba(255, 255, 255, 0) 100%
-  );
+  ); */
   padding: calc(var(--padding) * 2) var(--padding);
 
   .contact {
@@ -23,16 +23,16 @@ footer {
     margin: calc(-0.5 * var(--padding));
     padding: calc(0.5 * var(--padding));
     transition: var(--transition);
-    > div {
+    /* > div {
       transition: var(--transition);
       transform-origin: left 50%;
-    }
-    &:hover {
+    } */
+    /* &:hover {
       background: rgba(0, 0, 0, 0.2);
       > div {
         transform: scale(1.05);
       }
-    }
+    } */
   }
 
   address {
@@ -46,10 +46,74 @@ footer {
     line-height: 1.4;
   }
 
-  a {
-    display: block;
+  .contact-email {
+    display: inline-block;
     color: inherit;
     color: var(--white);
+    text-decoration: none;
+    border-bottom: 2px solid var(--white);
+    text-shadow:
+    0px 1px var(--black),
+    0px -1px var(--black),
+    -0px 1px var(--black),
+    -0px -1px var(--black),
+    1px 0px var(--black),
+    1px -0px var(--black),
+    -1px 0px var(--black),
+    -1px -0px var(--black),
+    1px 1px var(--black),
+    1px -1px var(--black),
+    -1px 1px var(--black),
+    -1px -1px var(--black),
+    0px 2px var(--black),
+    0px -2px var(--black),
+    -0px 2px var(--black),
+    -0px -2px var(--black),
+    2px 0px var(--black),
+    2px -0px var(--black),
+    -2px 0px var(--black),
+    -2px -0px var(--black),
+    2px 2px var(--black),
+    2px -2px var(--black),
+    -2px 2px var(--black),
+    -2px -2px var(--black),
+    1px 2px var(--black),
+    1px -2px var(--black),
+    -1px 2px var(--black),
+    -1px -2px var(--black),
+    2px 1px var(--black),
+    2px -1px var(--black),
+    -2px 1px var(--black),
+    -2px -1px var(--black),
+    2px 3px var(--black),
+    2px -3px var(--black),
+    -2px 3px var(--black),
+    -2px -3px var(--black),
+    3px 2px var(--black),
+    3px -2px var(--black),
+    -3px 2px var(--black),
+    -3px -2px var(--black),
+    1px 1px var(--black),
+    1px -1px var(--black),
+    -1px 1px var(--black),
+    -1px -1px var(--black),
+    3px 0px var(--black),
+    3px -0px var(--black),
+    -3px 0px var(--black),
+    -3px -0px var(--black),
+    3px 3px var(--black),
+    3px -3px var(--black),
+    -3px 3px var(--black),
+    -3px -3px var(--black),
+    1px 3px var(--black),
+    1px -3px var(--black),
+    -1px 3px var(--black),
+    -1px -3px var(--black),
+    3px 1px var(--black),
+    3px -1px var(--black),
+    -3px 1px var(--black),
+    -3px -1px var(--black);
+    line-height: 0.85;
   }
 
   .contacts {

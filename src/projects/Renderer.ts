@@ -5,7 +5,7 @@ import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Easing } from "../utils";
 
 const easeSpeed = 0.01;
-const exposure = 1;
+const exposure = 1.2;
 
 let mouseX = 0;
 let mouseY = 0;
@@ -69,7 +69,6 @@ class Renderer {
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = exposure;
     this.renderer.physicallyCorrectLights = true;
-    this.renderer.gammaFactor = 2.2;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(this.renderer.domElement);
 
