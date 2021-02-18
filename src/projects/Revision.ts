@@ -8,7 +8,6 @@ const ready = readyCallback();
 import Renderer from "./Renderer";
 export default class Revision extends Renderer {
   gltf: THREE.Group;
-  controls: OrbitControls;
 
   intialHeadPosition: THREE.Vector3;
   initialLookAtPoint: THREE.Vector3;
@@ -22,28 +21,26 @@ export default class Revision extends Renderer {
   rightEyeOffset: THREE.Vector3;
   rightLine: MeshLine;
   rightLineMesh: THREE.Mesh;
+  pivot: THREE.Group;
 
   public createScene(): void {
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.autoRotate = true;
-    this.controls.enableDamping = true;
-    this.controls.enableZoom = false;
-    this.controls.minPolarAngle = Math.PI / 2;
-    this.controls.maxPolarAngle = Math.PI / 2;
-
     const white = new THREE.Color(0xffffff);
     white.convertSRGBToLinear();
 
     this.camera.position.z = 6;
-    this.controls.update();
+    this.camera.position.y = 0.1;
 
     this.initialLookAtPoint = new THREE.Vector3(0.479362, -0.204354, 0.555399);
     this.leftEyeOffset = new THREE.Vector3(0, 0.18, -0.16);
     this.rightEyeOffset = new THREE.Vector3(0, 0.18, 0.16);
 
+    this.pivot = new THREE.Group();
+    this.pivot.position.set(0, 0, 0);
+    this.scene.add(this.pivot);
+
     this.loadGLTF("/revision.glb").then((gltf) => {
       this.gltf = gltf.scene;
-      this.scene.add(gltf.scene);
+      this.pivot.add(gltf.scene);
       this.intialHeadPosition = this.gltf.children[5].position.clone();
       this.headPosition = this.intialHeadPosition.clone();
 
@@ -58,12 +55,12 @@ export default class Revision extends Renderer {
       this.leftLine = new MeshLine();
       this.leftLine.setPoints(points);
       this.leftLineMesh = new THREE.Mesh(this.leftLine, lineMaterial);
-      this.scene.add(this.leftLineMesh);
+      this.pivot.add(this.leftLineMesh);
 
       this.rightLine = new MeshLine();
       this.rightLine.setPoints(points);
       this.rightLineMesh = new THREE.Mesh(this.rightLine, lineMaterial);
-      this.scene.add(this.rightLineMesh);
+      this.pivot.add(this.rightLineMesh);
 
       // Render once after the scene has loaded
       this.animate();
@@ -103,12 +100,13 @@ export default class Revision extends Renderer {
 
   public animate(): void {
     const T = this.timeStep;
-    this.camera.fov =
-      35 -
-      11 * Math.sin(this.controls.getAzimuthalAngle() - 0.4) * this.timeStep;
-    this.camera.updateProjectionMatrix();
-    this.controls.autoRotateSpeed = -2 * T;
-    this.controls.update();
+
+    const mouseXOffset = this.mouseX / window.innerWidth - 0.625;
+
+    this.camera.position.x = mouseXOffset - 1.5 * this.desktop;
+    this.camera.position.z = 5.5 + 0.5 * (1 - this.timeStep);
+    this.pivot.rotation.y = mouseXOffset;
+
     if (this.initialLookAtPoint) {
       // Head position
       this.headPosition.addVectors(

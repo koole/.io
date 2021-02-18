@@ -19,6 +19,7 @@
     display: block;
     transition: var(--transition);
     transform-origin: left;
+    margin-bottom: -4px;
     border-bottom: 4px solid black;
   }
 
@@ -35,11 +36,15 @@
   position: relative;
   z-index: 2;
   padding: var(--padding);
-  margin: 0 var(--padding) 0 var(--padding);
-  transform: translateY(calc(-100% + var(--padding)));
-  background: var(--white);
+  transform: translateY(calc(-1 * var(--padding)));
+  background: #fcfcfc;
   color: var(--black);
-  width: 50%;
+  width: 100%;
+  @media only screen and (min-width: $br-md) {
+    margin: 0 var(--padding) 0 var(--padding);
+    transform: translateY(calc(-100% + var(--padding)));
+    width: 50%;
+  }
 }
 
 .project-description h2 {

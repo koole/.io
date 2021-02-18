@@ -120,7 +120,7 @@ export default class VetteWebsite extends Renderer {
 
     const cameraX = mouseXOffset;
     // const cameraY = mouseYOffset;
-    this.camera.position.x = cameraX - 2;
+    this.camera.position.x = cameraX - 2 * this.desktop;
     // this.camera.position.y = -cameraY;
     this.camera.position.z = 7 + 1.5 * (1 - this.timeStep);
     if (this.gltf) {

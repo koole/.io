@@ -10,6 +10,8 @@ const exposure = 1.2;
 let mouseX = 0;
 let mouseY = 0;
 
+let mobileBreakpoint = 800;
+
 window.addEventListener("mousemove", (e) => {
   mouseX = e.clientX;
   mouseY = e.clientY;
@@ -30,6 +32,7 @@ class Renderer {
   public timeStep: number;
   public mouseX: number;
   public mouseY: number;
+  public desktop: 0 | 1;
 
   clock: THREE.Clock;
   stats: Stats;
@@ -57,6 +60,8 @@ class Renderer {
       3,
       12
     );
+
+    this.desktop = window.innerWidth >= mobileBreakpoint ? 1 : 0;
 
     // Create renderer and add to canvas
     this.renderer = new THREE.WebGLRenderer({
@@ -113,6 +118,7 @@ class Renderer {
     this.renderer.setSize(this.width, this.height);
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
+    this.desktop = window.innerWidth >= mobileBreakpoint ? 1 : 0;
 
     // Rerender if this project was not animating while resizing
     if (!this.animating) {

@@ -13,10 +13,35 @@
 }
 
 /* Typography */
+@font-face {
+  font-family: "Redaction";
+  src: url("/fonts/Redaction-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Redaction";
+  src: url("/fonts/Redaction-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Redaction";
+  src: url("/fonts/Redaction-Italic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
 html {
   font-size: var(--baseSize);
-  font-family: "Redaction", "Junicode", "IBM Plex Sans", "SF Pro Display", "SF Pro Icons",
-    "Helvetica Neue", "Helvetica", "Arial", -apple-system, sans-serif;
+  font-family: "Redaction", "Junicode", "IBM Plex Sans", "SF Pro Display",
+    "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", -apple-system,
+    sans-serif;
   font-style: normal;
   font-weight: 400;
 }
