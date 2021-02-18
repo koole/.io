@@ -36,7 +36,6 @@
   position: relative;
   z-index: 2;
   padding: var(--padding);
-  transform: translateY(calc(-1 * var(--padding)));
   background: #fcfcfc;
   color: var(--black);
   width: 100%;
@@ -65,9 +64,13 @@
   height: calc(calc(100vh) - var(--padding) * 2);
   max-width: calc(var(--containerWidth) + var(--padding) * 4);
   width: 100vw;
+  max-height: 60vh;
   background: linear-gradient(
     to top,
     rgba(255, 255, 255, 0.11),
     rgba(255, 255, 255, 0) 80%
   );
+  @media only screen and (min-width: $br-md) {
+    max-height: 100vh;
+  }
 }
