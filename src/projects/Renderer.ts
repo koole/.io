@@ -6,11 +6,10 @@ import { Easing } from "../utils";
 
 const easeSpeed = 0.01;
 const exposure = 1.2;
+const mobileBreakpoint = 800;
 
 let mouseX = 0;
 let mouseY = 0;
-
-let mobileBreakpoint = 800;
 
 window.addEventListener("mousemove", (e) => {
   mouseX = e.clientX;
@@ -91,6 +90,18 @@ class Renderer {
     // Update the canvas and camera when the window resizes
     window.addEventListener("resize", () => {
       this.resizeCanvas();
+    });
+
+    this.renderer.domElement.addEventListener("touchmove", (e) => {
+      const evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
+      const touch = evt.touches[0] || evt.changedTouches[0];
+      this.mouseX = touch.pageX;
+    });
+
+    this.renderer.domElement.addEventListener("touchdown", (e) => {
+      const evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
+      const touch = evt.touches[0] || evt.changedTouches[0];
+      this.mouseY = touch.pageY;
     });
 
     // Eased mouse position coordinates
