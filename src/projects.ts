@@ -75,14 +75,6 @@ function start(): void {
 
   // Star the scrollUpdate checker
   window.requestAnimationFrame(scrollUpdate);
-
-  // Change the cursor when hovering over the Revision canvas
-  E("s-revision-video").addEventListener("mouseenter", () => {
-    E("cursor-content").classList.add("cursor-project");
-  });
-  E("s-revision-video").addEventListener("mouseleave", () => {
-    E("cursor-content").classList.remove("cursor-project");
-  });
 }
 
 docReady(start);

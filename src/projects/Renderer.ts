@@ -5,7 +5,8 @@ import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Easing } from "../utils";
 
 const easeSpeed = 0.01;
-const exposure = 1;
+const exposure = 1.2;
+const mobileBreakpoint = 800;
 
 let mouseX = 0;
 let mouseY = 0;
@@ -30,6 +31,7 @@ class Renderer {
   public timeStep: number;
   public mouseX: number;
   public mouseY: number;
+  public desktop: 0 | 1;
 
   clock: THREE.Clock;
   stats: Stats;
@@ -58,6 +60,8 @@ class Renderer {
       12
     );
 
+    this.desktop = window.innerWidth >= mobileBreakpoint ? 1 : 0;
+
     // Create renderer and add to canvas
     this.renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -69,7 +73,6 @@ class Renderer {
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = exposure;
     this.renderer.physicallyCorrectLights = true;
-    this.renderer.gammaFactor = 2.2;
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     container.appendChild(this.renderer.domElement);
 
@@ -87,6 +90,18 @@ class Renderer {
     // Update the canvas and camera when the window resizes
     window.addEventListener("resize", () => {
       this.resizeCanvas();
+    });
+
+    this.renderer.domElement.addEventListener("touchmove", (e) => {
+      const evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
+      const touch = evt.touches[0] || evt.changedTouches[0];
+      this.mouseX = touch.pageX;
+    });
+
+    this.renderer.domElement.addEventListener("touchdown", (e) => {
+      const evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
+      const touch = evt.touches[0] || evt.changedTouches[0];
+      this.mouseY = touch.pageY;
     });
 
     // Eased mouse position coordinates
@@ -114,6 +129,7 @@ class Renderer {
     this.renderer.setSize(this.width, this.height);
     this.camera.aspect = this.width / this.height;
     this.camera.updateProjectionMatrix();
+    this.desktop = window.innerWidth >= mobileBreakpoint ? 1 : 0;
 
     // Rerender if this project was not animating while resizing
     if (!this.animating) {

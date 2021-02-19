@@ -8,22 +8,18 @@
 }
 
 .container {
-  max-width: 940px;
+  max-width: var(--containerWidth);
   margin: 0 auto;
 }
 
 /* Typography */
 html {
-  font-size: 22px;
-  font-family: "IBM Plex Sans", "SF Pro Display", "SF Pro Icons",
-    "Helvetica Neue", "Helvetica", "Arial", -apple-system, sans-serif;
+  font-size: var(--baseSize);
+  font-family: "iA Writer Duospace", "Redaction", "Junicode", "IBM Plex Sans", "SF Pro Display",
+    "SF Pro Icons", "Helvetica Neue", "Helvetica", "Arial", -apple-system,
+    sans-serif;
   font-style: normal;
   font-weight: 400;
-}
-
-.serif {
-  font-family: "EB Garamond", serif;
-  font-weight: 600;
 }
 
 body {
@@ -37,8 +33,7 @@ body {
 }
 
 main {
-  opacity: 0.8;
-  filter: sepia(0.15);
+  filter: sepia(0.1);
 }
 
 .body-text {
@@ -49,7 +44,6 @@ main {
 }
 
 .heading {
-  font-family: "EB Garamond", serif;
   font-weight: 600;
   font-size: 2.2rem;
 }

@@ -1,14 +1,14 @@
 footer {
-  background: linear-gradient(
+  /* background: linear-gradient(
     to top,
     rgba(255, 255, 255, 0.1) 0%,
     rgba(255, 255, 255, 0) 100%
-  );
+  ); */
   padding: calc(var(--padding) * 2) var(--padding);
 
   .contact {
     padding-right: var(--padding);
-    margin-top: 0.5em;
+    margin-bottom: var(--padding);
     color: rgba(255, 255, 255, 0.6);
     font-weight: 300;
     transition: var(--transition);
@@ -20,19 +20,6 @@ footer {
   }
 
   .contact-background {
-    margin: calc(-0.5 * var(--padding));
-    padding: calc(0.5 * var(--padding));
-    transition: var(--transition);
-    > div {
-      transition: var(--transition);
-      transform-origin: left 50%;
-    }
-    &:hover {
-      background: rgba(0, 0, 0, 0.2);
-      > div {
-        transform: scale(1.05);
-      }
-    }
   }
 
   address {
@@ -46,10 +33,46 @@ footer {
     line-height: 1.4;
   }
 
-  a {
-    display: block;
+  .contact-email {
+    display: inline-block;
     color: inherit;
     color: var(--white);
+    text-decoration: none;
+    border-bottom: 1.5px solid var(--white);
+    text-shadow:
+    0px 1px var(--black),
+    0px -1px var(--black),
+    -0px 1px var(--black),
+    -0px -1px var(--black),
+    1px 0px var(--black),
+    1px -0px var(--black),
+    -1px 0px var(--black),
+    -1px -0px var(--black),
+    1px 1px var(--black),
+    1px -1px var(--black),
+    -1px 1px var(--black),
+    -1px -1px var(--black),
+    0px 2px var(--black),
+    0px -2px var(--black),
+    -0px 2px var(--black),
+    -0px -2px var(--black),
+    2px 0px var(--black),
+    2px -0px var(--black),
+    -2px 0px var(--black),
+    -2px -0px var(--black),
+    2px 2px var(--black),
+    2px -2px var(--black),
+    -2px 2px var(--black),
+    -2px -2px var(--black),
+    1px 2px var(--black),
+    1px -2px var(--black),
+    -1px 2px var(--black),
+    -1px -2px var(--black),
+    2px 1px var(--black),
+    2px -1px var(--black),
+    -2px 1px var(--black),
+    -2px -1px var(--black);
+    line-height: 1;
   }
 
   .contacts {
@@ -73,10 +96,10 @@ footer {
   }
 
   h3 {
-    margin-bottom: 0;
+    margin-bottom: calc(var(--padding) / 2);
     position: relative;
     z-index: 2;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     @media only screen and (min-width: $br-sm) {
       font-size: 1.5rem;
     }
