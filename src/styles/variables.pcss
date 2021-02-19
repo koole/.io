@@ -44,18 +44,19 @@ $br-2xl: 1600px;
 @media only screen and (min-width: $br-lg) {
   :root {
     --containerWidth: calc(100vw - var(--padding) * 6);
-    --baseSize: 24px;
+    --baseSize: 22px;
   }
 }
 
 @media only screen and (min-width: $br-xl) {
   :root {
-    --baseSize: 24px;
+    --containerWidth: calc(1400px - var(--padding) * 6);
+    /* --baseSize: 24px; */
   }
 }
 
-@media only screen and (min-width: $br-2xl) {
+/* @media only screen and (min-width: $br-2xl) {
   :root {
     --baseSize: 30px;
   }
-}
+} */
