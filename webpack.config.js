@@ -11,8 +11,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
 const isDev = process.env.NODE_ENV == "development";
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
 
 module.exports = {
   mode: isDev ? "development" : "production",
@@ -20,7 +18,6 @@ module.exports = {
   plugins: [
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({ filename: "main.css" }),
-    new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [
