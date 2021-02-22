@@ -11,13 +11,16 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 
 const isDev = process.env.NODE_ENV == "development";
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
 
 module.exports = {
-  mode: process.env.NODE_ENV || "development",
+  mode: isDev ? "development" : "production",
   entry: "./src/index.ts",
   plugins: [
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({ filename: "main.css" }),
+    new BundleAnalyzerPlugin(),
   ],
   module: {
     rules: [
@@ -70,11 +73,6 @@ module.exports = {
     minimize: !isDev,
     minimizer: [
       new TerserPlugin({
-        terserOptions: {
-          format: {
-            comments: false,
-          },
-        },
         extractComments: false,
       }),
     ],

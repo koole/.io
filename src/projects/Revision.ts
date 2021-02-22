@@ -1,4 +1,13 @@
-import * as THREE from "three";
+import {
+  Group,
+  Vector3,
+  Mesh,
+  Color,
+  Vector2,
+  AmbientLight,
+  PointLight,
+  DirectionalLight,
+} from "three";
 import { MeshLine, MeshLineMaterial } from "three.meshline";
 import { readyCallback } from "../header";
 
@@ -6,34 +15,34 @@ const ready = readyCallback();
 
 import Renderer from "./Renderer";
 export default class Revision extends Renderer {
-  gltf: THREE.Group;
+  gltf: Group;
 
-  intialHeadPosition: THREE.Vector3;
-  initialLookAtPoint: THREE.Vector3;
+  intialHeadPosition: Vector3;
+  initialLookAtPoint: Vector3;
 
-  headPosition: THREE.Vector3;
+  headPosition: Vector3;
 
   leftLine: MeshLine;
-  leftLineMesh: THREE.Mesh;
-  leftEyeOffset: THREE.Vector3;
+  leftLineMesh: Mesh;
+  leftEyeOffset: Vector3;
 
-  rightEyeOffset: THREE.Vector3;
   rightLine: MeshLine;
-  rightLineMesh: THREE.Mesh;
-  pivot: THREE.Group;
+  rightLineMesh: Mesh;
+  rightEyeOffset: Vector3;
+  pivot: Group;
 
   public createScene(): void {
-    const white = new THREE.Color(0xffffff);
+    const white = new Color(0xffffff);
     white.convertSRGBToLinear();
 
     this.camera.position.z = 6;
     this.camera.position.y = 0.1;
 
-    this.initialLookAtPoint = new THREE.Vector3(0.479362, -0.204354, 0.555399);
-    this.leftEyeOffset = new THREE.Vector3(0, 0.18, -0.16);
-    this.rightEyeOffset = new THREE.Vector3(0, 0.18, 0.16);
+    this.initialLookAtPoint = new Vector3(0.479362, -0.204354, 0.555399);
+    this.leftEyeOffset = new Vector3(0, 0.18, -0.16);
+    this.rightEyeOffset = new Vector3(0, 0.18, 0.16);
 
-    this.pivot = new THREE.Group();
+    this.pivot = new Group();
     this.pivot.position.set(0, 0, 0);
     this.scene.add(this.pivot);
 
@@ -45,7 +54,7 @@ export default class Revision extends Renderer {
 
       const lineMaterial = new MeshLineMaterial({
         color: white,
-        resolution: new THREE.Vector2(1, 1),
+        resolution: new Vector2(1, 1),
         lineWidth: 0.01,
         sizeAttenuation: 1,
       });
@@ -53,12 +62,12 @@ export default class Revision extends Renderer {
 
       this.leftLine = new MeshLine();
       this.leftLine.setPoints(points);
-      this.leftLineMesh = new THREE.Mesh(this.leftLine, lineMaterial);
+      this.leftLineMesh = new Mesh(this.leftLine, lineMaterial);
       this.pivot.add(this.leftLineMesh);
 
       this.rightLine = new MeshLine();
       this.rightLine.setPoints(points);
-      this.rightLineMesh = new THREE.Mesh(this.rightLine, lineMaterial);
+      this.rightLineMesh = new Mesh(this.rightLine, lineMaterial);
       this.pivot.add(this.rightLineMesh);
 
       // Render once after the scene has loaded
@@ -73,28 +82,28 @@ export default class Revision extends Renderer {
       console.log("Geometries in Memory", this.renderer.info.memory.geometries);
     });
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1);
+    const ambientLight = new AmbientLight(0xffffff, 1);
     this.scene.add(ambientLight);
 
-    const light = new THREE.PointLight(white, 10);
+    const light = new PointLight(white, 10);
     light.position.set(0, 4, 0);
     this.scene.add(light);
 
-    const topLight = new THREE.DirectionalLight(white, 2);
+    const topLight = new DirectionalLight(white, 2);
     topLight.position.set(3, 3, 0);
     this.scene.add(topLight);
 
-    const rightLight = new THREE.DirectionalLight(white, 2);
+    const rightLight = new DirectionalLight(white, 2);
     rightLight.position.set(-2, 4, -3);
     this.scene.add(rightLight);
 
-    const leftLight = new THREE.DirectionalLight(white, 2);
+    const leftLight = new DirectionalLight(white, 2);
     leftLight.position.set(-2, 4, 3);
     this.scene.add(leftLight);
 
-    // this.scene.add(new THREE.DirectionalLightHelper(topLight));
-    // this.scene.add(new THREE.DirectionalLightHelper(leftLight));
-    // this.scene.add(new THREE.DirectionalLightHelper(rightLight));
+    // this.scene.add(new DirectionalLightHelper(topLight));
+    // this.scene.add(new DirectionalLightHelper(leftLight));
+    // this.scene.add(new DirectionalLightHelper(rightLight));
   }
 
   public animate(): void {
@@ -110,7 +119,7 @@ export default class Revision extends Renderer {
       // Head position
       this.headPosition.addVectors(
         this.intialHeadPosition,
-        new THREE.Vector3(
+        new Vector3(
           (0.5 - Math.sin(Date.now() / 1600)) * 0.2 * T,
           (0.5 - Math.sin(Date.now() / 2300 + 1.52)) * 0.1 * T,
           (0.5 - Math.sin(Date.now() / 2000 + 0.1)) * 0.2 * T
@@ -119,16 +128,16 @@ export default class Revision extends Renderer {
       this.gltf.children[5].position.copy(this.headPosition);
 
       // Look at point & lines
-      const lookAtPoint = new THREE.Vector3().addVectors(
+      const lookAtPoint = new Vector3().addVectors(
         this.initialLookAtPoint,
-        new THREE.Vector3(
+        new Vector3(
           -(this.mouseY / window.innerHeight) * 0.3,
           -(this.mouseY / window.innerHeight) * 0.56,
           (this.mouseX / window.innerWidth) * 0.36
         )
       );
       const leftPoints = [
-        new THREE.Vector3().addVectors(this.headPosition, this.leftEyeOffset),
+        new Vector3().addVectors(this.headPosition, this.leftEyeOffset),
         lookAtPoint,
       ];
       this.leftLine.setPoints(leftPoints);
@@ -136,7 +145,7 @@ export default class Revision extends Renderer {
       this.leftLineMesh.geometry = this.leftLine;
 
       const rightPoints = [
-        new THREE.Vector3().addVectors(this.headPosition, this.rightEyeOffset),
+        new Vector3().addVectors(this.headPosition, this.rightEyeOffset),
         lookAtPoint,
       ];
       this.rightLine.setPoints(rightPoints);

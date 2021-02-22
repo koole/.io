@@ -1,6 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
-
+import { initializeApp } from "firebase/app";
+import { getFirestore, doc, onSnapshot, collection } from "firebase/firestore";
 import VWError from "./vw-error.json";
 
 let handler: (colors: number[]) => void = null;
@@ -10,6 +9,8 @@ export const setHandler = (newHandler: (colors: number[]) => void): void => {
 };
 
 const firebaseConfig = {
+  name: "",
+  options: {},
   apiKey: "AIzaSyD4iFcFgJ6FzfGg1XWUFEuIf_pHgeOqReA",
   authDomain: "koole-io.firebaseapp.com",
   databaseURL: "https://koole-io.firebaseio.com",
@@ -18,9 +19,10 @@ const firebaseConfig = {
   messagingSenderId: "148611522242",
   appId: "1:148611522242:web:b33623ad022aa27678655b",
 };
-firebase.initializeApp(firebaseConfig);
 
-const db = firebase.firestore();
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
 
 interface Document {
   data?: string;
@@ -42,20 +44,15 @@ let persistent = {};
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const context = canvasContext;
 
-const doc = db.collection("panels").doc("1");
+const subDoc = doc(collection(db, "panels"), "1");
 
-doc.onSnapshot(
-  (docSnapshot) => {
-    dataDocument = docSnapshot.data();
-    // Clear VM and persistent storage for new script
-    persistent = {};
-    canvasContext.fillStyle = "#000000";
-    canvasContext.fillRect(0, 0, 32, 32);
-  },
-  (err) => {
-    console.error(err);
-  }
-);
+onSnapshot(subDoc, (docSnapshot) => {
+  dataDocument = docSnapshot.data();
+  // Clear VM and persistent storage for new script
+  persistent = {};
+  canvasContext.fillStyle = "#000000";
+  canvasContext.fillRect(0, 0, 32, 32);
+});
 
 let frame = 1;
 function render(): void {

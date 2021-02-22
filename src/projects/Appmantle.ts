@@ -1,13 +1,13 @@
-import * as THREE from "three";
+import { Color, DirectionalLight, Group } from "three";
 import Renderer from "./Renderer";
 import { readyCallback } from "../header";
 const ready = readyCallback();
 
 export default class Appmantle extends Renderer {
-  gltf: THREE.Group;
+  gltf: Group;
 
   public createScene(): void {
-    const white = new THREE.Color(0xffffff);
+    const white = new Color(0xffffff);
     white.convertSRGBToLinear();
 
     this.camera.position.z = 7 + 0.5 * (1 - this.timeStep);
@@ -21,11 +21,11 @@ export default class Appmantle extends Renderer {
       ready();
     });
 
-    const topLight = new THREE.DirectionalLight(white, 5);
+    const topLight = new DirectionalLight(white, 5);
     topLight.position.set(3, 3, 0);
     this.scene.add(topLight);
 
-    const rightLight = new THREE.DirectionalLight(white, 5);
+    const rightLight = new DirectionalLight(white, 5);
     rightLight.position.set(-4, 4, 0);
     this.scene.add(rightLight);
   }

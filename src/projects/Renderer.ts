@@ -1,6 +1,13 @@
-import * as THREE from "three";
-import Stats from "stats.js";
+import {
+  ACESFilmicToneMapping,
+  Clock,
+  PerspectiveCamera,
+  Scene,
+  sRGBEncoding,
+  WebGLRenderer,
+} from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import Stats from "stats.js";
 
 import { Easing } from "../utils";
 
@@ -24,16 +31,16 @@ class Renderer {
   private status: "starting" | "stopping" | "playing" | "stopped";
   private gltfLoader: GLTFLoader;
 
-  public renderer: THREE.WebGLRenderer;
+  public renderer: WebGLRenderer;
   public animating: boolean;
-  public scene: THREE.Scene;
-  public camera: THREE.PerspectiveCamera;
+  public scene: Scene;
+  public camera: PerspectiveCamera;
   public timeStep: number;
   public mouseX: number;
   public mouseY: number;
   public desktop: 0 | 1;
 
-  clock: THREE.Clock;
+  clock: Clock;
   stats: Stats;
 
   constructor(container: HTMLDivElement) {
@@ -44,7 +51,7 @@ class Renderer {
     container.appendChild(this.stats.dom);
 
     this.gltfLoader = new GLTFLoader();
-    this.clock = new THREE.Clock();
+    this.clock = new Clock();
 
     // Canvas size
     this.container = container;
@@ -52,28 +59,23 @@ class Renderer {
     this.height = container.offsetHeight;
 
     // Basic scene setup
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(
-      39.6,
-      this.width / this.height,
-      3,
-      12
-    );
+    this.scene = new Scene();
+    this.camera = new PerspectiveCamera(39.6, this.width / this.height, 3, 12);
 
     this.desktop = window.innerWidth >= mobileBreakpoint ? 1 : 0;
 
     // Create renderer and add to canvas
-    this.renderer = new THREE.WebGLRenderer({
+    this.renderer = new WebGLRenderer({
       antialias: true,
       alpha: true,
       stencil: false,
       powerPreference: "high-performance",
     });
     this.renderer.setSize(this.width, this.height);
-    this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.renderer.toneMapping = ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = exposure;
     this.renderer.physicallyCorrectLights = true;
-    this.renderer.outputEncoding = THREE.sRGBEncoding;
+    this.renderer.outputEncoding = sRGBEncoding;
     container.appendChild(this.renderer.domElement);
 
     // Bind methods to class
