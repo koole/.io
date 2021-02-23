@@ -6,7 +6,7 @@
   "author": "Leon Koole <leon@koole.io>",
   "browserslist": "> 1% in NL",
   "dependencies": {
-    "@babel/core": "^7.12.16",
+    "@babel/core": "^7.13.1",
     "@babel/preset-env": "^7.12.17",
     "@babel/preset-typescript": "^7.12.17",
     "autoprefixer": "^10.2.4",
