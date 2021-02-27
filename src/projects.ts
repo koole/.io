@@ -48,19 +48,14 @@ function start(): void {
         );
         const percentage = offset / (window.innerHeight * 2);
 
-        // If the project is filling more than 50% of the screen, start its animation
-        if (
-          project.instance !== null &&
-          percentage > 0.25 &&
-          percentage < 0.75
-        ) {
-          project.instance.startAnimation();
-        }
-        if (
-          project.instance !== null &&
-          (percentage <= 0.25 || percentage >= 0.75)
-        ) {
-          project.instance.stopAnimation();
+        // If the project is on screen, start its animation
+        if (project.instance !== null) {
+          console.log(percentage);
+          if (percentage > 0 && percentage < 1) {
+            project.instance.startAnimation();
+          } else {
+            project.instance.stopAnimation();
+          }
         }
       }
     }

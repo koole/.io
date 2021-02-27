@@ -111,7 +111,7 @@ export default class Revision extends Renderer {
 
     const mouseXOffset = this.mouseX / window.innerWidth - 0.625;
 
-    this.camera.position.x = mouseXOffset - 1.5 * this.desktop;
+    this.camera.position.x = mouseXOffset - 1.3 * this.desktop;
     this.camera.position.z = 5.5 + 0.5 * (1 - this.timeStep);
     this.pivot.rotation.y = mouseXOffset;
 

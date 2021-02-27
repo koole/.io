@@ -97,13 +97,6 @@ export default class VetteWebsite extends Renderer {
       this.animate();
       this.render();
 
-      // Render this at least once every second so it stays somewhat true to the
-      // real panel
-      setInterval(() => {
-        this.animate();
-        this.render();
-      }, 1000);
-
       ready();
 
       console.log("VetteWebsite");
@@ -131,7 +124,7 @@ export default class VetteWebsite extends Renderer {
 
     const cameraX = mouseXOffset;
     // const cameraY = mouseYOffset;
-    this.camera.position.x = cameraX - 2 * this.desktop;
+    this.camera.position.x = cameraX - 1.8 * this.desktop;
     // this.camera.position.y = -cameraY;
     this.camera.position.z = 7 + 1.5 * (1 - this.timeStep);
     if (this.gltf) {
