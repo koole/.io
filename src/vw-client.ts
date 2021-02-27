@@ -49,6 +49,7 @@ const subDoc = doc(collection(db, "panels"), "1");
 onSnapshot(subDoc, (docSnapshot) => {
   dataDocument = docSnapshot.data();
   // Clear VM and persistent storage for new script
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   persistent = {};
   canvasContext.fillStyle = "#000000";
   canvasContext.fillRect(0, 0, 32, 32);
