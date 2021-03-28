@@ -29,7 +29,7 @@ header > h1 {
   font-size: 3rem;
   text-align: center;
   color: rgba(0, 0, 0, 0.5);
-  font-weight: 600;
+  font-weight: 700;
   color: var(--black);
 }
 
@@ -46,7 +46,7 @@ header > h1 > span.active {
 
 @media only screen and (min-width: $br-sm) {
   header > h1 {
-    font-size: 5rem;
+    font-size: 6rem;
   }
 }
 
@@ -61,25 +61,46 @@ header > h1 > span.active {
 }
 
 #light-button {
-  filter: sepia(0.15);
+  filter: sepia(0.1);
   position: fixed;
   top: 50%;
   left: 50%;
   max-width: calc(100vw - var(--padding) * 2);
   z-index: 100;
   color: var(--white);
-  border: 2px solid var(--white);
+  border: none;
   cursor: pointer;
   border-radius: 0;
-  font-weight: 800;
+  font-weight: 700;
   background: transparent;
   padding: 0.5em 1em;
   font-size: 2em;
+
   pointer-events: none;
   transition: var(--transition);
   transform: translateX(-50%) translateY(calc(2 * var(--padding) - 50%));
   opacity: 0;
-  text-transform: uppercase;
+  
+  display: inline-block;
+  color: var(--black);
+  background: var(--white);
+  text-decoration: none;
+  transition: var(--transition);
+  > span {
+    display: block;
+    transition: var(--transition);
+    padding-bottom: 7px;
+    margin-bottom: -3px;
+    border-bottom: 3px solid var(--white);
+  }
+
+  &:hover {
+    background: var(--black);
+    > span {
+      color: var(--white);
+    }
+  }
+
   &.ready {
     pointer-events: unset;
     transform: translateX(-50%) translateY(-50%);
