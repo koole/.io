@@ -1,35 +1,41 @@
-.logo {
+.navbar {
   position: fixed;
-  bottom: calc(var(--padding) / 2);
-  left: calc(var(--padding) / 2);
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 100;
-  display: flex;
-  justify-content: center;
-  align-items: start;
   pointer-events: none;
+}
 
-  opacity: 0;
-  transform: translateX(calc(-1 * var(--padding)));
+.logo-backdrop {
+  display: inline-block;
+  margin-left: calc(var(--padding) / -4);
+  backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.5);
+  padding: calc(var(--padding) / 4);
+  padding-top: calc(var(--padding) / 2);
+  pointer-events: initial;
   transition: var(--transition);
-
-  &.ready {
-    opacity: 0.8;
-    transform: translateX(0);
+  cursor: pointer;
+  transform: translateY(calc(var(--padding) / -4));
+  &:hover {
+    transform: translateY(0);
   }
 }
 
-.logo > img {
-  width: 100px;
+.logo {
+  height: calc(var(--padding) / 2);
 }
 
 @media only screen and (min-width: $br-sm) {
-  .logo > img {
-    width: 130px;
+  .logo {
+    height: calc(var(--padding) / 2);
   }
 }
 
 @media only screen and (min-width: $br-md) {
-  .logo > img {
-    width: 163px;
+  .logo {
+    height: calc(var(--padding) / 1);
   }
 }

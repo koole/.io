@@ -113,13 +113,18 @@
     </script>
   </head>
   <body>
-    <!-- <div class="logo" id="logo">
-      <img
-        src="/logos/dekoolecentrale.svg"
-        alt="De Koole Centrale logo"
-        width="163px"
-      />
-    </div> -->
+    <div class="navbar">
+      <div class="container">
+        <div class="logo-backdrop">
+          <img
+            src="/logos/dekoolecentrale.svg"
+            alt="De Koole Centrale logo"
+            class="logo"
+            id="logo"
+          />
+        </div>
+      </div>
+    </div>
     <main id="main">
       <header>
         <h1>
@@ -588,6 +593,9 @@
     </main>
     <audio controls preload="auto" id="light-audio">
       <source src="/lights.mp3" type="audio/mpeg" />
+    </audio>
+    <audio controls preload="auto" id="logo-audio">
+      <source src="/toot.mp3" type="audio/mpeg" />
     </audio>
     <div id="black-overlay"></div>
     <button id="light-button"><span>Zet de lampen aan</span></button>
