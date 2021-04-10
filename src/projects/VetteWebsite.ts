@@ -12,9 +12,13 @@ import {
 } from "three";
 import { BufferGeometryUtils } from "three/examples/jsm/utils/BufferGeometryUtils";
 import Renderer from "./Renderer";
-import { setHandler } from "../vw-client";
+import createWorker from "offscreen-canvas/create-worker";
+
 import { readyCallback } from "../header";
+
 const ready = readyCallback();
+
+const canvas = document.createElement("canvas");
 
 export default class VetteWebsite extends Renderer {
   gltf: Group;
@@ -75,7 +79,9 @@ export default class VetteWebsite extends Renderer {
 
       // The vw-client calls this function with an array of colors when the panel
       // changes.
-      setHandler((colors) => {
+
+      createWorker(canvas, "/vwclient-worker.js", ({ data }) => {
+        const colors = data.colors;
         // 1024 LEDs
         for (let i = 0; i < 1024; i++) {
           // 8 vertexes per LED
@@ -90,6 +96,7 @@ export default class VetteWebsite extends Renderer {
           }
         }
         this.leds.geometry.attributes.color.needsUpdate = true;
+        // Messages from the worker
       });
 
       // Render once after the scene has loaded

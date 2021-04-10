@@ -16,7 +16,7 @@ module.exports = {
   mode: isDev ? "development" : "production",
   entry: {
     main: "./src/index.ts",
-    vwclient: "./src/vw-client.worker.ts",
+    "vwclient-worker": "./src/vw-client.worker.ts",
   },
   plugins: [
     new webpack.ProgressPlugin(),
