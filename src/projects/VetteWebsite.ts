@@ -81,12 +81,11 @@ export default class VetteWebsite extends Renderer {
           // 8 vertexes per LED
           for (let vi = 0; vi < 8; vi++) {
             const color = new Color(colors[i], colors[i], colors[i]);
-            color.convertSRGBToLinear();
             this.leds.geometry.attributes.color.setXYZ(
               i * 8 + vi,
-              color.r * 4,
-              color.g * 4,
-              color.b * 4
+              color.r,
+              color.g,
+              color.b
             );
           }
         }

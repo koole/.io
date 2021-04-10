@@ -7,7 +7,7 @@ import {
   WebGLRenderer,
 } from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import Stats from "stats.js";
+// import Stats from "stats.js";
 
 import { Easing } from "../utils";
 
@@ -41,14 +41,13 @@ class Renderer {
   public desktop: 0 | 1;
 
   clock: Clock;
-  stats: Stats;
+  // stats: Stats;
 
   constructor(container: HTMLDivElement) {
-    this.stats = new Stats();
-    this.stats.showPanel(0);
-    this.stats.dom.className = "statsjs";
-    this.stats.dom.style.position = "absolute";
-    container.appendChild(this.stats.dom);
+    // this.stats.showPanel(0);
+    // this.stats.dom.className = "statsjs";
+    // this.stats.dom.style.position = "absolute";
+    // container.appendChild(this.stats.dom);
 
     this.gltfLoader = new GLTFLoader();
     this.clock = new Clock();
@@ -141,7 +140,7 @@ class Renderer {
 
   protected loop(): void {
     requestAnimationFrame(this.loop);
-    this.stats.begin();
+    // this.stats.begin();
     if (this.animating) {
       this.mouseX += Math.floor((mouseX - this.mouseX) / 20) * this.timeStep;
       this.mouseY += Math.floor((mouseY - this.mouseY) / 20) * this.timeStep;
@@ -167,7 +166,7 @@ class Renderer {
 
       this.animate();
     }
-    this.stats.end();
+    // this.stats.end();
   }
 
   protected finishFrame(): void {

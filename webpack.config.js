@@ -14,7 +14,10 @@ const isDev = process.env.NODE_ENV == "development";
 
 module.exports = {
   mode: isDev ? "development" : "production",
-  entry: "./src/index.ts",
+  entry: {
+    main: "./src/index.ts",
+    vwclient: "./src/vw-client.worker.ts",
+  },
   plugins: [
     new webpack.ProgressPlugin(),
     new MiniCssExtractPlugin({ filename: "main.css" }),
@@ -63,7 +66,6 @@ module.exports = {
     extensions: [".tsx", ".ts", ".js", ".json"],
   },
   output: {
-    filename: "main.js",
     path: path.resolve(__dirname, "public"),
   },
   optimization: {

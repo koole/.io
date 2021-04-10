@@ -4,7 +4,9 @@
   "private": true,
   "repository": "git@github.com:koole/.io.git",
   "author": "Leon Koole <leon@koole.io>",
-  "browserslist": "> 1% in NL",
+  "browserslist": [
+    "> 1% in NL"
+  ],
   "dependencies": {
     "@babel/core": "^7.12.16",
     "@babel/preset-env": "^7.12.17",

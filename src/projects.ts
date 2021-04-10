@@ -50,7 +50,6 @@ function start(): void {
 
         // If the project is on screen, start its animation
         if (project.instance !== null) {
-          console.log(percentage);
           if (percentage > 0 && percentage < 1) {
             project.instance.startAnimation();
           } else {
