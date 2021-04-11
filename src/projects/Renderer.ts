@@ -18,10 +18,14 @@ const mobileBreakpoint = 800;
 let mouseX = 0;
 let mouseY = 0;
 
-window.addEventListener("mousemove", (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-});
+window.addEventListener(
+  "mousemove",
+  (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  },
+  { passive: true }
+);
 
 class Renderer {
   private container: HTMLDivElement;
@@ -93,17 +97,27 @@ class Renderer {
       this.resizeCanvas();
     });
 
-    this.renderer.domElement.addEventListener("touchmove", (e) => {
-      const evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
-      const touch = evt.touches[0] || evt.changedTouches[0];
-      this.mouseX = touch.pageX;
-    });
+    this.renderer.domElement.addEventListener(
+      "touchmove",
+      (e) => {
+        const evt =
+          typeof e.originalEvent === "undefined" ? e : e.originalEvent;
+        const touch = evt.touches[0] || evt.changedTouches[0];
+        this.mouseX = touch.pageX;
+      },
+      { passive: true }
+    );
 
-    this.renderer.domElement.addEventListener("touchdown", (e) => {
-      const evt = typeof e.originalEvent === "undefined" ? e : e.originalEvent;
-      const touch = evt.touches[0] || evt.changedTouches[0];
-      this.mouseY = touch.pageY;
-    });
+    this.renderer.domElement.addEventListener(
+      "touchdown",
+      (e) => {
+        const evt =
+          typeof e.originalEvent === "undefined" ? e : e.originalEvent;
+        const touch = evt.touches[0] || evt.changedTouches[0];
+        this.mouseY = touch.pageY;
+      },
+      { passive: true }
+    );
 
     // Eased mouse position coordinates
     this.mouseX = window.innerWidth / 2;
