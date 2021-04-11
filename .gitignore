@@ -5,5 +5,5 @@
 /source-3d/
 
 # Compiled files
-/public/main.js
-/public/main.css
+/public/*.js
+/public/*.css
