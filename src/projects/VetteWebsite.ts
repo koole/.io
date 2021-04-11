@@ -105,11 +105,13 @@ export default class VetteWebsite extends Renderer {
 
       ready();
 
-      console.log("VetteWebsite");
-      console.log("Scene polycount:", this.renderer.info.render.triangles);
-      console.log("Active Drawcalls:", this.renderer.info.render.calls);
-      console.log("Textures in Memory", this.renderer.info.memory.textures);
-      console.log("Geometries in Memory", this.renderer.info.memory.geometries);
+      console.log("%c\nVetteWebsite", "font-weight: bold; font-size: 1.2em;");
+      console.table({
+        "Scene polycount": this.renderer.info.render.triangles,
+        "Active Drawcalls": this.renderer.info.render.calls,
+        "Textures in Memory": this.renderer.info.memory.textures,
+        "Geometries in Memory": this.renderer.info.memory.geometries,
+      });
     });
 
     const topLight = new DirectionalLight(white, 2);

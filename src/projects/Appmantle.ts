@@ -19,6 +19,14 @@ export default class Appmantle extends Renderer {
       this.animate();
       this.render();
       ready();
+
+      console.log("%c\nAppmantle", "font-weight: bold; font-size: 1.2em;");
+      console.table({
+        "Scene polycount": this.renderer.info.render.triangles,
+        "Active Drawcalls": this.renderer.info.render.calls,
+        "Textures in Memory": this.renderer.info.memory.textures,
+        "Geometries in Memory": this.renderer.info.memory.geometries,
+      });
     });
 
     const topLight = new DirectionalLight(white, 5);
