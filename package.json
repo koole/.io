@@ -26,7 +26,7 @@
     "sal.js": "^0.8.4",
     "stats.js": "^0.17.0",
     "style-loader": "^2.0.0",
-    "terser-webpack-plugin": "^5.1.1",
+    "terser-webpack-plugin": "^5.1.2",
     "three": "^0.127.0",
     "three.meshline": "^1.3.0",
     "ts-loader": "^8.0.17",
