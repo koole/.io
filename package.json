@@ -23,7 +23,7 @@
     "postcss-import": "^14.0.0",
     "postcss-loader": "^5.0.0",
     "precss": "^4.0.0",
-    "sal.js": "^0.8.4",
+    "sal.js": "^0.8.5",
     "stats.js": "^0.17.0",
     "style-loader": "^2.0.0",
     "terser-webpack-plugin": "^5.1.2",
